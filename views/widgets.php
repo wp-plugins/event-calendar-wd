@@ -16,7 +16,7 @@ class ECWD_Widget extends WP_Widget {
 
     function __construct() {
         parent::__construct(
-                false, $name = __('Event Calendar WD', 'ecwd'), array('description' => __('Descr', 'ecwd'))
+                false, $name = __('Event Calendar WD', 'ecwd'), array('description' => __('A calendar of your events', 'ecwd'))
         );
     }
 
