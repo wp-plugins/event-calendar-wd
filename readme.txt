@@ -26,7 +26,7 @@ Event calendar WD is responsive and runs very smoothly on all devices. Thus the 
 
 The color scheme of the calendar is based on the theme and the category colors. To get access to the theme section you need to purchase the Pro version of the calendar.In free version you can add colors to event categories. The events will display with the background color prescribed by the category.
 
-Don’t want the user to leave the calendar page without knowing the details of the interesting events? Well, the calendar plugin uses Ajax load for the events and all event details are being displayed on hover.
+Don't want the user to leave the calendar page without knowing the details of the interesting events? Well, the calendar plugin uses Ajax load for the events and all event details are being displayed on hover.
 
 The events should be repeated? Feel free to use the recurring option choosing the repeating period on your own. So you can easily manage recurring events. 
 
@@ -126,9 +126,9 @@ MySQL 5.x
 Installing the plugin  
 Login to the Administrator Panel.   
 Navigate to Plugins>Add New>Upload.   
-Click on “Choose file” or drag and drop the zip file of the plugin.   
-Press “Upload and Install” button.  
-Click on “Activate Plugin” link.  
+Click on "Choose file" or drag and drop the zip file of the plugin.   
+Press "Upload and Install" button.  
+Click on "Activate Plugin" link.  
 
 When the installation succeeds you will be automatically redirected to the plugins page. If any issues occur during the process contact us at info@web-dorado.com.   
 
@@ -147,9 +147,9 @@ Events. Select the events which should be included within the calendar. You can 
 
 Preview/Add Event   
 Adding an event from calendar   
-Here you create events straight from the calendar itself. Upon clicking on the link “Preview/Add Event” a calendar will open up:   
+Here you create events straight from the calendar itself. Upon clicking on the link "Preview/Add Event" a calendar will open up:   
 Date. You can either use the default date or change it using tabs and filling the date based on the date format.   
-Title. You can give a title to the event, it will save a draft with the stated title. When adding the title, a pop-up will open up with a link “Editing details”. By clicking on it you can add details of the event within Event section and publish it.   
+Title. You can give a title to the event, it will save a draft with the stated title. When adding the title, a pop-up will open up with a link "Editing details". By clicking on it you can add details of the event within Event section and publish it.   
 
 Preview      
 The opened calendar will display the selected theme of the calendar. You can change the selected theme using the drop-down below, update the calendar post and preview the newly selected theme by hitting the Preview/Add Event button once more.  
@@ -182,7 +182,7 @@ Content. Provide the details of the event.
 Event Settings   
 Event Venue. Select the venue of the event. The list should be created in advance to creating the event.  
 Event Location. If the venue is not set, you can specify a new location for the event using Google Maps feature. Note that the location will not be added to the Venue list.  
-Event Dates. Specify the starting and finishing dates for the event using the datepicker. If the event lasts all day, you can check the “All Day”  option.  
+Event Dates. Specify the starting and finishing dates for the event using the datepicker. If the event lasts all day, you can check the "All Day"  option.  
 Repeat Rate. If the event is recurring you can set the repeat rate and days for repeating the event on a weekly, monthly and yearly basis.   
 Daily repeat:  Here you can set the frequency of the repeat rate, e.g. Repeat every 4 days and set the finish date, e.g. Repeat until October 5, 2015.  
 Weekly repeat. Here you can set the frequency of the repeat rate based on the week and day of the week, e.g. repeat every 2 weeks on Mondays and set the finish date, e.g. Repeat until October5, 2015.  
