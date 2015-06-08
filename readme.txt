@@ -12,8 +12,8 @@ Organize and publish your events in an easy and elegant way using Event Calendar
 
 == Description ==
 
-[WordPress Calendar](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
-[User Manual](https://web-dorado.com/wordpress-calendar-wd/installing.html)  
+[WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
+[User Guide](https://web-dorado.com/wordpress-event-calendar-wd/installing.html)  
 [Support Forum](https://web-dorado.com/forum/wordpress-event-calendar-wd.html)
 
 Looking for an enhanced tool for displaying and managing various events within the site? Whether  you have a single events you want to display on a calendar or multiple events per day, the Event Calendar plugin will help you to organize the events using elegant views.
@@ -71,7 +71,7 @@ Dutch (nl_NL)
 German (de_DE)  
 Spanish (es_ES)  
 French (fr_FR)  
-Italian (it_IT)
+Italian (it_IT)   
 Russian (ru_RU)  
 Turkish (tr_TR)  
  
