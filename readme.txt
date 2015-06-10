@@ -111,8 +111,8 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 == Changelog ==
 
 = 1.0.1 =
-Fixed: Bug in Week view
-Fixed: Permalink bug
+Fixed: Bug in Week view    
+Fixed: Permalink bug    
 
 = 1.0.0 =
 Initial version
