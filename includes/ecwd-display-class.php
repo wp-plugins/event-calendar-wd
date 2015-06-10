@@ -8,7 +8,7 @@ class ECWD_Display {
 	private $events, $merged_events, $goole_events, $date, $month, $year, $day;
 
 
-	public function __construct( $ids, $title_text = null, $sort_order = 'asc', $date = '', $page = 1, $search_params = array(), $displays = null, $filters = null, $page_items = 5, $event_search = 'yes', $display) {
+	public function __construct( $ids, $title_text = null, $sort_order = 'asc', $date = '', $page = 1, $search_params = array(), $displays = null, $filters = null, $page_items = 5, $event_search = 'yes', $display = '' ) {
 		$this->id                  = $ids;
 		$this->title               = $title_text;
 		$this->sort                = $sort_order;
@@ -20,10 +20,9 @@ class ECWD_Display {
 		$this->event_search        = $event_search;
 		//$this->date = $date;
 		$this->page = $page;
-
-		if($display) {
+		if ( $display ) {
 			$this->display = $display;
-		}else{
+		} else {
 			$this->display = 'full';
 		}
 
@@ -35,12 +34,12 @@ class ECWD_Display {
 		if ( $date == '' && ! isset( $_REQUEST['date'] ) ) {
 			$date = date( 'Y-n-j' );
 		}
-
-		$date      = date( 'Y-n-t', strtotime( $date ) ); // format the date for parsing
-		$date_part = explode( '-', $date ); // separate year/month/day
-		$year      = $date_part[0];
-		$month     = $date_part[1];
-		$day       = $date_part[2];
+		$start_date = date( 'Y-n-d', strtotime( $date ) );
+		$date       = date( 'Y-n-t', strtotime( $date ) ); // format the date for parsing
+		$date_part  = explode( '-', $date ); // separate year/month/day
+		$year       = $date_part[0];
+		$month      = $date_part[1];
+		$day        = $date_part[2];
 		if ( isset( $_REQUEST['y'] ) && $_REQUEST['y'] != '' ) {
 			$year = $_REQUEST['y'];
 		} // if year is set in querystring it takes precedence
@@ -60,10 +59,22 @@ class ECWD_Display {
 		if ( $day == '' ) {
 			$day = date( 'j' ); // set to the 1st is year and month is known
 		}
-		$this->date  = $date;
-		$this->month = (int) $month;
-		$this->year  = (int) $year;
-		$this->day   = (int) $day;
+		$this->date       = $date;
+		$this->month      = (int) $month;
+		$this->year       = (int) $year;
+		$this->day        = (int) $day;
+		$this->start_date = $this->year . '-' . $this->month . '-1';
+		$this->end_date   = date( 'Y-m-t', strtotime( $this->date ) );
+		if ( ( isset( $_REQUEST['t'] ) && $_REQUEST['t'] == 'week' ) || $this->display == 'week' ) {
+			$this->start_date = $start_date;
+			$this->end_date   = date( "Y-m-d", strtotime( '+7 days', strtotime( $start_date ) ) );
+			$this->date       = date( 'Y-n-t', strtotime( $this->end_date ) );
+		} elseif ( ( isset( $_REQUEST['t'] ) && $_REQUEST['t'] == '4day' ) || $this->display == '4day' ) {
+			$this->start_date = $start_date;
+			$this->end_date   = date( "Y-m-d", strtotime( '+4 days', strtotime( $start_date ) ) );
+			$this->date       = date( 'Y-n-t', strtotime( $this->end_date ) );
+		}
+
 
 		if ( $this->id ) {
 			$this->get_events();
@@ -74,19 +85,11 @@ class ECWD_Display {
 	public function get_events() {
 
 		//get events by calendars
-		$date = $this->date;
 		if ( ! $this->date ) {
 			$this->date = $date = date( 'Y-m-t' );
 		}
+		$date = $this->date;
 
-
-		if (( isset( $_REQUEST['t']) &&  $_REQUEST['t'] == 'week') || $this->display=='week') {
-			$this->date=$date = date('Y-m-t', strtotime( date( "Y-m-d", strtotime( $date ) ) . " + 1 week" ));
-
-			$this->year = date('Y', strtotime($this->date));
-			$this->month = date('m', strtotime($this->date));
-
-		}
 
 		$query = ( isset( $this->search['query'] ) ? $this->search['query'] : '' );
 
@@ -195,7 +198,7 @@ class ECWD_Display {
 					),
 					array(
 						'key'     => ECWD_PLUGIN_PREFIX . '_event_date_from',
-						'value'   => $date,
+						'value'   => $this->end_date,
 						'compare' => '<=',
 						'type'    => 'DATE'
 					),
@@ -234,8 +237,16 @@ class ECWD_Display {
 
 			$ecwd_events += $ecwd_events_title;
 			wp_reset_query();
+			$google_events   = array();
 			$events          = array();
+			$ical_events     = array();
+			$facebook_events = array();
+			//fetch google calendar events
+
+
+
 			foreach ( $ecwd_events as $ecwd_event ) {
+
 				$term_metas = '';
 				$categories = get_the_terms( $ecwd_event->ID, ECWD_PLUGIN_PREFIX . '_event_category' );
 				if ( is_array( $categories ) ) {
@@ -276,8 +287,8 @@ class ECWD_Display {
 					}
 				}
 			}
+			$this->merged_events += $google_events + $facebook_events + $ical_events + $events;
 
-			$this->merged_events += $events;
 			//$this->merged_events += $events;
 			$this->get_event_days();
 		}
@@ -303,8 +314,6 @@ class ECWD_Display {
 			$events = $this->merged_events;
 
 		}
-
-
 		foreach ( $events as $id => $arr ) {
 
 			if ( is_int( $arr->start_time ) ) {
@@ -347,7 +356,15 @@ class ECWD_Display {
 			$organizers    = array();
 			$organizersIDs = array();
 			if ( $metas && isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
+				
+			if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
 				$organizers_ids = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] );
+				}elseif(is_array($metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] )){
+					$organizers_ids = $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0];
+				}else{
+					$organizers_ids = array();
+				}
+
 				foreach ( $organizers_ids as $organizer_id ) {
 					if ( $organizer_id ) {
 						$opost = get_post( $organizer_id );
@@ -402,19 +419,23 @@ class ECWD_Display {
 				$weekdays = $this->search['weekdays'];
 			}
 
+
 			if ( $metas && isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] !== 'no_repeat' && $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] != '' ) {
 				$event_week_last_day = '';
 				if ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'weekly' ) {
-
+					$days = array();
 					if ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] != '' ) {
-						if(is_serialized($metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0])) {
+
+
+						if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) ) {
 							$days = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] );
-						}elseif(is_array($metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0])){
+						} elseif ( is_array( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) ) {
 							$days = $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0];
 						}
 					} else {
 						$days = array( strtolower( date( 'l', strtotime( $from ) ) ) );
 					}
+
 					$until = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] : $to );
 					$how   = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] : 1 );
 					if ( count( $days ) ) {
@@ -426,32 +447,28 @@ class ECWD_Display {
 						continue;
 					}
 					$from_date = $from;
+
 					for ( $i = 0; $i <= $eventdays; $i ++ ) {
 						$eventdate = strtotime( date( "Y-m-d", strtotime( $from_date ) ) . " +" . $i . " day" );
 						$week_day  = strtolower( date( 'l', $eventdate ) );
 						$eventdate = date( "Y-n-j", $eventdate );
-						if (is_array($days) && in_array( $week_day, $days ) ) {
+
+						if ( is_array( $days ) && in_array( $week_day, $days ) ) {
 							if ( $how > 1 && $week_day == $event_week_last_day ) {
 								$from_date = strtotime( ( date( "Y-m-d", ( strtotime( $from_date ) ) ) . " +" . ( ( $how * 7 ) - 7 ) . " days" ) );
 								$from_date = date( 'Y-m-d', $from_date );
 								$next_week = date( "Y-m-d", strtotime( 'next monday', strtotime( $from_date ) ) );
 							}
 							$from = $eventdate;
+
 							if ( strtotime( $until ) >= strtotime( date( 'Y-m-d', strtotime( $from ) ) ) ) {
 
-//                                if ($week_day == $event_week_last_day) {
-//                                    $from_date = strtotime((date("Y-m-d", (strtotime($from_date))) . " +" . (($how * 7) - 7) . " days"));
-//                                    //$next_week = (date("Y-m-d", (strtotime($from_date))) . " next monday");
-//                                    $next_week = date("Y-m-d",strtotime('next monday', $from_date));
-//                                    echo $week_day.'----'.$date.'-----'.$next_week.'<br />';
-//                                    $from_date = date('Y-m-d', strtotime($next_week));
-//
-//                                    $from = $date;
-//                                    $to = date('Y-m-d', strtotime($from . ' + ' . $eventdayslong . ' days'));
-//                                }
 
 								$to = date( 'Y-m-d', strtotime( $from . ' + ' . $eventdayslong . ' days' ) );
-								if ( ! $current_month || ( strtotime( $from ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) ) && strtotime( $from ) >= strtotime( $this->year . '-' . $this->month . '-1' ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+								//var_dump();
+
+
+								if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
 									$this->events[] = array(
 										'color'         => $color,
 										'title'         => $title,
@@ -477,7 +494,6 @@ class ECWD_Display {
 
 							}
 						}
-						//if(in_array())
 					}
 				} elseif ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'daily' ) {
 					$until         = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] : $to );
@@ -498,7 +514,7 @@ class ECWD_Display {
 							$from_date = date( 'Y-m-d', $from_date );
 							$from      = $date;
 							$to        = date( 'Y-m-d', strtotime( $from . ' + ' . $eventdayslong . ' days' ) );
-							if ( ! $current_month || ( strtotime( $from ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) ) && strtotime( $from ) >= strtotime( $this->year . '-' . $this->month . '-1' ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+							if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
 								$this->events[] = array(
 									'color'         => $color,
 									'title'         => $title,
@@ -546,7 +562,7 @@ class ECWD_Display {
 							if ( $i > 0 ) {
 								if ( $repeat_days == 2 && $repeat_day && $repeat_when && date( 'Y-m', strtotime( $event_from ) ) !== date( 'Y-m', $date ) ) {
 									$monthyear   = date( "F Y", $date );
-									$repeat_date = date( 'Y-m-d', strtotime($repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear) );
+									$repeat_date = date( 'Y-m-d', strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear ) );
 
 									$date = strtotime( $repeat_date );
 								}
@@ -563,7 +579,7 @@ class ECWD_Display {
 								$from      = $date;
 								$to        = strtotime( ( date( "Y-m-d", ( strtotime( $from ) ) ) . " +" . ( $eventdayslong ) . " days" ) );
 								$to        = date( 'Y-m-d', $to );
-								if ( ! $current_month || ( strtotime( $from ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) ) && strtotime( $from ) >= strtotime( $this->year . '-' . $this->month . '-1' ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+								if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
 
 									$this->events[] = array(
 										'color'         => $color,
@@ -593,7 +609,6 @@ class ECWD_Display {
 					}
 
 				} else if ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'yearly' ) {
-
 					$until         = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] : $to );
 					$how           = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] : 1 );
 					$eventdays     = $this->dateDiff( $from, $until );
@@ -603,10 +618,10 @@ class ECWD_Display {
 					$repeat_days   = isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_year_on_days' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_year_on_days' ][0] : 1;
 					$repeat_when   = isset( $metas[ ECWD_PLUGIN_PREFIX . '_monthly_list_yearly' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_monthly_list_yearly' ][0] : false;
 					$repeat_day    = isset( $metas[ ECWD_PLUGIN_PREFIX . '_monthly_week_yearly' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_monthly_week_yearly' ][0] : false;
-					if(isset($metas[ ECWD_PLUGIN_PREFIX . '_event_year_month' ][0]) && $repeat_days == 2) {
+					if ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_year_month' ][0] ) && $repeat_days == 2 ) {
 						$month     = $metas[ ECWD_PLUGIN_PREFIX . '_event_year_month' ][0];
 						$monthName = date( 'F', strtotime( '2015-' . $month . '-1' ) );
-					}else {
+					} else {
 						$monthName = date( 'F', strtotime( $from_date ) );
 					}
 					$min_date = strtotime( $event_from );
@@ -622,15 +637,15 @@ class ECWD_Display {
 
 							}
 							if ( $repeat_days == 2 && $repeat_day && $repeat_when ) {
-								$monthyear   = $monthName . ' ' . date( "Y", $date );
+								$monthyear = $monthName . ' ' . date( "Y", $date );
 								//echo $repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear.'<br />';
-								$repeat_date = strtotime(date( 'Y-m-d', strtotime($repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear) ));
+								$repeat_date = strtotime( date( 'Y-m-d', strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear ) ) );
 								//$repeat_date = date( 'Y-m-d', strtotime($repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear) );
 								//don't know why, but "last sunday,last monday... returns last s,m of previous month"
 								if ( $repeat_when == 'last' ) {
-									$repeat_date =  strtotime($repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear, strtotime( "+1 MONTH", $repeat_date ));
+									$repeat_date = strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear, strtotime( "+1 MONTH", $repeat_date ) );
 								}
-								$date =  $repeat_date ;
+								$date = $repeat_date;
 
 							}
 						}
@@ -644,7 +659,7 @@ class ECWD_Display {
 							$from      = $date;
 							$to        = strtotime( ( date( "Y-m-d", ( strtotime( $from_date ) ) ) . " +" . ( $eventdayslong ) . " days" ) );
 							$to        = date( 'Y-m-d', $to );
-							if ( ! $current_month || ( strtotime( $from ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) ) && strtotime( $from ) >= strtotime( $this->year . '-' . $this->month . '-1' ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+							if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
 
 								$this->events[] = array(
 									'color'         => $color,
@@ -716,21 +731,23 @@ class ECWD_Display {
 
 		if ( $events ) {
 			return $this->events;
+
 		}
 	}
 
 
-	function literalDate($timestamp, $weekday) {
-		$timestamp = is_numeric($timestamp) ? $timestamp : strtotime($timestamp);
-		$month     = date('M', $timestamp);
+	function literalDate( $timestamp, $weekday ) {
+		$timestamp = is_numeric( $timestamp ) ? $timestamp : strtotime( $timestamp );
+		$month     = date( 'M', $timestamp );
 		$ord       = 0;
 
-		while(date('M', ($timestamp = strtotime('-1 week', $timestamp))) == $month) {
-			$ord++;
+		while ( date( 'M', ( $timestamp = strtotime( '-1 week', $timestamp ) ) ) == $month ) {
+			$ord ++;
 		}
 
-		$lit = array('first', 'second', 'third', 'fourth', 'fifth');
-		return strtolower($lit[$ord].' '.$weekday);
+		$lit = array( 'first', 'second', 'third', 'fourth', 'fifth' );
+
+		return strtolower( $lit[ $ord ] . ' ' . $weekday );
 	}
 
 	/**
@@ -739,7 +756,7 @@ class ECWD_Display {
 	public function get_view( $date = '', $type = '', $widget = 0 ) {
 		require_once 'calendar-class.php';
 		$categories = get_categories( array( 'taxonomy' => ECWD_PLUGIN_PREFIX . '_event_category' ) );
-		$tags       = get_terms('ecwd_event_tag', array('hide_empty' => false));
+		$tags       = get_terms( 'ecwd_event_tag', array( 'hide_empty' => false ) );
 
 		//Get events data
 		//Generate the calendar markup and return it

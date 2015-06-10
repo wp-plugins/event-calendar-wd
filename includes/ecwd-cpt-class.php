@@ -350,7 +350,7 @@ class ECWD_Cpt {
 
 
 		register_post_type( self::VENUE_POST_TYPE, $venues_args );
-
+		flush_rewrite_rules();
 		if ( false === get_option( ECWD_PLUGIN_PREFIX . '_cpt_setup' ) || 1 == get_option( ECWD_PLUGIN_PREFIX . '_slug_changed' ) ) {
 			update_option( ECWD_PLUGIN_PREFIX . '_cpt_setup', 1 );
 			update_option( ECWD_PLUGIN_PREFIX . '_slug_changed', 0 );
