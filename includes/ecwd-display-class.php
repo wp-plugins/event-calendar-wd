@@ -356,15 +356,13 @@ class ECWD_Display {
 			$organizers    = array();
 			$organizersIDs = array();
 			if ( $metas && isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
-				
-			if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
-				$organizers_ids = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] );
+				if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
+					$organizers_ids = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] );
 				}elseif(is_array($metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] )){
 					$organizers_ids = $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0];
 				}else{
 					$organizers_ids = array();
 				}
-
 				foreach ( $organizers_ids as $organizer_id ) {
 					if ( $organizer_id ) {
 						$opost = get_post( $organizer_id );

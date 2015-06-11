@@ -488,7 +488,7 @@ table.cal_blue.mini {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	padding-left: 2px;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .ecwd-widget-mini .event-main-content{
@@ -745,7 +745,7 @@ div.ecwd-page-full td.has-events {
 	margin-bottom:2px;
 }
 .ecwd-poster-board .ecwd-poster-item .ecwd-poster-img img{
-	width: 100%;
+	max-width: 100%;
 	height:auto;
 }
 
@@ -1300,7 +1300,7 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 .ecwd_calendar .day-event-list .ecwd-list-img-container img,
 .ecwd_calendar .ecwd_list .ecwd-list-img-container img{
 	margin-top: 1px;
-	width: 100%;
+	max-width: 100%;
 	height: auto;
 }
 
@@ -1357,8 +1357,8 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 .ecwd-widget-mini .day4-event-list .ecwd-list-date-cont,
 .ecwd-widget-mini .day-event-list .ecwd-list-date-cont,
 .ecwd-widget-mini .week-event-list .ecwd-list-date-cont{
-	  width: 100%;
-	  padding-bottom: 5px;
+	width: 100%;
+	padding-bottom: 5px;
 }
 
 .event-container{
@@ -1594,7 +1594,7 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 	margin: 0 !important;
 	padding: 0 !important;
 	max-height:300px;
-    overflow-y: auto;
+	overflow-y: auto;
 }
 .upcoming_events_item-img  img{
 	margin: 0px auto 13px;
@@ -2037,25 +2037,25 @@ a.ecwd-google-plus{
 .ecwd-search input[type="text"]:focus:-ms-input-placeholder      {color: #1FA67A}
 .calendar_main .fa,
 .calendar_main + .ecwd_add_event .fa {
-  display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transform: translate(0, 0);
-  text-indent: 0px;
-  position: absolute;
-  top: 12px;
-  font-size: 18px;
-  left: 13px;
-  line-height: 19px;
-  color: #676767;
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	text-indent: 0px;
+	position: absolute;
+	top: 12px;
+	font-size: 18px;
+	left: 13px;
+	line-height: 19px;
+	color: #676767;
 }
 .calendar_main .ecwd-search-submit .fa{
-  top: 17px;
-  left: 17px;
-  color: #ffffff;
+	top: 17px;
+	left: 17px;
+	color: #ffffff;
 }
 
 .ecwd-search button,.ecwd-search button:hover {
@@ -2073,7 +2073,7 @@ a.ecwd-google-plus{
 	cursor: pointer;
 	-webkit-appearance: inherit;
 	border-radius: 0;
-	
+
 }
 
 .ecwd-event-cat-icon{
@@ -2124,12 +2124,12 @@ a.ecwd-google-plus{
 	border-bottom: 1px solid #CFD7DE;
 }
 .ecwd-modal h4 {
-  margin: 0 !important;
-  text-align: center;
-  color: #737373;
-  font-size: 20px !important;
-  height: 40px;
-  line-height: 38px !important;
+	margin: 0 !important;
+	text-align: center;
+	color: #737373;
+	font-size: 20px !important;
+	height: 40px;
+	line-height: 38px !important;
 }
 
 .ecwd-calendar-more-event .ecwd-modal ul.events li {
@@ -2207,13 +2207,13 @@ a.ecwd-google-plus{
 		padding: 8px 0px;
 		font-size: 14px;
 	}
-	
+
 	.ecwd-search input[type="text"]{
-		  height: 38px !important;
+		height: 38px !important;
 	}
-	
+
 	.calendar_main .ecwd-search-submit .fa {
-	  top: 11px;
+		top: 11px;
 	}
 
 	.month-name{

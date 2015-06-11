@@ -1206,7 +1206,7 @@ class Calendar {
 				if ( $cellevent['details'] != '' || has_post_thumbnail( $cellevent['id'] ) ) {
 					$eventcontent .= '<div  class="ecwd-detalis" itemprop="description">';
 					if ( get_the_post_thumbnail( $cellevent['id'] ) ) {
-						$eventcontent .= get_the_post_thumbnail( $cellevent['id'] );
+						$eventcontent .= get_the_post_thumbnail( $cellevent['id'], 'thumbnail' );
 					} elseif ( $image['image'] != null ) {
 						$eventcontent .= '<img src="' . $image['image'] . '" />';
 						$cellevent['details'] = $image['content'];

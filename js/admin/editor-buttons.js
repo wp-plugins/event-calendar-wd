@@ -178,7 +178,9 @@
             var calendars = '';
             console.log(ecwd_plugin.ecwd_calendars.length);
             if (ecwd_plugin.ecwd_calendars.length !== 0) {
-                id = ecwd_plugin.ecwd_calendars[0]['value'];
+                if(id==0) {
+                    id = ecwd_plugin.ecwd_calendars[0]['value'];
+                }
                 calendars = {//add id select
                     type: 'listbox',
                     name: 'id',

@@ -264,7 +264,7 @@ function replaceFirstImages( $content ) {
 
 add_filter( 'post_thumbnail_html', 'ecwd_post_thumbnail', 10, 5 );
 function ecwd_post_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-	if (is_single() && get_post_type($post_id) == ECWD_PLUGIN_PREFIX . '_event' ) {
+	if (is_singular(ECWD_PLUGIN_PREFIX . '_event') && get_post_type($post_id) == ECWD_PLUGIN_PREFIX . '_event' ) {
 		$html='<br /><br />';
 	}
 	return $html;

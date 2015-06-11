@@ -22,6 +22,7 @@
         showFilterSliderArrow();
         createSearchForm();
         upcomingEventsSlider();
+        doMasonry();
     }, 1);
 
     if ($('.ecwd_map_div').length > 0) {
@@ -285,14 +286,15 @@
 
     function doMasonry() {
         var $container = $('.ecwd-poster-board');
-        $container.imagesLoaded(function () {
-            $container.masonry({
-                itemSelector: '.ecwd-poster-item'
+        if($container.length && $('.ecwd-poster-board').find('.ecwd-poster-item').length>0) {
+            $container.imagesLoaded(function () {
+                $container.masonry({
+                    itemSelector: '.ecwd-poster-item'
+                });
             });
-        });
+        }
 
     }
-
 
     function showFilterSliderArrow() {
         var li_position, li_width, last_child;
