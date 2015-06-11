@@ -13,6 +13,7 @@ Organize and publish your events in an easy and elegant way using Event Calendar
 == Description ==
 
 [WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
+[Demo](http://wpdemo.web-dorado.com/event-calendar-wd/)  
 [User Guide](https://web-dorado.com/wordpress-event-calendar-wd/installing.html)  
 [Support Forum](https://web-dorado.com/forum/wordpress-event-calendar-wd.html)
 
