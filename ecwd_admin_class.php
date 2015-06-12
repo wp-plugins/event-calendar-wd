@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.2';
+	protected $version = '1.0.3';
 	protected $ecwd_page = null;
 
 	private function __construct() {

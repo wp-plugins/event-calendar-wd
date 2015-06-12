@@ -79,6 +79,8 @@ class ECWD_Cpt {
 			'calendar_add_column_headers'
 		) );
 		add_filter( 'manage_' . ECWD_PLUGIN_PREFIX . '_event_posts_columns', array( $this, 'add_column_headers' ) );
+
+		add_filter( 'template_include', array($this, 'ecwd_templates') );
 	}
 
 
@@ -879,6 +881,7 @@ class ECWD_Cpt {
 			ECWD_PLUGIN_PREFIX . '_event_location',
 			ECWD_PLUGIN_PREFIX . '_event_venue',
 			ECWD_PLUGIN_PREFIX . '_lat_long',
+			ECWD_PLUGIN_PREFIX . '_event_show_map',
 			ECWD_PLUGIN_PREFIX . '_map_zoom',
 			ECWD_PLUGIN_PREFIX . '_event_date_from',
 			ECWD_PLUGIN_PREFIX . '_event_date_to',
@@ -988,6 +991,9 @@ class ECWD_Cpt {
 		$ecwd_post_meta_fields[ $post_type ] = apply_filters( $post_type . '_meta', $ecwd_post_meta_fields[ $post_type ] );
 
 		if ( current_user_can( 'edit_post', $post_id ) ) {
+			if ( $post_type == ECWD_PLUGIN_PREFIX . '_event' && !isset($_POST[ ECWD_PLUGIN_PREFIX . '_event_show_map' ])) {
+				$_POST[ ECWD_PLUGIN_PREFIX . '_event_show_map' ] = 'no';
+			}
 // Loop through our array and make sure it is posted and not empty in order to update it, otherwise we delete it
 			if ( $post_type == ECWD_PLUGIN_PREFIX . '_theme' ) {
 				$values = array();
@@ -1238,6 +1244,15 @@ class ECWD_Cpt {
 
 		return $calendars;
 
+	}
+
+	public function ecwd_templates($template){
+		$post_types = array( self::EVENT_POST_TYPE);
+		if ( is_singular( $post_types ) && ! file_exists( get_stylesheet_directory() . '/single-event.php' ) ) {
+			$template = ECWD_DIR . '/views/single-event.php';
+		}
+
+		return $template;
 	}
 
 	public function delete_transient() {

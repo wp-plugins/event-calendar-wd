@@ -7,7 +7,7 @@
 
 class ECWD {
 
-    protected $version = '1.0.2';
+    protected $version = '1.0.3';
     protected $plugin_name = 'event-calendar-wd';
     protected $prefix = 'ecwd';
     protected $old_version = '1.4.11';
@@ -20,6 +20,7 @@ class ECWD {
         $cpt_instance = ECWD_Cpt::get_instance();
         $this->user_info();
         add_action('init', array($this, 'add_localization'));
+        add_filter( 'body_class', array( $this, 'theme_body_class' ) );
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
     }
@@ -53,6 +54,24 @@ class ECWD {
     public function user_info(){
        //detect timezone
 
+    }
+
+
+    public static function theme_body_class( $classes ) {
+        $child_theme  = get_option( 'stylesheet' );
+        $parent_theme = get_option( 'template' );
+
+        if ( $child_theme == $parent_theme ) {
+            $child_theme = false;
+        }
+
+        if ( $child_theme ) {
+            $theme_classes = "ecwd-theme-parent-$parent_theme ecwd-theme-child-$child_theme";
+        } else {
+            $theme_classes = "ecwd-theme-$parent_theme";
+        }
+        $classes[] = $theme_classes;
+        return $classes;
     }
     /**
      * Include all necessary files

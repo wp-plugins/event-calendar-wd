@@ -9,6 +9,10 @@ $meta = get_post_meta($post_id);
 // Load up all post meta data
 $ecwd_event_venue = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_venue', true);
 $ecwd_event_location = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true);
+$ecwd_event_show_map = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_show_map', true);
+if($ecwd_event_show_map==''){
+    $ecwd_event_show_map = 1;
+}
 $ecwd_lat_long = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_lat_long', true);
 $ecwd_event_date_from = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true);
 $ecwd_event_date_to = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true);
@@ -110,6 +114,16 @@ $ecwd_event_video = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_video'
             <p class="description">
                 <?php _e('If venue is not specified you can fill in the address of the event location or click on the map to drag and drop the marker to the event location.', 'ecwd'); ?>
             </p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><?php _e('Show map in event page', 'ecwd'); ?></th>
+        <td>
+            <div class="checkbox-div">
+                <input type='checkbox' class='ecwd_all_day_event' id='ecwd_event_show_map'
+                       name='ecwd_event_show_map' value="1" <?php checked($ecwd_event_show_map, '1'); ?>/>
+                <label for="ecwd_event_show_map"></label>
+            </div>
         </td>
     </tr>
     <tr>

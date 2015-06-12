@@ -88,6 +88,10 @@
     $("#post").submit(function (e) {
         var dateTo = Date.parse($("#ecwd_event_date_to").val()),
             dateFrom = Date.parse($("#ecwd_event_date_from").val());
+        if(dateFrom=='' || isNaN(dateFrom) || isNaN(dateTo) || dateTo==''){
+            alert('Please set the event dates');
+            e.preventDefault();
+        }
         if(dateFrom && !dateTo){
             alert('Please set the end date');
             e.preventDefault();
@@ -95,6 +99,18 @@
         if (dateTo < dateFrom) {
             alert('Date to must be greater or equal to Date from');
             e.preventDefault();
+        }
+        var repeat = $('input[name="ecwd_event_repeat_event"]:checked').val();
+        var until = Date.parse($('#ecwd_event_repeat_until_input').val());
+        if(repeat!=='no_repeat') {
+            if (until == '' ||  isNaN(until)) {
+                alert('Please set the repeat until date');
+                e.preventDefault();
+            }
+            if(!isNaN(dateFrom) && !isNaN(until) && until <= dateFrom){
+                alert('Repeat until date must be greater than Date from');
+                e.preventDefault();
+            }
         }
     });
 

@@ -7,7 +7,7 @@
 
 
 
-.calendar_main:after{
+.calendar_main:after, #ecwd-events-content .event-detalis:after{
 	content: '';
 	clear: both;
 	display:table;
@@ -1321,6 +1321,7 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 	line-height: 18px !important;
 	text-transform: none;
 	letter-spacing: 0;
+	clear: none;
 }
 
 
@@ -1490,6 +1491,51 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 }
 
 /*#######################EVENT PAGE##############################*/
+
+#ecwd-events-content{
+	max-width: 1000px;
+	margin: 0 auto 50px;
+}
+
+#ecwd-events-pg-template, .ecwd-theme-parent-twentyfourteen #ecwd-events-pg-template {
+	padding-left: 220px;
+}
+.event-featured-image{
+	float: left;
+	margin: 0 15px 15px 0;
+
+}
+#ecwd-events-content .event-featured-image img{
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+#ecwd-events-content .ecwd-event-details{
+	float: left;
+}
+
+#ecwd-events-content h1{
+	font-size: 30px;
+	margin: 10px 0;
+
+
+}
+
+
+/* = Twenty Fourteen Styling
+   @ Template: ALL
+=============================================*/
+
+
+.ecwd-theme-twentyfourteen #ecwd-events-content {
+	padding-left:0;
+	padding-right:0;
+}
+
+.ecwd-theme-twentyfourteen.events-archive .entry-content {
+	width:90%;
+}
+
 .ecwd-event  .event-venue,
 .ecwd-event  .event-detalis-date,
 .ecwd-event  .event-detalis-org{
@@ -2024,7 +2070,6 @@ a.ecwd-google-plus{
 .ecwd-search input[type="text"]:focus {
 	width: 250px !important;
 	z-index: 2;
-	border: 1px solid #60A2B2;
 	background-color: #FFFFFF !important;
 	cursor: text;
 	text-indent: 5px;
@@ -2191,10 +2236,7 @@ a.ecwd-google-plus{
 	display: none;
 }
 @media only screen and (max-width: 500px){
-	.fa {
-		top: 11px;
-		left: 17px;
-	}
+
 	.calendar-head .previous, .calendar-head .next {
 		font-size: 14px;
 	}
@@ -2382,4 +2424,36 @@ a.ecwd-google-plus{
 		overflow: hidden;
 	}
 
+}
+
+
+
+/*
+  Default Themes Correction
+  */
+
+/* For Twenty Fourteen
+========================================================================== */
+
+.ecwd-theme-twentyfourteen #ecwd-events-content .ecwd-event {
+	padding: 20px;
+}
+
+@media screen and (min-width: 1000px) {
+	.ecwd-theme-twentyfourteen #ecwd-events-content {
+		padding-left: 220px;
+	}
+}
+/* Stop themes from hiding elements with the .updated CSS class */
+#ecwd-theme-twentyfourteen .updated {
+	display: inherit;
+}
+
+/* Twenty Fifteen
+========================================================================== */
+
+
+.ecwd-theme-twentyfifteen.single-ecwd_event #ecwd-events-content {
+	padding: 8.3333% 10%;
+	margin: 0 8.3333%;
 }

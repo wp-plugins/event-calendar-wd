@@ -47,7 +47,7 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 	}
 
 	//Create new display object, passing array of calendar id(s)
-	$d      = new ECWD_Display( $ids, $title_text, $sort, $date, $page, $args['search_params'], $displays, $filters, $page_items, $event_search , $display);
+	$d      = new ECWD_Display( $ids, $title_text, $sort, $date, $page, $args['search_params'], $displays, $filters, $page_items, $event_search, $display);
 	$markup = '';
 	$start  = current_time( 'timestamp' );
 
@@ -62,7 +62,7 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 		$display = $prev_display;
 	}
 	if ( $ajax == false ) {
-	    if ( $widget == 1 )
+		if ( $widget == 1 )
 			$markup .= '<div class="ecwd_' . $calendar_ids_html . ' calendar_widget_content calendar_main">';
 		else
 			$markup .= '<div class="ecwd_' . $calendar_ids_html . ' calendar_full_content calendar_main">';
@@ -262,13 +262,6 @@ function replaceFirstImages( $content ) {
 	return $content;
 }
 
-add_filter( 'post_thumbnail_html', 'ecwd_post_thumbnail', 10, 5 );
-function ecwd_post_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-	if (is_singular(ECWD_PLUGIN_PREFIX . '_event') && get_post_type($post_id) == ECWD_PLUGIN_PREFIX . '_event' ) {
-		$html='<br /><br />';
-	}
-	return $html;
-}
 function ecwd_event_content( $content ) {
 	global $post;
 	global $wp;
@@ -276,18 +269,8 @@ function ecwd_event_content( $content ) {
 	//echo $content;
 	if ( is_single() ) {
 		$feat_image = '';
-		if ( $post->post_type == ECWD_PLUGIN_PREFIX . '_event' ) {
-			if ( has_post_thumbnail()) {
-				$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'pull') );
-			}
-			$event_content = '';
-			ob_start();
-			include( ECWD_DIR . '/views/ecwd-event-content.php' );
-			$event_content .= ob_get_clean();
-			$content = $event_content . $content;
-		} elseif ( $post->post_type == ECWD_PLUGIN_PREFIX . '_organizer' ) {
+		if ( $post->post_type == ECWD_PLUGIN_PREFIX . '_organizer' ) {
 			$organizer_content = '';
-			ob_start();
 			include( ECWD_DIR . '/views/ecwd-organizer-content.php' );
 			$organizer_content .= ob_get_clean();
 			$content = $organizer_content;
@@ -327,7 +310,14 @@ function getAndReplaceFirstImage( $content ) {
 }
 
 add_filter( 'the_content', ECWD_PLUGIN_PREFIX . '_event_content' );
+//add_filter('template_include', ECWD_PLUGIN_PREFIX . '_set_template');
 
+function ecwd_set_template( $template ) {
+	if ( is_singular(ECWD_PLUGIN_PREFIX . '_event') && ECWD_DIR . '/views/ecwd-event-content.php' != $template ) {
+		$template = ECWD_DIR . '/views/ecwd-event-content.php';
+	}
+	return $template;
+}
 
 function ecwd_event_post( $post ) {
 	global $ecwd_options;
@@ -380,9 +370,9 @@ function ecwd_add_meta_tags() {
 		$description .= ' '.$ecwd_event_location;
 		echo '<meta property="og:description" content="'.$description.'"/>';
 		$feat_image = '';
-			if ( has_post_thumbnail($post->ID)) {
-				$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'pull') );
-			}
+		if ( has_post_thumbnail($post->ID)) {
+			$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'pull') );
+		}
 		echo '<meta property="og:image" content="'.$feat_image.'"/>';
 	}
 }
