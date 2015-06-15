@@ -112,19 +112,19 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 == Changelog ==
 
 = 1.0.4 =
-Fixed: Bug in add/edit calendar
+Fixed: Bug in add/edit calendar  
 
 = 1.0.3 =
-New: Event template
-New: "Show map in event page" option 
-Changed: "Repeat until" field is required
+New: Event template   
+New: "Show map in event page" option    
+Changed: "Repeat until" field is required   
 
 = 1.0.2 =
-Fixed: Minor bugs
+Fixed: Minor bugs   
 
 = 1.0.1 =
-Fixed: Bug in Week view    
-Fixed: Permalink bug    
+Fixed: Bug in Week view     
+Fixed: Permalink bug     
 
 = 1.0.0 =
 Initial version
