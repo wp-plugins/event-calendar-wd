@@ -81,6 +81,9 @@ class ECWD_Cpt {
 		add_filter( 'manage_' . ECWD_PLUGIN_PREFIX . '_event_posts_columns', array( $this, 'add_column_headers' ) );
 
 		add_filter( 'template_include', array($this, 'ecwd_templates') );
+
+		//category filter
+		add_filter('init',array($this, 'event_restrict_manage'));
 	}
 
 
@@ -1055,7 +1058,7 @@ class ECWD_Cpt {
 
 		$new_columns = array(
 			'cb'       => $defaults['cb'],
-			'event-id' => __( 'Event ID', 'ecwd' )
+			'event-id' => __( 'Event Dates', 'ecwd' )
 		);
 
 		return array_merge( $defaults, $new_columns );
@@ -1084,7 +1087,14 @@ class ECWD_Cpt {
 	public function event_column_content( $column_name, $post_ID ) {
 		switch ( $column_name ) {
 			case 'event-id':
-				echo $post_ID;
+				$start = get_post_meta($post_ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true);
+				$end = get_post_meta($post_ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true);
+				if($start) {
+					echo date( 'Y/m/d', strtotime( $start ) );
+					echo ' - ' . date( 'Y/m/d', strtotime( $end ) );
+				}else{
+					echo 'No dates';
+				}
 				break;
 		}
 	}
@@ -1234,7 +1244,20 @@ class ECWD_Cpt {
 		return $columns;
 	}
 
-
+	public function event_restrict_manage() {
+		include_once 'ecwd-cpt-filter.php';
+		new Tax_CTP_Filter(
+			array(
+				self::EVENT_POST_TYPE => array(
+					ECWD_PLUGIN_PREFIX . '_calendar',
+					ECWD_PLUGIN_PREFIX . '_event_category',
+					ECWD_PLUGIN_PREFIX . '_organizer',
+					ECWD_PLUGIN_PREFIX . '_venue',
+					ECWD_PLUGIN_PREFIX . '_event_tag'
+				)
+			)
+		);
+	}
 	public function get_ecwd_calendars() {
 		$args      = array(
 			'numberposts' => - 1,

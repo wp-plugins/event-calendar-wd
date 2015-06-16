@@ -1,9 +1,10 @@
 (function ($) {
 
-    $('#ecwd_event_repeat_until_input').datetimepicker({
+    $('#ecwd_event_repeat_until_input, #ecwd_date_from_filter, #ecwd_date_to_filter').datetimepicker({
         scrollMonth: false,
         scrollInput: false,
         timepicker:false,
+        closeOnDateSelect:true,
         format:'Y/m/d'
     });
 
@@ -16,7 +17,7 @@
         var dateFromGlobal, dateToGlobal;
         dateFromGlobal = $("#ecwd_event_date_from").val(),
             dateToGlobal = $("#ecwd_event_date_to").val();
-        if ($('.ecwd_all_day_event').prop('checked') === true) {
+        if ($('#ecwd_all_day_event').prop('checked') === true) {
             $("#ecwd_event_date_from, #ecwd_event_date_to").datetimepicker({
                 timepicker:false,
                 format:'Y/m/d',

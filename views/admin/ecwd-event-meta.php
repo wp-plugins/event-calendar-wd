@@ -120,7 +120,7 @@ $ecwd_event_video = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_video'
         <th scope="row"><?php _e('Show map in event page', 'ecwd'); ?></th>
         <td>
             <div class="checkbox-div">
-                <input type='checkbox' class='ecwd_all_day_event' id='ecwd_event_show_map'
+                <input type='checkbox' class='ecwd_event_show_map' id='ecwd_event_show_map'
                        name='ecwd_event_show_map' value="1" <?php checked($ecwd_event_show_map, '1'); ?>/>
                 <label for="ecwd_event_show_map"></label>
             </div>

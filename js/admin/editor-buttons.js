@@ -175,8 +175,9 @@
             if (v.event_search && v.event_search == 'no')
                 event_search = false;
             var id = 0;
+            if (v.id)
+                id = v.id;
             var calendars = '';
-            console.log(ecwd_plugin.ecwd_calendars.length);
             if (ecwd_plugin.ecwd_calendars.length !== 0) {
                 if(id==0) {
                     id = ecwd_plugin.ecwd_calendars[0]['value'];
