@@ -319,20 +319,18 @@ function ecwd_set_template( $template ) {
 	return $template;
 }
 
+
 function ecwd_event_post( $post ) {
-	global $ecwd_options;
-	if(isset($post->comment_status)) {
-	$post->comment_status = 'closed';
-	if ( is_single() ) {
-		if ( $post->post_type == ECWD_PLUGIN_PREFIX . '_event' ) {
-			if(isset($ecwd_options['event_comments']) && $ecwd_options['event_comments']==1) {
-				$post->comment_status= 'open';
-			}
-		}
-	}
-	}	
-	return $post;
+global $ecwd_options;
+if ( is_single() && isset( $post->comment_status ) && $post->post_type == ECWD_PLUGIN_PREFIX . '_event' ) {
+$post->comment_status = 'closed';
+if ( isset( $ecwd_options['event_comments'] ) && $ecwd_options['event_comments'] == 1 ) {
+$post->comment_status = 'open';
 }
+}
+return $post;
+}
+
 
 
 
