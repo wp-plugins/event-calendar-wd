@@ -29,8 +29,7 @@ if ( isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != 
 $ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true );
 $ecwd_event_latlong  = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_lat_long', true );
 $ecwd_event_zoom     = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_map_zoom', true );
-$ecwd_event_show_map = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_show_map', true);
-
+$ecwd_event_show_map = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_show_map', true );
 if ( ! $ecwd_event_zoom ) {
 	$ecwd_event_zoom = 17;
 }
@@ -151,26 +150,26 @@ get_header();
 						</div>
 					</div>
 				</div>
-					<?php if ($social_icons) {
+				<?php if ( $social_icons ) {
 					?>
 
-				<div class="ecwd-social">
-        <span class="share-links">
-			<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>" class="ecwd-twitter"
-			   target="_blank" data-original-title="Tweet It">
-				<span class="visuallyhidden">Twitter</span></a>
-			<a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink( $post_id ) ?>" class="ecwd-facebook"
-			   target="_blank" data-original-title="Share on Facebook">
-				<span class="visuallyhidden">Facebook</span></a>
-			<a href="http://plus.google.com/share?url=<?php echo get_permalink( $post_id ) ?>" class="ecwd-google-plus"
-			   target="_blank" data-original-title="Share on Google+">
-				<span class="visuallyhidden">Google+</span></a>
-		</span>
-				</div>
+					<div class="ecwd-social">
+				        <span class="share-links">
+							<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>" class="ecwd-twitter"
+							   target="_blank" data-original-title="Tweet It">
+								<span class="visuallyhidden">Twitter</span></a>
+							<a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink( $post_id ) ?>" class="ecwd-facebook"
+							   target="_blank" data-original-title="Share on Facebook">
+								<span class="visuallyhidden">Facebook</span></a>
+							<a href="http://plus.google.com/share?url=<?php echo get_permalink( $post_id ) ?>" class="ecwd-google-plus"
+							   target="_blank" data-original-title="Share on Google+">
+								<span class="visuallyhidden">Google+</span></a>
+						</span>
+					</div>
 				<?php } ?>
 				<?php
-				echo $ecwd_event_show_map.'sdsdsd';
-				if ($ecwd_event_show_map==1  && $ecwd_event_latlong ) {
+				//if($ecwd_event_show_map==1){
+				if ( $ecwd_event_show_map == 1 && $ecwd_event_latlong ) {
 					$map_events               = array();
 					$map_events[0]['latlong'] = explode( ',', $ecwd_event_latlong );
 					if ( $ecwd_event_location != '' ) {

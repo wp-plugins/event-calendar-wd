@@ -84,25 +84,27 @@ if (!class_exists('Tax_CTP_Filter')) {
         }
 
         public function generate_taxonomy_options($tax_slug, $parent = '', $level = 0, $selected = null) {
-            $args = array();
+            $args = array('show_empty' => 1);
             if (!is_null($parent)) {
                 $args = array('parent' => $parent);
             }
-            $args['hide_empty'] = false;
             $terms = get_terms($tax_slug, $args);
             $tab = '';
             for ($i = 0; $i < $level; $i++) {
                 $tab.='--';
             }
+
             foreach ($terms as $term) {
-                echo '<option value=' . $term->slug, $selected == $term->slug ? ' selected="selected"' : '', '>' . $tab . $term->name . '</option>';
+
+                echo '<option value=' . $term->slug, $selected == $term->slug ? ' selected="selected"' : '', '>' . $tab . $term->name . ' (' . $term->count . ')</option>';
                 $this->generate_taxonomy_options($tax_slug, $term->term_id, $level + 1, $selected);
             }
         }
 
         public function event_table_filter($query) {
+            global $typenow;
             $types = array_keys($this->cpt);
-            if (is_admin() AND in_array($query->query['post_type'], $types)) {
+            if (is_admin() AND in_array($query->query['post_type'], $types) && in_array($typenow, $types)) {
                 $qv = &$query->query_vars;
                 $qv['meta_query'] = array();
              

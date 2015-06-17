@@ -75,7 +75,7 @@ $ecwd_event_video = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX . '_event_video'
                 </p>
             <?php
             } else {
-                ?><a href="post-new.php?post_type=<?php echo ECWD_PLUGIN_PREFIX;?>_venue"><?php _e('Add venue', 'ecwd');?></a><?php
+                ?><?php _e('There is no venue added yet', 'ecwd');?><?php
             } ?>
         </td>
     </tr>
