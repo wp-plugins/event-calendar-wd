@@ -321,6 +321,7 @@ function ecwd_set_template( $template ) {
 
 function ecwd_event_post( $post ) {
 	global $ecwd_options;
+	if(isset($post->comment_status)) {
 	$post->comment_status = 'closed';
 	if ( is_single() ) {
 		if ( $post->post_type == ECWD_PLUGIN_PREFIX . '_event' ) {
@@ -329,9 +330,12 @@ function ecwd_event_post( $post ) {
 			}
 		}
 	}
-
+	}	
 	return $post;
 }
+
+
+
 
 add_action( 'the_post', ECWD_PLUGIN_PREFIX . '_event_post' );
 
