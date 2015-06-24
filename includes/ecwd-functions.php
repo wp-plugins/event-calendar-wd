@@ -29,9 +29,8 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 	wp_enqueue_style( 'ecwd-calendar-main', plugins_url( '../css/calendar.css', __FILE__ ), '', 1 );
 
 	if ( $ecwd_calendar_theme && file_exists( ECWD_DIR . '/css/themes/' . $css_file . ".css" ) ) {
-		wp_enqueue_style( 'ecwd-calendar-theme_'.$css_file, plugins_url( '../css/themes/' . $css_file . '.css', __FILE__ ), '', 1 );
+		wp_enqueue_style( 'ecwd-calendar-theme_' . $css_file, plugins_url( '../css/themes/' . $css_file . '.css', __FILE__ ), '', 1 );
 	}
-
 
 
 	$calendar_ids_html = implode( '-', $ids );
@@ -47,7 +46,7 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 	}
 
 	//Create new display object, passing array of calendar id(s)
-	$d      = new ECWD_Display( $ids, $title_text, $sort, $date, $page, $args['search_params'], $displays, $filters, $page_items, $event_search, $display);
+	$d      = new ECWD_Display( $ids, $title_text, $sort, $date, $page, $args['search_params'], $displays, $filters, $page_items, $event_search, $display );
 	$markup = '';
 	$start  = current_time( 'timestamp' );
 
@@ -62,10 +61,11 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 		$display = $prev_display;
 	}
 	if ( $ajax == false ) {
-		if ( $widget == 1 )
+		if ( $widget == 1 ) {
 			$markup .= '<div class="ecwd_' . $calendar_ids_html . ' calendar_widget_content calendar_main">';
-		else
+		} else {
 			$markup .= '<div class="ecwd_' . $calendar_ids_html . ' calendar_full_content calendar_main">';
+		}
 		if ( $widget !== 1 ) {
 			if ( defined( 'ECWD_FILTERS_EVENT_MAIN_FILE' ) && is_plugin_active( ECWD_FILTERS_EVENT_MAIN_FILE ) ) {
 				if ( defined( 'ECWD_FILTERS_EVENT_DIR' ) ) {
@@ -130,8 +130,8 @@ function ecwd_ajax() {
 		die( 'Request has failed.' );
 	}
 
-	$ids  = esc_html( $_POST[ ECWD_PLUGIN_PREFIX . '_calendar_ids' ] );
-	$args = array();
+	$ids     = esc_html( $_POST[ ECWD_PLUGIN_PREFIX . '_calendar_ids' ] );
+	$args    = array();
 	$display = '';
 	if ( isset( $_POST[ ECWD_PLUGIN_PREFIX . '_link' ] ) ) {
 		$link = esc_html( $_POST[ ECWD_PLUGIN_PREFIX . '_link' ] );
@@ -140,8 +140,8 @@ function ecwd_ajax() {
 		$page = isset( $link_arr['amp;cpage'] ) ? $link_arr['amp;cpage'] : 1;
 
 		$display = isset( $link_arr['amp;t'] ) ? $link_arr['amp;t'] : 'mini';
-	}else{
-		if(isset($_POST[ ECWD_PLUGIN_PREFIX . '_prev_display'])) {
+	} else {
+		if ( isset( $_POST[ ECWD_PLUGIN_PREFIX . '_prev_display' ] ) ) {
 			$display = esc_html( $_POST[ ECWD_PLUGIN_PREFIX . '_prev_display' ] );
 		}
 	}
@@ -151,7 +151,7 @@ function ecwd_ajax() {
 	} else {
 		$args['date'] = '';
 	}
-	if($args['date'] =='' && isset( $_POST[ ECWD_PLUGIN_PREFIX . '_date_filter' ])){
+	if ( $args['date'] == '' && isset( $_POST[ ECWD_PLUGIN_PREFIX . '_date_filter' ] ) ) {
 		$args['date'] = $_POST[ ECWD_PLUGIN_PREFIX . '_date_filter' ];
 	}
 	if ( isset( $_POST[ ECWD_PLUGIN_PREFIX . '_prev_display' ] ) && $_POST[ ECWD_PLUGIN_PREFIX . '_prev_display' ] != '' ) {
@@ -164,14 +164,14 @@ function ecwd_ajax() {
 		$args['widget'] = 1;
 	}
 
-	if($display=='') {
+	if ( $display == '' ) {
 		if ( $args['widget'] == 1 ) {
 			$display = 'mini';
 		} else {
 			$display = 'full';
 		}
 	}
-	if ( isset($page) ) {
+	if ( isset( $page ) ) {
 		$args['cpage'] = $page;
 	} else {
 		$args['cpage'] = 1;
@@ -257,7 +257,7 @@ add_action( 'wp_ajax_nopriv_ecwd_ajax_list', ECWD_PLUGIN_PREFIX . '_ajax_list' )
 add_action( 'wp_ajax_ecwd_ajax_list', ECWD_PLUGIN_PREFIX . '_ajax_list' );
 
 function replaceFirstImages( $content ) {
-	$content = preg_replace( "/<img[^>]+\>/i", " ", $content, 1);
+	$content = preg_replace( "/<img[^>]+\>/i", " ", $content, 1 );
 
 	return $content;
 }
@@ -313,39 +313,35 @@ add_filter( 'the_content', ECWD_PLUGIN_PREFIX . '_event_content' );
 //add_filter('template_include', ECWD_PLUGIN_PREFIX . '_set_template');
 
 function ecwd_set_template( $template ) {
-	if ( is_singular(ECWD_PLUGIN_PREFIX . '_event') && ECWD_DIR . '/views/ecwd-event-content.php' != $template ) {
+	if ( is_singular( ECWD_PLUGIN_PREFIX . '_event' ) && ECWD_DIR . '/views/ecwd-event-content.php' != $template ) {
 		$template = ECWD_DIR . '/views/ecwd-event-content.php';
 	}
+
 	return $template;
 }
 
-
 function ecwd_event_post( $post ) {
-global $ecwd_options;
-if ( is_single() && isset( $post->comment_status ) && $post->post_type == ECWD_PLUGIN_PREFIX . '_event' ) {
-$post->comment_status = 'closed';
-if ( isset( $ecwd_options['event_comments'] ) && $ecwd_options['event_comments'] == 1 ) {
-$post->comment_status = 'open';
+	global $ecwd_options;
+	if ( is_single() && isset( $post->comment_status ) && $post->post_type == ECWD_PLUGIN_PREFIX . '_event' ) {
+		$post->comment_status = 'closed';
+		if ( isset( $ecwd_options['event_comments'] ) && $ecwd_options['event_comments'] == 1 ) {
+			$post->comment_status = 'open';
+		}
+	}
+	return $post;
 }
-}
-return $post;
-}
-
-
-
-
 
 add_action( 'the_post', ECWD_PLUGIN_PREFIX . '_event_post' );
 
 function ecwd_add_meta_tags() {
 	global $post, $ecwd_options;
-	if ( is_single() && $post->post_type == ECWD_PLUGIN_PREFIX . '_event' &&  isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '') {
-		echo '<meta property="og:title" content="'.$post->post_title.'"/>';
-		$ecwd_event_date_from  = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true );
-		$ecwd_event_date_to    = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true );
-		$ecwd_all_day_event    = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_all_day_event', true );
-		$date_format  = 'Y-m-d';
-		$time_format  = 'H:i';
+	if ( is_single() && $post->post_type == ECWD_PLUGIN_PREFIX . '_event' && isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '' ) {
+		echo '<meta property="og:title" content="' . $post->post_title . '"/>';
+		$ecwd_event_date_from = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true );
+		$ecwd_event_date_to   = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true );
+		$ecwd_all_day_event   = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_all_day_event', true );
+		$date_format          = 'Y-m-d';
+		$time_format          = 'H:i';
 		if ( isset( $ecwd_options['date_format'] ) && $ecwd_options['date_format'] != '' ) {
 			$date_format = $ecwd_options['date_format'];
 		}
@@ -353,14 +349,14 @@ function ecwd_add_meta_tags() {
 			$time_format = $ecwd_options['time_format'];
 		}
 		$ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true );
-		$description = '';
+		$description         = '';
 		if ( $ecwd_all_day_event == 1 ) {
-			$description.=  date( $date_format, strtotime( $ecwd_event_date_from ) );
+			$description .= date( $date_format, strtotime( $ecwd_event_date_from ) );
 			if ( $ecwd_all_day_event == 1 ) {
 				if ( $ecwd_event_date_to && date( $date_format, strtotime( $ecwd_event_date_from ) ) !== date( $date_format, strtotime( $ecwd_event_date_to ) ) ) {
-					$description.= ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) );
+					$description .= ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) );
 				}
-				$description.= '  ' . __( 'All day', 'ecwd' ).' ';
+				$description .= '  ' . __( 'All day', 'ecwd' ) . ' ';
 			}
 		} else {
 			$description .= date( $date_format, strtotime( $ecwd_event_date_from ) ) . ' ' . date( $time_format, strtotime( $ecwd_event_date_from ) );
@@ -369,16 +365,17 @@ function ecwd_add_meta_tags() {
 				$description .= ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) ) . ' ' . date( $time_format, strtotime( $ecwd_event_date_to ) );
 			}
 		}
-		$description .= ' '.$ecwd_event_location;
-		echo '<meta property="og:description" content="'.$description.'"/>';
+		$description .= ' ' . $ecwd_event_location;
+		echo '<meta property="og:description" content="' . $description . '"/>';
 		$feat_image = '';
-		if ( has_post_thumbnail($post->ID)) {
-			$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'pull') );
+		if ( has_post_thumbnail( $post->ID ) ) {
+			$feat_image = wp_get_attachment_url( get_post_thumbnail_id( $post->ID, 'pull' ) );
 		}
-		echo '<meta property="og:image" content="'.$feat_image.'"/>';
+		echo '<meta property="og:image" content="' . $feat_image . '"/>';
 	}
 }
-add_action( 'wp_head', 'ecwd_add_meta_tags' , 2 );
+
+add_action( 'wp_head', 'ecwd_add_meta_tags', 2 );
 
 
 function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args = array() ) {
@@ -444,6 +441,7 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 		$markup .= '</div>';
 		$markup .= '<div class="clear"></div>';
 	}
+
 	return $markup;
 
 

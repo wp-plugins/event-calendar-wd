@@ -152,7 +152,7 @@ echo $content;
 									}
 									echo '<div class="upcoming_events_item-img ' . $image_class . '">';
 									if ( get_the_post_thumbnail( $ecwd_event['id'] ) ) {
-										echo get_the_post_thumbnail( $ecwd_event['id'], array( 800, 280 ) );
+										echo get_the_post_thumbnail( $ecwd_event['id'], 'thumb' );
 									} elseif ( $image['image'] != null ) {
 										echo '<img src="' . $image['image'] . '" />';
 										$ecwd_event['post']->post_content = $image['content'];

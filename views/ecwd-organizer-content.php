@@ -114,6 +114,19 @@ echo $content;
 							?>
 							<li itemscope itemtype="http://schema.org/Event" class="upcoming_events_item">
 								<div class="upcoming_event_container">
+									<?php $image_class = '';
+									$image             = getAndReplaceFirstImage( $ecwd_event['post']->post_content );
+									if ( ! has_post_thumbnail( $ecwd_event['id'] ) && $image['image'] == "" ) {
+										$image_class = "ecwd-no-image";
+									}
+									echo '<div class="upcoming_events_item-img ' . $image_class . '">';
+									if ( get_the_post_thumbnail( $ecwd_event['id'] ) ) {
+										echo get_the_post_thumbnail( $ecwd_event['id'], 'thumb' );
+									} elseif ( $image['image'] != null ) {
+										echo '<img src="' . $image['image'] . '" />';
+										$ecwd_event['post']->post_content = $image['content'];
+									}
+									echo '</div>'; ?>
 									<div class="event-title" itemprop="name">
 										<a href="<?php echo $ecwd_event['permalink'] ?>"><?php echo $ecwd_event['title'] ?></a>
 									</div>
@@ -135,22 +148,7 @@ echo $content;
 											}
 										} ?>
 									</div>
-									<?php $image_class = '';
-									$image             = getAndReplaceFirstImage( $ecwd_event['post']->post_content );
-									if ( ! has_post_thumbnail( $ecwd_event['id'] ) && $image['image'] == "" ) {
-										$image_class = "ecwd-no-image";
-									}
-									echo '<div class="upcoming_events_item-img ' . $image_class . '">';
-									if ( get_the_post_thumbnail( $ecwd_event['id'] ) ) {
-										echo get_the_post_thumbnail( $ecwd_event['id'], array( 800, 280 ) );
-									} elseif ( $image['image'] != null ) {
-										echo '<img src="' . $image['image'] . '" />';
-										$ecwd_event['post']->post_content = $image['content'];
-									}
-									echo '</div>'; ?>
-
-									<div
-										class="upcoming_events_item-content"><?php echo( $ecwd_event['post']->post_content ? $ecwd_event['post']->post_content : 'No additional details for this event.' ); ?> </div>
+									<div class="upcoming_events_item-content"><?php echo( $ecwd_event['post']->post_content ? $ecwd_event['post']->post_content : 'No additional details for this event.' ); ?> </div>
 								</div>
 							</li>
 						<?php

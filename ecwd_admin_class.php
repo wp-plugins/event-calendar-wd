@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.6';
+	protected $version = '1.0.7';
 	protected $ecwd_page = null;
 
 	private function __construct() {
@@ -31,6 +31,10 @@ class ECWD_Admin {
 		foreach ( array( 'post.php', 'post-new.php' ) as $hook ) {
 			add_action( "admin_head-$hook", array( $this, 'admin_head' ) );
 		}
+		//add_filter( 'auto_update_plugin', array($this, 'ecwd_update'), 10, 2 );
+                
+                //Wed Dorado Logo
+                add_action('admin_notices',array($this,'create_logo_to_head'));
 	}
 
 
@@ -43,7 +47,7 @@ class ECWD_Admin {
 			return false;
 		}
 		$screen = get_current_screen();
-		if ( $screen->id == 'edit-ecwd_event' || $screen->id == ECWD_PLUGIN_PREFIX . '_event' || in_array( $screen->id, $this->ecwd_page ) || $screen->post_type == ECWD_PLUGIN_PREFIX . '_event' || $screen->post_type == ECWD_PLUGIN_PREFIX . '_theme' || $screen->post_type == ECWD_PLUGIN_PREFIX . '_venue' || $screen->id == 'edit-ecwd_calendar' || $screen->id == ECWD_PLUGIN_PREFIX . '_calendar' || $screen->id == ECWD_PLUGIN_PREFIX . '_countdown_theme' ) {
+		if ( $screen->id == 'edit-ecwd_event' || $screen->id == ECWD_PLUGIN_PREFIX . '_event' || in_array( $screen->id, $this->ecwd_page ) || $screen->post_type == ECWD_PLUGIN_PREFIX . '_event' || $screen->post_type == ECWD_PLUGIN_PREFIX . '_theme' || $screen->post_type == ECWD_PLUGIN_PREFIX . '_venue' || $screen->id == 'edit-ecwd_calendar' || $screen->id == ECWD_PLUGIN_PREFIX . '_calendar' || $screen->id == ECWD_PLUGIN_PREFIX . '_countdown_theme' || $screen->post_type == ECWD_PLUGIN_PREFIX . '_organizer' ) {
 			return true;
 		} else {
 			return false;
@@ -57,10 +61,13 @@ class ECWD_Admin {
 	public static function activate() {
 		//setup default theme if there is no one
 
-		if (!defined('ECWD_PLUGIN_PREFIX')) {
-			define('ECWD_PLUGIN_PREFIX', 'ecwd');
+		if ( ! defined( 'ECWD_PLUGIN_PREFIX' ) ) {
+			define( 'ECWD_PLUGIN_PREFIX', 'ecwd' );
 		}
 
+	}
+	public static function uninstall(){
+		
 	}
 
 
@@ -106,9 +113,11 @@ class ECWD_Admin {
 	public function display_featured_plugins() {
 		include_once( ECWD_DIR . '/views/admin/ecwd-featured-plugins.php' );
 	}
+
 	public function display_themes_page() {
 		include_once( ECWD_DIR . '/views/admin/ecwd-theme-meta.php' );
 	}
+
 	public function display_license_page() {
 		include_once( ECWD_DIR . '/views/admin/licensing.php' );
 	}
@@ -128,10 +137,10 @@ class ECWD_Admin {
 			wp_enqueue_style( 'ecwd-admin-datetimepicker-css', plugins_url( 'css/admin/jquery.datetimepicker.css', __FILE__ ), array(), $this->version, 'all' );
 			wp_enqueue_style( 'ecwd-admin-colorpicker-css', plugins_url( 'css/admin/evol.colorpicker.css', __FILE__ ), array(), $this->version, 'all' );
 			wp_enqueue_style( $this->prefix . '-calendar-style', plugins_url( 'css/style.css', __FILE__ ), '', $this->version, 'all' );
-			wp_enqueue_style($this->prefix . '_font-awesome', plugins_url('/css/font-awesome/font-awesome.css', __FILE__), '', $this->version, 'all');
-			wp_enqueue_style($this->prefix . '-featured_plugins', plugins_url('/css/admin/featured_plugins.css', __FILE__), '', $this->version, 'all');
-			wp_enqueue_style($this->prefix . '-featured_themes', plugins_url('/css/admin/featured_themes.css', __FILE__), '', $this->version, 'all');
-			wp_enqueue_style($this->prefix . '-licensing', plugins_url('/css/admin/licensing.css', __FILE__), '', $this->version, 'all');
+			wp_enqueue_style( $this->prefix . '_font-awesome', plugins_url( '/css/font-awesome/font-awesome.css', __FILE__ ), '', $this->version, 'all' );
+			wp_enqueue_style( $this->prefix . '-featured_plugins', plugins_url( '/css/admin/featured_plugins.css', __FILE__ ), '', $this->version, 'all' );
+			wp_enqueue_style( $this->prefix . '-featured_themes', plugins_url( '/css/admin/featured_themes.css', __FILE__ ), '', $this->version, 'all' );
+			wp_enqueue_style( $this->prefix . '-licensing', plugins_url( '/css/admin/licensing.css', __FILE__ ), '', $this->version, 'all' );
 		}
 	}
 
@@ -150,7 +159,7 @@ class ECWD_Admin {
 				'jquery',
 				'masonry'
 			), $this->version, true );
-			wp_register_script($this->prefix . '-admin-scripts', plugins_url( 'js/admin/admin.js', __FILE__ ), array(
+			wp_register_script( $this->prefix . '-admin-scripts', plugins_url( 'js/admin/admin.js', __FILE__ ), array(
 				'jquery',
 				'jquery-ui-datepicker',
 				'jquery-ui-tabs',
@@ -194,7 +203,7 @@ class ECWD_Admin {
 			'ignore_sticky_posts' => 1
 		);
 		$event_posts    = get_posts( $args );
-		$plugin_url = plugins_url( '/', __FILE__ );
+		$plugin_url     = plugins_url( '/', __FILE__ );
 		?>
 		<!-- TinyMCE Shortcode Plugin -->
 		<script type='text/javascript'>
@@ -250,7 +259,7 @@ class ECWD_Admin {
 	function register_buttons( $buttons ) {
 		// inserts a separator between existing buttons and our new one
 		// "friendly_button" is the ID of our button
-		if(!$this->ecwd_page()) {
+		if ( ! $this->ecwd_page() ) {
 			array_push( $buttons, "|", ECWD_PLUGIN_PREFIX );
 		}
 
@@ -259,18 +268,51 @@ class ECWD_Admin {
 
 // add the button to the tinyMCE bar
 	function add_tinymce_plugin( $plugin_array ) {
-		if(!$this->ecwd_page()) {
+		if ( ! $this->ecwd_page() ) {
 			$plugin_array[ ECWD_PLUGIN_PREFIX ] = plugins_url( 'js/admin/editor-buttons.js', __FILE__ );
 		}
+
 		return $plugin_array;
 	}
+
+	//auto update plugin
+	function ecwd_update( $update, $item ) {
+		global $ecwd_options;
+		if ( ! isset( $ecwd_options['auto_update'] ) || $ecwd_options['auto_update'] == 1 ) {
+			$plugins = array( // Plugins to  auto-update
+			                  'event-calendar-wd'
+			);
+			if ( in_array( $item->slug, $plugins ) ) {
+				return true;
+			} // Auto-update specified plugins
+			else {
+				return false;
+			} // Don't auto-update all other plugins
+		}
+	}
+
 
 	public function define_admin_constants() {
 		if ( ! defined( 'ECWD_DIR' ) ) {
 			define( 'ECWD_DIR', dirname( __FILE__ ) );
 		}
 	}
+        
+        /**
+         * Set Web Dorado Logo in admin pages   
+         */
+        public function create_logo_to_head() {
+            global $pagenow ,$post;
 
+            if( $this->ecwd_page()) { ?>
+                <div style="float:right; width: 100%; text-align: right;clear:both;">
+                        <a href="https://web-dorado.com/files/fromEventCalendarWD.php" target="_blank" style="text-decoration:none;box-shadow: none;">
+                                <img src="<?php echo plugins_url('/assets/pro.png',__FILE__);?>" border="0" alt="https://web-dorado.com/files/fromEventCalendarWD.php" width="215">
+                        </a>
+                </div>
+            <?php }
+        }
+        
 	/**
 	 * Return an instance of this class.
 	 */

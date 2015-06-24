@@ -381,13 +381,41 @@
     }
 
     function upcomingEventsSlider() {
+        var current_date = Date.parse(Date());
+
         var upcoming_events_slider_main = $('.upcoming_events_slider').width();
         $('.upcoming_events_slider .upcoming_events_item').width(upcoming_events_slider_main);
+
+
         $('.upcoming_events_slider .upcoming_event_container').width(parseInt(upcoming_events_slider_main) - 80);
         $('.upcoming_events_slider > ul').width(upcoming_events_slider_main * $('.upcoming_events_slider .upcoming_events_item').length);
 
         if ($(".upcoming_events_slider").width() < $('.upcoming_events_slider > ul').width()) {
             $('.upcoming_events_slider .upcoming_events_slider-arrow-right').show();
+        }
+
+
+        var min = 0;
+        $('.upcoming_events_slider .upcoming_events_item').each(function () {
+            var item_date =  Date.parse($(this).data('date'));
+            if(item_date<current_date){
+                min++;
+            }else{
+                return false;
+            }
+        });
+
+        if(min && min == $('.upcoming_events_slider .upcoming_events_item').length){
+            min--;
+        }
+
+        $('.upcoming_events_slider .upcoming_events_item').css('left', -upcoming_events_slider_main*min);
+
+        if (parseInt($('.upcoming_events_slider .upcoming_events_item').css('left'))< 0){
+            $('.upcoming_events_slider').parent().find('.upcoming_events_slider-arrow-left').show();
+        }
+        if(parseInt($('.upcoming_events_slider .upcoming_events_item').css('left'))==-($('.upcoming_events_slider > ul').width()-upcoming_events_slider_main)){
+            $('.upcoming_events_slider').parent().find('.upcoming_events_slider-arrow-right').hide();
         }
 
         $('.upcoming_events_slider .upcoming_events_slider-arrow-right').click(function () {
@@ -420,7 +448,6 @@
 
         });
     }
-
     function showWidgetEventDesc() {
         $('.ecwd-widget-mini .event-container, .ecwd-widget-mini .ecwd_list .event-main-content').each(function () {
             if ($(this).find('.arrow-down').length == 0) {

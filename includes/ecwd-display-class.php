@@ -868,6 +868,18 @@ class ECWD_Display {
 		return $next_event;
 
 	}
+	function events_unique( $array ) {
+		$events_ids = array();
+		foreach ( $array as $key => $event ) {
+			if ( ! in_array( $event['id'], $events_ids ) ) {
+				$events_ids[0] = $event['id'];
+			} else {
+				unset( $array[ $key ] );
+			}
+		}
+
+		return $array;
+	}
 
 	public function arraySort( $a, $subkey ) {
 		foreach ( $a as $k => $v ) {

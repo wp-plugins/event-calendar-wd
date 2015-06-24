@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-05 18:42+0400\n"
-"PO-Revision-Date: 2015-06-05 18:44+0400\n"
+"POT-Creation-Date: 2015-06-23 15:38+0400\n"
+"PO-Revision-Date: 2015-06-23 15:38+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -24,25 +24,20 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-7: ecwd_admin_class.php\n"
 "X-Poedit-SearchPathExcluded-8: includes/ecwd-event-class.php\n"
 
-#: ecwd_class.php:47
-msgid "Could not load the localization file: "
-msgstr ""
-
 #: includes/calendar-class.php:174 includes/calendar-class.php:175
-#: includes/calendar-class.php:935 views/widgets.php:168
+#: views/widgets.php:168
 msgid "Month"
 msgstr "Monat"
 
-#: includes/calendar-class.php:176 includes/calendar-class.php:936
-#: views/widgets.php:169
+#: includes/calendar-class.php:176 views/widgets.php:169
 msgid "List"
 msgstr "Liste"
 
-#: includes/calendar-class.php:178 includes/calendar-class.php:937
+#: includes/calendar-class.php:178
 msgid "Week"
 msgstr "Woche"
 
-#: includes/calendar-class.php:182 includes/calendar-class.php:938
+#: includes/calendar-class.php:182
 msgid "Day"
 msgstr "Tag"
 
@@ -59,15 +54,17 @@ msgid "Posterboard"
 msgstr "Posterboard"
 
 #: includes/calendar-class.php:382 includes/calendar-class.php:416
-#: includes/calendar-class.php:563 includes/calendar-class.php:1164
-#: includes/calendar-class.php:1303 includes/ecwd-functions.php:380
+#: includes/calendar-class.php:563 includes/calendar-class.php:1167
+#: includes/calendar-class.php:1306 includes/ecwd-functions.php:359
 #: views/ecwd-event-content.php:75 views/ecwd-event-content.php:157
 #: views/ecwd-organizer-content.php:128 views/ecwd-venue-content.php:173
+#: views/single-event.php:98 views/single-event.php:189
+#: views/single-event.php:354
 msgid "All day"
 msgstr "Den ganzen Tag"
 
 #: includes/calendar-class.php:439 includes/calendar-class.php:515
-#: includes/calendar-class.php:1359
+#: includes/calendar-class.php:1362
 msgid "No events"
 msgstr "Keine Veranstaltungen"
 
@@ -75,77 +72,41 @@ msgstr "Keine Veranstaltungen"
 msgid "No Events"
 msgstr "Keine Veranstaltungen"
 
-#: includes/calendar-class.php:970
+#: includes/calendar-class.php:973
 msgid "What're we looking for ?"
 msgstr "Was machen wir?"
 
-#: includes/calendar-class.php:1234
+#: includes/calendar-class.php:1237
 msgid "More events"
 msgstr "Weitere Veranstaltungen"
 
-#: includes/ecwd-event-class.php:188
-#, php-format
-msgid "%s year"
-msgstr ""
+#: includes/ecwd-cpt-filter.php:67
+msgid "From"
+msgstr "Von"
 
-#: includes/ecwd-event-class.php:188
-#, php-format
-msgid "%s years"
-msgstr ""
-
-#: includes/ecwd-event-class.php:189
-#, php-format
-msgid "%s month"
-msgstr ""
-
-#: includes/ecwd-event-class.php:189
-#, php-format
-msgid "%s months"
-msgstr ""
-
-#: includes/ecwd-event-class.php:190
-#, php-format
-msgid "%s week"
-msgstr ""
-
-#: includes/ecwd-event-class.php:190
-#, php-format
-msgid "%s weeks"
-msgstr ""
-
-#: includes/ecwd-event-class.php:191
-#, php-format
-msgid "%s day"
-msgstr ""
-
-#: includes/ecwd-event-class.php:191
-#, php-format
-msgid "%s days"
-msgstr ""
-
-#: includes/ecwd-event-class.php:192
-#, php-format
-msgid "%s hour"
-msgstr ""
-
-#: includes/ecwd-event-class.php:192
-#, php-format
-msgid "%s hours"
-msgstr ""
-
-#: includes/ecwd-event-class.php:193
-#, php-format
-msgid "%s min"
-msgstr ""
-
-#: includes/ecwd-event-class.php:193
-#, php-format
-msgid "%s mins"
-msgstr ""
+#: includes/ecwd-cpt-filter.php:74
+msgid "To"
+msgstr "Bis"
 
 #: includes/ecwd-functions.php:8
 msgid "Loading..."
 msgstr "Laden"
+
+#: includes/ecwd-functions.php:437 includes/texts.php:50
+msgid "DAYS"
+msgstr "TAGEN"
+
+#: includes/ecwd-functions.php:438 includes/texts.php:51
+msgid "HOURS"
+msgstr "STANDEN"
+
+#: includes/ecwd-functions.php:439 includes/texts.php:52
+msgid "MINUTES"
+msgstr "MINUTEN"
+
+#: includes/ecwd-functions.php:440 includes/texts.php:53
+msgid "SECONDS"
+msgstr "SEKUNDEN"
 
 #: includes/texts.php:2
 msgid "January"
@@ -279,15 +240,44 @@ msgstr "F"
 msgid "Sa"
 msgstr "S"
 
+#: includes/texts.php:41
+msgid "Show Filters"
+msgstr "Filter anzeigen"
+
+#: includes/texts.php:42
+msgid "Collapse Filters"
+msgstr "Collapse Filter"
+
+#: includes/texts.php:43
+msgid "Reset Filters"
+msgstr "Filter neu"
+
+#: includes/texts.php:45
+msgid "Days"
+msgstr "Tagen"
+
+#: includes/texts.php:46
+msgid "Categories"
+msgstr "Kategorien"
+
+#: includes/texts.php:47
+msgid "Venues"
+msgstr "Veranstaltungsorte"
+
+#: includes/texts.php:54
+msgid "The event has just started"
+msgstr "Die Veranstaltung hat gerade erst begonnen"
+
 #: views/ecwd-event-content.php:66 views/ecwd-event-content.php:152
+#: views/single-event.php:89 views/single-event.php:184
 msgid "Date"
 msgstr "Datum"
 
-#: views/ecwd-event-content.php:90
+#: views/ecwd-event-content.php:90 views/single-event.php:114
 msgid "Url"
 msgstr "Url"
 
-#: views/ecwd-event-content.php:96
+#: views/ecwd-event-content.php:96 views/single-event.php:121
 msgid "Organizers"
 msgstr "Veranstalter"
 
@@ -299,45 +289,6 @@ msgstr "kommende Veranstaltungen"
 msgid "events"
 msgstr "veranstaltungen"
 
-#: views/widgets.php:19
-msgid "Event Calendar WD"
-msgstr ""
-
-#: views/widgets.php:19
-msgid "Descr"
-msgstr ""
-
-#: views/widgets.php:63
-msgid ""
-"No valid Event IDs have been entered for this widget. Please check that you "
-"have entered the IDs correctly in the widget settings (Appearance > "
-"Widgets), and that the Events have not been deleted."
-msgstr ""
-
-#: views/widgets.php:95
-msgid "You have not added any events yet."
-msgstr ""
-
-#: views/widgets.php:128
-msgid "There are no calendars created yet."
-msgstr ""
-
-#: views/widgets.php:129
-msgid "Add your first calendar!"
-msgstr ""
-
-#: views/widgets.php:147
-msgid "Title:"
-msgstr ""
-
-#: views/widgets.php:152
-msgid "Calendar to display"
-msgstr ""
-
-#: views/widgets.php:166
-msgid "Display Events as:"
-msgstr ""
-
-#: views/widgets.php:173
-msgid "Events per page in list view:"
-msgstr ""
+#: views/single-event.php:330
+msgid "Related events"
+msgstr "Keine Veranstaltungen"

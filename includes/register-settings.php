@@ -10,16 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-
 if ( isset( $_GET[ ECWD_PLUGIN_PREFIX . '_clear_cache' ] ) && $_GET[ ECWD_PLUGIN_PREFIX . '_clear_cache' ] == 1 ) {
-	$cpt = ECWD_Cpt::get_instance();
+	$cpt     = ECWD_Cpt::get_instance();
 	$cleared = $cpt->delete_transient();
-	if($cleared) {
-			try{
-				echo '<div class= "updated" ><p> ' . __( 'Cache has been deleted.', 'ecwd' ) . '</p></div>';
-			}catch (Exception $e){
+	if ( $cleared ) {
+		try {
+			echo '<div class= "updated" ><p> ' . __( 'Cache has been deleted.', 'ecwd' ) . '</p></div>';
+		} catch ( Exception $e ) {
 
-			}
+		}
 	}
 
 }
@@ -41,6 +40,7 @@ function ecwd_register_settings() {
 	);
 	$ecwd_settings = array(
 		/* General Settings */
+
 		'general' => array(
 			'time_zone'      => array(
 				'id'   => 'time_zone',
@@ -70,6 +70,14 @@ function ecwd_register_settings() {
 				'size' => 'medium-text',
 				'type' => 'week_select'
 			),
+			'enable_rewrite' => array(
+				'id'      => 'enable_rewrite',
+				'name'    => __( 'Enable rewrite', 'ecwd' ),
+				'default' => 'events',
+				'desc'    => __( 'Check yes to enable event(s) url rewrite rule.', 'ecwd' ),
+				'type'    => 'radio',
+				'default' => 1
+			),
 			'events_slug'    => array(
 				'id'      => 'events_slug',
 				'name'    => __( 'Events slug', 'ecwd' ),
@@ -98,11 +106,18 @@ function ecwd_register_settings() {
 				'desc' => __( 'Check to display events within website post list in main pages.', 'ecwd' ),
 				'type' => 'checkbox'
 			),
-			'social_icons'     => array(
+			'social_icons'   => array(
 				'id'   => 'social_icons',
 				'name' => __( 'Enable Social Icons', 'ecwd' ),
 				'desc' => __( 'Check to display social icons in event, organizer and venue pages.', 'ecwd' ),
 				'type' => 'checkbox'
+			),
+			'related_events'     => array(
+				'id'   => 'related_events',
+				'name' => __( 'Show related events in the event page', 'ecwd' ),
+				'desc' =>'',
+				'type' => 'radio',
+				'default'=>1
 			)
 
 		)
@@ -155,7 +170,8 @@ function ecwd_get_settings_field_args( $option, $section ) {
 		'size'    => isset( $option['size'] ) ? $option['size'] : null,
 		'options' => isset( $option['options'] ) ? $option['options'] : '',
 		'std'     => isset( $option['std'] ) ? $option['std'] : '',
-		'href'    => isset( $option['href'] ) ? $option['href'] : ''
+		'href'    => isset( $option['href'] ) ? $option['href'] : '',
+		'default'    => isset( $option['default'] ) ? $option['default'] : ''
 	);
 
 	// Link label to input using 'label_for' argument if text, textarea, password, select, or variations of.
@@ -204,6 +220,7 @@ function ecwd_update_select_callback( $args ) {
 
 	echo $html;
 }
+
 function ecwd_status_select_callback( $args ) {
 	global $ecwd_options;
 	$html = "\n" . '<select  id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" >
@@ -226,8 +243,31 @@ function ecwd_status_select_callback( $args ) {
 
 function ecwd_checkbox_callback( $args ) {
 	global $ecwd_options;
-	$checked = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : '';
+	$checked = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : (isset( $args['default'])?checked( 1, $args['default'], false):'');
 	$html    = "\n" . '<div class="checkbox-div"><input type="checkbox" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="1" ' . $checked . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']"></label></div>' . "\n";
+	// Render description text directly to the right in a label if it exists.
+	if ( ! empty( $args['desc'] ) ) {
+		$html .= '<p class="description">' . $args['desc'] . '</p>' . "\n";
+	}
+
+	echo $html;
+}
+
+
+/*
+ * Radio callback function
+ */
+
+function ecwd_radio_callback( $args ) {
+	global $ecwd_options;
+
+	$checked_no = isset( $ecwd_options[ $args['id'] ] ) ? checked( 0, $ecwd_options[ $args['id'] ], false ) : '';
+
+	$checked_yes = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : (isset($args['default'])? checked( 1, $args['default'], false ):'');
+
+
+	$html    = "\n" . ' <div class="checkbox-div"><input type="radio" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="1" ' . $checked_yes . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes"></label></div> <label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes">Yes</label>' . "\n";
+	$html    .=  '<div class="checkbox-div"> <input type="radio" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="0" ' . $checked_no . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no"></label></div> <label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no">No</label>' . "\n";
 	// Render description text directly to the right in a label if it exists.
 	if ( ! empty( $args['desc'] ) ) {
 		$html .= '<p class="description">' . $args['desc'] . '</p>' . "\n";
@@ -331,11 +371,12 @@ function ecwd_missing_callback( $args ) {
  */
 
 function ecwd_get_settings() {
-	$ecwd_tabs = array( 'general'   => 'General',
-	                    'fb'        => 'FB settings',
-	                    'gcal'      => 'Gcal settings',
-	                    'ical'      => 'Ical settings',
-	                    'add_event' => 'Add Event'
+	$ecwd_tabs = array(
+		'general'   => 'General',
+		'fb'        => 'FB settings',
+		'gcal'      => 'Gcal settings',
+		'ical'      => 'Ical settings',
+		'add_event' => 'Add Event'
 	);
 	// Set default settings
 	// If this is the first time running we need to set the defaults

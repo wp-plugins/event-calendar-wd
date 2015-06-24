@@ -1632,9 +1632,14 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 	margin: 10px 0 20px;
 }
 
+.upcoming_events_item-img{
+	float: left;
+	padding: 0 5px 0 0;
+	margin: 0 5px 0 0;
+	clear: both;
+}
 .upcoming_events_item{
 	float:left;
-	text-align:center;
 	left: 0;
 	position: relative;
 	margin: 0 !important;
@@ -1643,12 +1648,12 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 	overflow-y: auto;
 }
 .upcoming_events_item-img  img{
-	margin: 0px auto 13px;
 }
 .upcoming_events_item .event-date{
-	font-size:22px;
-	font-weight:bold;
+	font-size: 19px;
+	font-weight: bold;
 	margin-bottom: 15px;
+	line-height: 17px;
 }
 
 .upcoming_events_item .event-title a{

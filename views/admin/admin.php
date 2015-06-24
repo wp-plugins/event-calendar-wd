@@ -15,11 +15,6 @@ global $ecwd_tabs;
 ?>
 
 <div class="wrap">
-	<div style="float: right; clear: both;">
-		<a href="https://web-dorado.com/files/fromEventCalendarWD.php" target="_blank" style="text-decoration:none;">
-			<img src="<?php echo plugins_url('../../assets/pro.png', __FILE__)?>" border="0" alt="https://web-dorado.com/files/fromEventCalendarWD.php" width="215">
-		</a>
-	</div>
 	<?php settings_errors(); ?>
 	<div id="ecwd-settings">
 

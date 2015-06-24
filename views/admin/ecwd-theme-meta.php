@@ -8,12 +8,6 @@ global $post;
 ?>
 
 <div class="wrap">
-	<div style="float: right; clear: both;">
-		<a href="https://web-dorado.com/files/fromEventCalendarWD.php" target="_blank" style="text-decoration:none;">
-			<img src="<?php echo plugins_url( '../../assets/pro.png', __FILE__ ) ?>" border="0"
-			     alt="https://web-dorado.com/files/fromEventCalendarWD.php" width="215">
-		</a>
-	</div>
 	<div id="ecwd-settings">
 		<div id="ecwd-settings-content">
 			<h2 id="add_on_title"><?php echo esc_html( get_admin_page_title() ); ?></h2>

@@ -142,7 +142,8 @@
                     items: [
                         {//add id select
                             type: 'label',
-                            text: 'Filter addon should be purchased separately.'
+                            text: 'Filter addon should be purchased separately.',
+                            style: 'color:#bf1b02'
 
                         }
                     ]
@@ -274,7 +275,10 @@
                             },
                             {
                                 type: 'label',
-                                text: 'Upgrade to Pro version to access three more view options: posterboard, map and 4 days.'
+                                text: 'Upgrade to Pro version to access three more view options: posterboard, map and 4 days.',
+                                style: 'color:#bf1b02'
+
+
                             }
 
                         ]

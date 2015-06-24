@@ -84,6 +84,7 @@ class ECWD_Cpt {
 
 		//category filter
 		add_filter('init',array($this, 'event_restrict_manage'));
+                
 	}
 
 
@@ -176,29 +177,38 @@ class ECWD_Cpt {
 	 */
 	public function setup_cpt() {
 		global $ecwd_options;
-		$event_supports=array();
+		$rewrite = false;
+		$venue_rewrite = false;
+		$organizer_rewrite = false;
+		$event_supports = array();
 		if ( isset( $ecwd_options['event_comments'] ) && $ecwd_options['event_comments'] == 1 ) {
 			$event_supports[] = 'comments';
 		}
-		$defaultSlug = 'event';
-		if(is_plugin_active('the-events-calendar/the-events-calendar.php')){
-			$defaultSlug = 'wdevent';
-		}
-		if(false=== get_option( ECWD_PLUGIN_PREFIX . '_slug_changed')) {
-			update_option( ECWD_PLUGIN_PREFIX . '_slug_changed', 0 );
-			update_option( ECWD_PLUGIN_PREFIX . '_single_slug', $defaultSlug);
-			update_option( ECWD_PLUGIN_PREFIX . '_slug', $defaultSlug.'s');
+		if ( ! isset( $ecwd_options['enable_rewrite'] ) || $ecwd_options['enable_rewrite'] == 1 ) {
+			$defaultSlug = 'event';
+			if ( is_plugin_active( 'the-events-calendar/the-events-calendar.php' ) ) {
+				$defaultSlug = 'wdevent';
+			}
+			if ( false === get_option( ECWD_PLUGIN_PREFIX . '_slug_changed' ) ) {
+				update_option( ECWD_PLUGIN_PREFIX . '_slug_changed', 0 );
+				update_option( ECWD_PLUGIN_PREFIX . '_single_slug', $defaultSlug );
+				update_option( ECWD_PLUGIN_PREFIX . '_slug', $defaultSlug . 's' );
 
-		}
+			}
 
-		if((isset( $ecwd_options['event_slug'] ) &&   $ecwd_options['event_slug']!==get_option( ECWD_PLUGIN_PREFIX . '_single_slug')) ||  (isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug']!==get_option( ECWD_PLUGIN_PREFIX . '_slug'))){
-			update_option( ECWD_PLUGIN_PREFIX . '_single_slug', $ecwd_options['event_slug']);
-			update_option( ECWD_PLUGIN_PREFIX . '_slug', $ecwd_options['events_slug']);
-			update_option( ECWD_PLUGIN_PREFIX . '_slug_changed', 1 );
+			if ( ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== get_option( ECWD_PLUGIN_PREFIX . '_single_slug' ) ) || ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== get_option( ECWD_PLUGIN_PREFIX . '_slug' ) ) ) {
+				update_option( ECWD_PLUGIN_PREFIX . '_single_slug', $ecwd_options['event_slug'] );
+				update_option( ECWD_PLUGIN_PREFIX . '_slug', $ecwd_options['events_slug'] );
+				update_option( ECWD_PLUGIN_PREFIX . '_slug_changed', 1 );
+			}
+
+			$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug . 's';
+			$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
+			$rewrite = array( 'slug' => $this->rewriteSlugSingular );
+			$venue_rewrite = array( 'slug' => 'venue' );
+			$organizer_rewrite = array( 'slug' => 'organizer' );
 		}
-		$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug.'s';
-		$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
-//calendars
+		//calendars
 		$calendar_labels = array(
 			'name'               => __( 'Calendars', 'ecwd' ),
 			'singular_name'      => __( 'Calendar', 'ecwd' ),
@@ -273,7 +283,7 @@ class ECWD_Cpt {
 				'editor',
 				'thumbnail'
 			), $event_supports ),
-			'rewrite'            => array( 'slug' => $this->rewriteSlugSingular  )
+			'rewrite'            => $rewrite
 		);
 
 		register_post_type( self::EVENT_POST_TYPE, $args );
@@ -312,7 +322,7 @@ class ECWD_Cpt {
 				'title',
 				'editor'
 			),
-			'rewrite'            => array( 'slug' => 'organizer' )
+			'rewrite'            => $organizer_rewrite
 		);
 
 		register_post_type( self::ORGANIZER_POST_TYPE, $organizers_args );
@@ -350,7 +360,7 @@ class ECWD_Cpt {
 				'title',
 				'editor'
 			),
-			'rewrite'            => array( 'slug' => 'venue' )
+			'rewrite'            => $venue_rewrite
 		);
 
 
@@ -380,31 +390,32 @@ class ECWD_Cpt {
 
 	public function filterRewriteRules( $wp_rewrite ) {
 		global $ecwd_options;
+		if ( ! isset( $ecwd_options['enable_rewrite'] ) || $ecwd_options['enable_rewrite'] == 1 ) {
+			if ( ! $this->rewriteSlugSingular || $this->rewriteSlugSingular == '' ) {
+				$defaultSlug = 'event';
+				if ( is_plugin_active( 'the-events-calendar/the-events-calendar.php' ) ) {
+					$defaultSlug = 'wdevent';
+				}
 
-		if(!$this->rewriteSlugSingular || $this->rewriteSlugSingular == ''){
-			$defaultSlug = 'event';
-			if(is_plugin_active('the-events-calendar/the-events-calendar.php')){
-				$defaultSlug = 'wdevent';
+				$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug . 's';
+				$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
 			}
 
-			$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug.'s';
-			$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
+			$base       = trailingslashit( $this->rewriteSlug );
+			$singleBase = trailingslashit( $this->rewriteSlugSingular );
+			$newRules   = array();
+			// single event
+			$newRules[ $singleBase . '([^/]+)/(\d{4}-\d{2}-\d{2})/?$' ] = 'index.php?' . self::EVENT_POST_TYPE . '=' . $wp_rewrite->preg_index( 1 ) . "&eventDate=" . $wp_rewrite->preg_index( 2 );
+			$newRules[ $singleBase . '([^/]+)/all/?$' ]                 = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&' . self::EVENT_POST_TYPE . '=' . $wp_rewrite->preg_index( 1 ) . "&eventDisplay=all";
+			$newRules[ $base . 'page/(\d+)' ]                           = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=list&paged=' . $wp_rewrite->preg_index( 1 );
+			$newRules[ $base . '(feed|rdf|rss|rss2|atom)/?$' ]          = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=list&feed=' . $wp_rewrite->preg_index( 1 );
+			$newRules[ $base . '(\d{4}-\d{2})$' ]                       = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=month' . '&eventDate=' . $wp_rewrite->preg_index( 1 );
+			$newRules[ $base . '(\d{4}-\d{2}-\d{2})/?$' ]               = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=day&eventDate=' . $wp_rewrite->preg_index( 1 );
+			$newRules[ $base . 'feed/?$' ]                              = 'index.php?post_type=' . self::EVENT_POST_TYPE . 'eventDisplay=list&&feed=rss2';
+			$newRules[ $base . '?$' ]                                   = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=default';
+
+			$wp_rewrite->rules = apply_filters( ECWD_PLUGIN_PREFIX . '_events_rewrite_rules', $newRules + $wp_rewrite->rules, $newRules );
 		}
-
-		$base                      = trailingslashit( $this->rewriteSlug );
-		$singleBase                = trailingslashit( $this->rewriteSlugSingular );
-		$newRules                  = array();
-		// single event
-		$newRules[ $singleBase . '([^/]+)/(\d{4}-\d{2}-\d{2})/?$' ] = 'index.php?' . self::EVENT_POST_TYPE . '=' . $wp_rewrite->preg_index( 1 ) . "&eventDate=" . $wp_rewrite->preg_index( 2 );
-		$newRules[ $singleBase . '([^/]+)/all/?$' ]                 = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&' . self::EVENT_POST_TYPE . '=' . $wp_rewrite->preg_index( 1 ) . "&eventDisplay=all";
-		$newRules[ $base . 'page/(\d+)' ]                           = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=list&paged=' . $wp_rewrite->preg_index( 1 );
-		$newRules[ $base . '(feed|rdf|rss|rss2|atom)/?$' ]          = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=list&feed=' . $wp_rewrite->preg_index( 1 );
-		$newRules[ $base . '(\d{4}-\d{2})$' ]                       = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=month' . '&eventDate=' . $wp_rewrite->preg_index( 1 );
-		$newRules[ $base . '(\d{4}-\d{2}-\d{2})/?$' ]               = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=day&eventDate=' . $wp_rewrite->preg_index( 1 );
-		$newRules[ $base . 'feed/?$' ]                              = 'index.php?post_type=' . self::EVENT_POST_TYPE . 'eventDisplay=list&&feed=rss2';
-		$newRules[ $base . '?$' ]                                   = 'index.php?post_type=' . self::EVENT_POST_TYPE . '&eventDisplay=default';
-
-		$wp_rewrite->rules = apply_filters( ECWD_PLUGIN_PREFIX . '_events_rewrite_rules', $newRules + $wp_rewrite->rules, $newRules );
 	}
 
 	/**
@@ -1302,7 +1313,7 @@ class ECWD_Cpt {
 			return false;
 		}
 	}
-
+        
 	public static function get_instance() {
 		if ( null == self::$instance ) {
 			self::$instance = new self;
