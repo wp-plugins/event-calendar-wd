@@ -79,6 +79,7 @@ French (fr_FR)
 Italian (it_IT)   
 Russian (ru_RU)  
 Turkish (tr_TR)  
+Portuguese (pt_PT)  
  
 == Screenshots ==
 
