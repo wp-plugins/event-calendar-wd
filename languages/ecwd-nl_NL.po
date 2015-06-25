@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-23 15:47+0400\n"
-"PO-Revision-Date: 2015-06-23 15:50+0400\n"
+"POT-Creation-Date: 2015-06-25 15:45+0400\n"
+"PO-Revision-Date: 2015-06-25 15:45+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -287,3 +287,7 @@ msgstr "events"
 #: views/single-event.php:330
 msgid "Related events"
 msgstr "Verwante evenementen"
+
+#: includes/calendar-class.php:16
+msgid "No additional details for this event."
+msgstr "Geen extra informatie voor deze gebeurtenis."

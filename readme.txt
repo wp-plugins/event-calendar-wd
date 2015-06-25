@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-event-calendar-wd.html
 Tags: calendar, calendars, event, event calendar, event manager, events calendar, calendar widget, event registration, event management,events, agenda,  holiday calendar , scheduling, free calendar, Calender, upcoming events , event widget , event list, calendar localization, Organizer, editorial calendar, Interactive Calendar, news calendar, meeting , appointment, event tracking, event organizer, upcoming events widget, event page, event bookings, recurring, recurring events, conference, date, dates, schedule, times, venue, AJAX, responsive, shortcode, seminar, summit
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,28 +12,32 @@ Organize and publish your events in an easy and elegant way using Event Calendar
 
 == Description ==
 
+https://www.youtube.com/watch?v=htmdAkRuIzw
+
 [WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
 [Demo](http://wpdemo.web-dorado.com/event-calendar-wd/)  
 [User Guide](https://web-dorado.com/wordpress-event-calendar-wd/installing.html)  
 [Support Forum](https://web-dorado.com/forum/wordpress-event-calendar-wd.html)
 
-Looking for an enhanced tool for displaying and managing various events within the site? Whether  you have a single events you want to display on a calendar or multiple events per day, the Event Calendar plugin will help you to organize the events using elegant views.
+Looking for an enhanced tool for displaying and managing various events within the site? Whether you have a single event you want to display on a calendar or multiple events per day, the Event Calendar plugin will help you to organize the events using elegant views.
+ 
+You can choose to display the event calendar with all four views (choosing the ordering of the views) or select only the view(s) you prefer. The event calendar uses the following default views- Month, Week, List and Day.
+ 
+The plugin is created based on WordPress core standards. This means that each calendar/event is a custom post, the category is taxonomy and standard tags are applicable for each post. Thus the Event Calendar WD fully inherits the user and SEO-friendly standards of WordPress.
+ 
+The Event calendar WD is responsive and runs very smoothly on all devices. Thus the site visitors will get a pleasant user experience when using various mobile devices and tablets.
+ 
+The color scheme of the event calendar is based on the theme and the category colors. To get access to the theme section you need to purchase the Pro version of the Event calendar WD. In free version you can add colors to event categories. The events will display with the background color prescribed by the category.
+ 
+Don't want the user to leave the event calendar page without knowing the details of the interesting events? Well, the calendar plugin uses Ajax load for the events and all event details are being displayed on hover.
+ 
+The events should be repeated? Feel free to use the recurring option choosing the repeating period on your own. So you can easily manage recurring events with this event calendar.
+ 
+You can choose a venue for each event and mark up the location on Google Maps and display all of this on the event calendar. Whenever creating new events you have options of selecting from previously created venues, or to create a new venue. The Google Map integration helps to display the scaled option of the map. This will ensure that your guests will get full directions and never miss an event.
+ 
+Need to mention the hosts of the event? The Event Calendar WD plugin uses organizer section for this exact purpose. The number of the organizers is not limited. The events can be hosted by multiple organizers.
 
-You can choose to display the calendar with all four views (choosing the ordering of the views) or select only the view(s) you prefer. The views are Month, Week, List and Day.
-
-The plugin is created based on WordPress core standards. This means that each calendar/event is a custom post, the category is a taxonomy and standard tags are applicable for each post. Thus the Event Calendar WD fully inherits the user and SEO-friendly standards of WordPress. 
-
-Event calendar WD is responsive and runs very smoothly on all devices. Thus the site visitors will get a pleasant user experience when using various mobile devices and tablets.
-
-The color scheme of the calendar is based on the theme and the category colors. To get access to the theme section you need to purchase the Pro version of the calendar.In free version you can add colors to event categories. The events will display with the background color prescribed by the category.
-
-Don't want the user to leave the calendar page without knowing the details of the interesting events? Well, the calendar plugin uses Ajax load for the events and all event details are being displayed on hover.
-
-The events should be repeated? Feel free to use the recurring option choosing the repeating period on your own. So you can easily manage recurring events. 
-
-You can choose a venue for each event and mark up the location on Google Maps. Whenever creating new events you have options of selecting from previously created venues, or to create a new venue. The Google Map integration helps to display the scaled option of the map. This will ensure that your guests will get full directions and never miss an event.
-
-Need to mention the hosts of the event? The Event Calendar WD plugin uses organizer section for this exact  purpose. The number of the organizers is not limited. The events can be hosted by multiple organizers. 
+The Event Calendar WD can be also used as an integral part of your site, not simply as a plugin. Since the event calendars are being created as a custom post, there is a possibility to display the event calendars among the standard post listings such as related posts or latest posts.
 
 = Features of Event Calendar WD: =  
 
@@ -110,6 +114,10 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 6. If the installation does not succeed, please contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 == Changelog ==
+
+= 1.0.8 =
+Changed: Event page
+Added: Portuguese  language
 
 = 1.0.7 =
 New: Related events slider   

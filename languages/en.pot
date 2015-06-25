@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-22 17:08+0400\n"
+"POT-Creation-Date: 2015-06-25 15:42+0400\n"
 "PO-Revision-Date: 2015-06-05 12:45+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,7 +23,6 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-5: includes/ecwd-google-events-class.php\n"
 "X-Poedit-SearchPathExcluded-6: includes/ecwd-facebook-events-class.php\n"
 "X-Poedit-SearchPathExcluded-7: ecwd_admin_class.php\n"
-
 
 #: includes/calendar-class.php:174 includes/calendar-class.php:175
 #: views/widgets.php:168
@@ -288,4 +287,8 @@ msgstr ""
 
 #: views/single-event.php:330
 msgid "Related events"
+msgstr ""
+
+#: includes/calendar-class.php:16
+msgid "No additional details for this event."
 msgstr ""

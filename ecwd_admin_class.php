@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.7';
+	protected $version = '1.0.8';
 	protected $ecwd_page = null;
 
 	private function __construct() {
@@ -32,9 +32,9 @@ class ECWD_Admin {
 			add_action( "admin_head-$hook", array( $this, 'admin_head' ) );
 		}
 		//add_filter( 'auto_update_plugin', array($this, 'ecwd_update'), 10, 2 );
-                
-                //Wed Dorado Logo
-                add_action('admin_notices',array($this,'create_logo_to_head'));
+
+		//Wed Dorado Logo
+		add_action( 'admin_notices', array( $this, 'create_logo_to_head' ) );
 	}
 
 
@@ -66,8 +66,9 @@ class ECWD_Admin {
 		}
 
 	}
-	public static function uninstall(){
-		
+
+	public static function uninstall() {
+
 	}
 
 
@@ -76,6 +77,12 @@ class ECWD_Admin {
 			'edit.php?post_type=ecwd_calendar', __( 'Settings', 'ecwd' ), __( 'Settings', 'ecwd' ), 'manage_options', $this->prefix . '_general_settings', array(
 				$this,
 				'display_admin_page'
+			)
+		);
+		$this->ecwd_page[] = add_submenu_page(
+			'edit.php?post_type=ecwd_calendar', __( 'Add-ons', 'ecwd' ), __( 'Add-ons', 'ecwd' ), 'manage_options', $this->prefix . '_addons', array(
+				$this,
+				'display_addons_page'
 			)
 		);
 		$this->ecwd_page[] = add_submenu_page(
@@ -104,6 +111,64 @@ class ECWD_Admin {
 		);
 
 
+	}
+
+	public function display_addons_page() {
+
+		$addons = array(
+			'event_filters' => array(
+				'name'        => 'ECWD Filter Bar',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/filter.html',
+				'description' => 'This add-on is designed for advanced event filter and browsing. It will display multiple filters, which will make it easier for the user to find the relevant event from the calendar.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/add_filters.png', __FILE__ ),
+			),
+			'event_countdown'           => array(
+				'name'        => 'ECWD Event Countdown',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/countdown.html',
+				'description' => 'With this add-on you can add an elegant countdown to your site. It supports calendar events or a custom one. The styles and colors of the countdown can be modified. It can be used as both as widget and shortcode.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/add_cdown.jpg', __FILE__ ),
+			),
+			'upcoming_events'                        => array(
+				'name'        => 'ECWD Upcoming events widget',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html',
+				'description' => 'The Upcoming events widget is designed for displaying upcoming events lists. The number of events, the event date ranges, as well as the appearance of the widget is fully customizable and easy to manage.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/upcoming_events.png', __FILE__ ),
+			),
+			'fb'                        => array(
+				'name'        => 'ECWD Facebook Integration',
+				'url'         => '#',
+				'description' => 'This addon integrates ECWD with your Facebook page and gives functionality to import events or just display events without importing.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/add_fb.jpg', __FILE__ ),
+			),
+			'gcal'                      => array(
+				'name'        => 'ECWD Google Calendar Integration',
+				'url'         => '#',
+				'description' => 'This addon integrates ECWD with your Google Calendar and gives functionality to import events or just display events without importing.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/add_gcal.jpg', __FILE__ ),
+			),
+			'ical'                      => array(
+				'name'        => 'ECWD iCAL Integration',
+				'url'         => '#',
+				'description' => 'This addon integrates ECWD with your iCAL Calendar and gives functionality to import events or just display events without importing.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/add_ical.jpg', __FILE__ )
+			),
+			'add_event'                 => array(
+				'name'        => 'ECWD Frontend Event Management',
+				'url'         => '#',
+				'description' => 'This add-on makes possible to add and  manage events in frontend. Site administrators can manage frontend event submissions.',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/add_addevent.jpg', __FILE__ ),
+			),
+
+
+		);
+		include_once( 'views/admin/addons.php' );
 	}
 
 	public function display_featured_themes() {
@@ -297,22 +362,24 @@ class ECWD_Admin {
 			define( 'ECWD_DIR', dirname( __FILE__ ) );
 		}
 	}
-        
-        /**
-         * Set Web Dorado Logo in admin pages   
-         */
-        public function create_logo_to_head() {
-            global $pagenow ,$post;
 
-            if( $this->ecwd_page()) { ?>
-                <div style="float:right; width: 100%; text-align: right;clear:both;">
-                        <a href="https://web-dorado.com/files/fromEventCalendarWD.php" target="_blank" style="text-decoration:none;box-shadow: none;">
-                                <img src="<?php echo plugins_url('/assets/pro.png',__FILE__);?>" border="0" alt="https://web-dorado.com/files/fromEventCalendarWD.php" width="215">
-                        </a>
-                </div>
-            <?php }
-        }
-        
+	/**
+	 * Set Web Dorado Logo in admin pages
+	 */
+	public function create_logo_to_head() {
+		global $pagenow, $post;
+
+		if ( $this->ecwd_page() ) { ?>
+			<div style="float:right; width: 100%; text-align: right;clear:both;">
+				<a href="https://web-dorado.com/files/fromEventCalendarWD.php" target="_blank"
+				   style="text-decoration:none;box-shadow: none;">
+					<img src="<?php echo plugins_url( '/assets/pro.png', __FILE__ ); ?>" border="0"
+					     alt="https://web-dorado.com/files/fromEventCalendarWD.php" width="215">
+				</a>
+			</div>
+		<?php }
+	}
+
 	/**
 	 * Return an instance of this class.
 	 */

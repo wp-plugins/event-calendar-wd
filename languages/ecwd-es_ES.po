@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-23 15:39+0400\n"
-"PO-Revision-Date: 2015-06-23 15:44+0400\n"
+"POT-Creation-Date: 2015-06-25 15:43+0400\n"
+"PO-Revision-Date: 2015-06-25 15:43+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -263,10 +263,6 @@ msgstr "Categorías"
 msgid "Venues"
 msgstr "Lugares"
 
-#: includes/texts.php:54
-msgid "The event has just started"
-msgstr ""
-
 #: views/ecwd-event-content.php:66 views/ecwd-event-content.php:152
 #: views/single-event.php:89 views/single-event.php:184
 msgid "Date"
@@ -291,3 +287,7 @@ msgstr "eventos"
 #: views/single-event.php:330
 msgid "Related events"
 msgstr "Más eventos"
+
+#: includes/calendar-class.php:16
+msgid "No additional details for this event."
+msgstr "No hay más detalles de este evento."

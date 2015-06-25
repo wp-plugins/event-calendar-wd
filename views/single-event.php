@@ -30,6 +30,9 @@ $ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_lo
 $ecwd_event_latlong  = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_lat_long', true );
 $ecwd_event_zoom     = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_map_zoom', true );
 $ecwd_event_show_map = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_show_map', true );
+if ( $ecwd_event_show_map == '' ) {
+	$ecwd_event_show_map = 1;
+}
 if ( ! $ecwd_event_zoom ) {
 	$ecwd_event_zoom = 17;
 }
@@ -66,15 +69,16 @@ if ( has_post_thumbnail() ) {
 get_header();
 ?>
 <div id="ecwd-events-content" class="ecwd-events-single hentry">
-	<header class="entry-header">
-		<?php the_title( '<h1 class="ecwd-events-single-event-title summary entry-title">', '</h1>' ); ?>
-	</header>
+
 
 	<?php while ( have_posts() ) :
 		the_post(); ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 			<div class="ecwd-event" itemscope itemtype="http://schema.org/Event">
+				<header class="entry-header">
+					<?php the_title( '<h1 class="ecwd-events-single-event-title summary entry-title">', '</h1>' ); ?>
+				</header>
 				<div class="event-detalis">
 
 					<?php ?>
@@ -208,193 +212,193 @@ get_header();
 					</div>
 				<?php } ?>
 				<div class="clear"></div>
-			</div>
 
 
-			<div class="ecwd-event-video">
-				<?php
-				if ( strpos( $ecwd_event_video, 'youtube' ) > 0 ) {
-					parse_str( parse_url( $ecwd_event_video, PHP_URL_QUERY ), $video_array_of_vars );
-					if ( isset( $video_array_of_vars['v'] ) && $video_array_of_vars['v'] ) {
-						?>
-						<object data="http://www.youtube.com/v/<?php echo $video_array_of_vars['v'] ?>"
-						        type="application/x-shockwave-flash" width="400" height="300">
-							<param name="src"
-							       value="http://www.youtube.com/v/<?php echo $video_array_of_vars['v'] ?>"/>
-						</object>
-					<?php }
-				} elseif ( strpos( $ecwd_event_video, 'vimeo' ) > 0 ) {
-					$videoID = explode( '/', $ecwd_event_video );
-					$videoID = $videoID[ count( $videoID ) - 1 ];
-					if ( $videoID ) {
+				<div class="ecwd-event-video">
+					<?php
+					if ( strpos( $ecwd_event_video, 'youtube' ) > 0 ) {
+						parse_str( parse_url( $ecwd_event_video, PHP_URL_QUERY ), $video_array_of_vars );
+						if ( isset( $video_array_of_vars['v'] ) && $video_array_of_vars['v'] ) {
+							?>
+							<object data="http://www.youtube.com/v/<?php echo $video_array_of_vars['v'] ?>"
+							        type="application/x-shockwave-flash" width="400" height="300">
+								<param name="src"
+								       value="http://www.youtube.com/v/<?php echo $video_array_of_vars['v'] ?>"/>
+							</object>
+						<?php }
+					} elseif ( strpos( $ecwd_event_video, 'vimeo' ) > 0 ) {
+						$videoID = explode( '/', $ecwd_event_video );
+						$videoID = $videoID[ count( $videoID ) - 1 ];
+						if ( $videoID ) {
 
-						?>
-						<iframe
-							src="http://player.vimeo.com/video/<?php echo $videoID; ?>?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=ffffff"
-							width="" height="" frameborder="0" webkitAllowFullScreen mozallowfullscreen
-							allowFullScreen></iframe>
-					<?php }
-
-
-				}
-
-				?>
-			</div>
-			<div>
-				<?php the_content(); ?>
-			</div>
+							?>
+							<iframe
+								src="http://player.vimeo.com/video/<?php echo $videoID; ?>?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=ffffff"
+								width="" height="" frameborder="0" webkitAllowFullScreen mozallowfullscreen
+								allowFullScreen></iframe>
+						<?php }
 
 
-			<?php
-			if ( $ecwd_options['related_events'] == 1 ) {
-				$post_cats = wp_get_post_terms( $post_id, ECWD_PLUGIN_PREFIX . '_event_category' );
-				$cat_ids   = wp_list_pluck( $post_cats, 'term_id' );
-				$post_tags = wp_get_post_terms( $post_id, ECWD_PLUGIN_PREFIX . '_event_tag' );
-				$tag_ids   = wp_list_pluck( $post_tags, 'term_id' );
-				$events    = array();
-				$today     = date( 'Y-m-d' );
-
-				$args                = array(
-					'numberposts' => - 1,
-					'post_type'   => ECWD_PLUGIN_PREFIX . '_event',
-					'tax_query'   => array(
-						array(
-							'taxonomy' => ECWD_PLUGIN_PREFIX . '_event_category',
-							'terms'    => $cat_ids,
-							'field'    => 'term_id',
-						)
-					),
-					'orderby'     => 'meta_value',
-					'order'       => 'ASC'
-				);
-				$ecwd_events_by_cats = get_posts( $args );
-				$args                = array(
-					'numberposts' => - 1,
-					'post_type'   => ECWD_PLUGIN_PREFIX . '_event',
-					'tax_query'   => array(
-						array(
-							'taxonomy' => ECWD_PLUGIN_PREFIX . '_event_tag',
-							'terms'    => $tag_ids,
-							'field'    => 'term_id',
-						),
-					),
-					'orderby'     => 'meta_value',
-					'order'       => 'ASC'
-				);
-				$ecwd_events_by_tags = get_posts( $args );
-				$ecwd_events         = array_merge( $ecwd_events_by_tags, $ecwd_events_by_cats );
-				$ecwd_events         = array_map( "unserialize", array_unique( array_map( "serialize", $ecwd_events ) ) );
-				wp_reset_postdata();
-				wp_reset_query();
-
-				foreach ( $ecwd_events as $ecwd_event ) {
-					if ( $ecwd_event->ID != $post_id ) {
-						$term_metas = '';
-						$categories = get_the_terms( $ecwd_event->ID, ECWD_PLUGIN_PREFIX . '_event_category' );
-						if ( is_array( $categories ) ) {
-							foreach ( $categories as $category ) {
-								$term_metas         = get_option( "ecwd_event_category_$category->term_id" );
-								$term_metas['id']   = $category->term_id;
-								$term_metas['name'] = $category->name;
-								$term_metas['slug'] = $category->slug;
-							}
-						}
-						$ecwd_event_metas                                      = get_post_meta( $ecwd_event->ID, '', true );
-						$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ] = array( 0 => '' );
-						if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ] ) ) {
-							$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ] = array( 0 => '' );
-						}
-						if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ] ) ) {
-							$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ] = array( 0 => '' );
-						}
-						if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ] ) ) {
-							$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ] = array( 0 => '' );
-						}
-						if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ] ) ) {
-							$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ] = array( 0 => '' );
-						}
-
-						$permalink                 = get_permalink( $ecwd_event->ID );
-						$events[ $ecwd_event->ID ] = new ECWD_Event( $ecwd_event->ID, 0, $ecwd_event->post_title, $ecwd_event->post_content, $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ][0], $permalink, $ecwd_event, $term_metas, $ecwd_event_metas );
 					}
-				}
 
-				$d      = new ECWD_Display( 0, '', '', $today );
-				$events = $d->get_event_days( $events );
+					?>
+				</div>
+				<div>
+					<?php the_content(); ?>
+				</div>
+
+
+				<?php
+				if ( ! isset( $ecwd_options['related_events'] ) || $ecwd_options['related_events'] == 1 ) {
+					$post_cats = wp_get_post_terms( $post_id, ECWD_PLUGIN_PREFIX . '_event_category' );
+					$cat_ids   = wp_list_pluck( $post_cats, 'term_id' );
+					$post_tags = wp_get_post_terms( $post_id, ECWD_PLUGIN_PREFIX . '_event_tag' );
+					$tag_ids   = wp_list_pluck( $post_tags, 'term_id' );
+					$events    = array();
+					$today     = date( 'Y-m-d' );
+
+					$args                = array(
+						'numberposts' => - 1,
+						'post_type'   => ECWD_PLUGIN_PREFIX . '_event',
+						'tax_query'   => array(
+							array(
+								'taxonomy' => ECWD_PLUGIN_PREFIX . '_event_category',
+								'terms'    => $cat_ids,
+								'field'    => 'term_id',
+							)
+						),
+						'orderby'     => 'meta_value',
+						'order'       => 'ASC'
+					);
+					$ecwd_events_by_cats = get_posts( $args );
+					$args                = array(
+						'numberposts' => - 1,
+						'post_type'   => ECWD_PLUGIN_PREFIX . '_event',
+						'tax_query'   => array(
+							array(
+								'taxonomy' => ECWD_PLUGIN_PREFIX . '_event_tag',
+								'terms'    => $tag_ids,
+								'field'    => 'term_id',
+							),
+						),
+						'orderby'     => 'meta_value',
+						'order'       => 'ASC'
+					);
+					$ecwd_events_by_tags = get_posts( $args );
+					$ecwd_events         = array_merge( $ecwd_events_by_tags, $ecwd_events_by_cats );
+					$ecwd_events         = array_map( "unserialize", array_unique( array_map( "serialize", $ecwd_events ) ) );
+					wp_reset_postdata();
+					wp_reset_query();
+
+					foreach ( $ecwd_events as $ecwd_event ) {
+						if ( $ecwd_event->ID != $post_id ) {
+							$term_metas = '';
+							$categories = get_the_terms( $ecwd_event->ID, ECWD_PLUGIN_PREFIX . '_event_category' );
+							if ( is_array( $categories ) ) {
+								foreach ( $categories as $category ) {
+									$term_metas         = get_option( "ecwd_event_category_$category->term_id" );
+									$term_metas['id']   = $category->term_id;
+									$term_metas['name'] = $category->name;
+									$term_metas['slug'] = $category->slug;
+								}
+							}
+							$ecwd_event_metas                                      = get_post_meta( $ecwd_event->ID, '', true );
+							$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ] = array( 0 => '' );
+							if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ] ) ) {
+								$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ] = array( 0 => '' );
+							}
+							if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ] ) ) {
+								$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ] = array( 0 => '' );
+							}
+							if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ] ) ) {
+								$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ] = array( 0 => '' );
+							}
+							if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ] ) ) {
+								$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ] = array( 0 => '' );
+							}
+
+							$permalink                 = get_permalink( $ecwd_event->ID );
+							$events[ $ecwd_event->ID ] = new ECWD_Event( $ecwd_event->ID, 0, $ecwd_event->post_title, $ecwd_event->post_content, $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ][0], $permalink, $ecwd_event, $term_metas, $ecwd_event_metas );
+						}
+					}
+
+					$d      = new ECWD_Display( 0, '', '', $today );
+					$events = $d->get_event_days( $events );
 
 
 
-				?>
-
-				<?php if ( count( $events ) > 0 ) {
-					$events=$d->events_unique($events);
 					?>
 
-					<div class="ecwd-venue-events">
-						<h3> <?php _e( 'Related events', 'ecwd' ) ?></h3>
+					<?php if ( count( $events ) > 0 ) {
+						$events = $d->events_unique( $events );
+						?>
 
-						<div class="upcoming_events_slider">
+						<div class="ecwd-venue-events">
+							<h3> <?php _e( 'Related events', 'ecwd' ) ?></h3>
 
-							<div class="upcoming_events_slider-arrow-left"><a href="#left"></a></div>
-							<div class="upcoming_events_slider-arrow-right"><a href="#right"></a></div>
-							<ul>
-								<?php
-								foreach ( $events as $ecwd_event ) {
+							<div class="upcoming_events_slider">
+
+								<div class="upcoming_events_slider-arrow-left"><a href="#left"></a></div>
+								<div class="upcoming_events_slider-arrow-right"><a href="#right"></a></div>
+								<ul>
+									<?php
+									foreach ( $events as $ecwd_event ) {
+										?>
+										<li itemscope itemtype="http://schema.org/Event" class="upcoming_events_item"
+										    data-date="<?php echo date( 'Y-m-d', strtotime( $ecwd_event['from'] ) ); ?>">
+											<div class="upcoming_event_container">
+												<?php $image_class = '';
+												$image             = getAndReplaceFirstImage( $ecwd_event['post']->post_content );
+												if ( ! has_post_thumbnail( $ecwd_event['id'] ) && $image['image'] == "" ) {
+													$image_class = "ecwd-no-image";
+												}
+												echo '<div class="upcoming_events_item-img ' . $image_class . '">';
+												if ( get_the_post_thumbnail( $ecwd_event['id'] ) ) {
+													echo get_the_post_thumbnail( $ecwd_event['id'], 'thumb' );
+												} elseif ( $image['image'] != null ) {
+													echo '<img src="' . $image['image'] . '" />';
+													$ecwd_event['post']->post_content = $image['content'];
+												}
+												echo '</div>'; ?>
+												<div class="event-title" itemprop="name">
+													<a href="<?php echo $ecwd_event['permalink'] ?>"><?php echo $ecwd_event['title'] ?></a>
+												</div>
+												<div class="event-date" itemprop="startDate"
+												     content="<?php echo date( 'Y-m-d', strtotime( $ecwd_event['from'] ) ) . 'T' . date( 'H:i', strtotime( $ecwd_event['starttime'] ) ) ?>">
+
+													<?php
+													if ( isset( $ecwd_event['all_day_event'] ) && $ecwd_event['all_day_event'] == 1 ) {
+														echo date( $date_format, strtotime( $ecwd_event['from'] ) );
+														if ( $ecwd_event['to'] && date( $date_format, strtotime( $ecwd_event['from'] ) ) !== date( $date_format, strtotime( $ecwd_event['to'] ) ) ) {
+															echo ' - ' . date( $date_format, strtotime( $ecwd_event['to'] ) );
+														}
+														echo ' ' . __( 'All day', 'ecwd' );
+													} else {
+
+														echo date( $date_format, strtotime( $ecwd_event['from'] ) ) . ' ' . date( $time_format, strtotime( $ecwd_event['starttime'] ) );
+
+														if ( $ecwd_event['to'] ) {
+															echo ' - ' . date( $date_format, strtotime( $ecwd_event['to'] ) ) . ' ' . date( $time_format, strtotime( $ecwd_event['endtime'] ) );
+														}
+													} ?>
+												</div>
+
+
+												<div
+													class="upcoming_events_item-content"><?php echo( $ecwd_event['post']->post_content ? $ecwd_event['post']->post_content : 'No additional details for this event.' ); ?> </div>
+											</div>
+										</li>
+									<?php
+									}
 									?>
-									<li itemscope itemtype="http://schema.org/Event" class="upcoming_events_item" data-date="<?php echo date( 'Y-m-d', strtotime( $ecwd_event['from'] ) );?>">
-										<div class="upcoming_event_container">
-											<?php $image_class = '';
-											$image             = getAndReplaceFirstImage( $ecwd_event['post']->post_content );
-											if ( ! has_post_thumbnail( $ecwd_event['id'] ) && $image['image'] == "" ) {
-												$image_class = "ecwd-no-image";
-											}
-											echo '<div class="upcoming_events_item-img ' . $image_class . '">';
-											if ( get_the_post_thumbnail( $ecwd_event['id'] ) ) {
-												echo get_the_post_thumbnail( $ecwd_event['id'], 'thumb' );
-											} elseif ( $image['image'] != null ) {
-												echo '<img src="' . $image['image'] . '" />';
-												$ecwd_event['post']->post_content = $image['content'];
-											}
-											echo '</div>'; ?>
-											<div class="event-title" itemprop="name">
-												<a href="<?php echo $ecwd_event['permalink'] ?>"><?php echo $ecwd_event['title'] ?></a>
-											</div>
-											<div class="event-date" itemprop="startDate"
-											     content="<?php echo date( 'Y-m-d', strtotime( $ecwd_event['from'] ) ) . 'T' . date( 'H:i', strtotime( $ecwd_event['starttime'] ) ) ?>">
-
-												<?php
-												if ( isset( $ecwd_event['all_day_event'] ) && $ecwd_event['all_day_event'] == 1 ) {
-													echo date( $date_format, strtotime( $ecwd_event['from'] ) );
-													if ( $ecwd_event['to'] && date( $date_format, strtotime( $ecwd_event['from'] ) ) !== date( $date_format, strtotime( $ecwd_event['to'] ) ) ) {
-														echo ' - ' . date( $date_format, strtotime( $ecwd_event['to'] ) );
-													}
-													echo ' ' . __( 'All day', 'ecwd' );
-												} else {
-
-													echo date( $date_format, strtotime( $ecwd_event['from'] ) ) . ' ' . date( $time_format, strtotime( $ecwd_event['starttime'] ) );
-
-													if ( $ecwd_event['to'] ) {
-														echo ' - ' . date( $date_format, strtotime( $ecwd_event['to'] ) ) . ' ' . date( $time_format, strtotime( $ecwd_event['endtime'] ) );
-													}
-												} ?>
-											</div>
-
-
-											<div
-												class="upcoming_events_item-content"><?php echo( $ecwd_event['post']->post_content ? $ecwd_event['post']->post_content : 'No additional details for this event.' ); ?> </div>
-										</div>
-									</li>
-								<?php
-								}
-								?>
-							</ul>
+								</ul>
+							</div>
 						</div>
-					</div>
 
-				<?php } ?>
-			<?php }?>
+					<?php } ?>
+				<?php }?>
 
-
+			</div>
 		</div> <!-- #post-x -->
 		<?php
 

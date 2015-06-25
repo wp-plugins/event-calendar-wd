@@ -396,7 +396,8 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 	);
 
 	$args = array_merge( $defaults, $args );
-	extract( $args );
+	extract($args);
+	$finish_text = isset($args['finish_text'])?$args['finish_text']:'';
 
 	$date   = ( isset( $args['date'] ) ? $args['date'] : '' );
 	$d      = new ECWD_Display( '', $title_text, $sort );
@@ -427,9 +428,13 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 		$markup .= '<div class="clear"></div>';
 		$markup .= ' </div>';
 		$markup .= '<div class="ecwd_countdown">';
-		$markup .= '<input type="hidden" name="ecwd_start_time" value="' . date( 'Y/m/d H:i:s' ) . '"/>';
 		$markup .= '<input type="hidden" name="ecwd_end_time" value="' . $start . '"/>';
 		$markup .= '<input type="hidden" name="ecwd_timezone" value="' . $diff . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_days" value="' . __('DAYS', 'ecwd') . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_hours" value="' . __('HOURS', 'ecwd') . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_minutes" value="' . __('MINUTES', 'ecwd') . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_seconds" value="' . __('SECONDS', 'ecwd') . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_finish_text" value="' . $finish_text . '"/>';
 		if ( $theme_id ) {
 			$theme = get_post_meta( $theme_id, 'ecwd_countdown_theme', true );
 			$markup .= '<textarea class="hidden" name="ecwd_theme">' . $theme . '</textarea>';

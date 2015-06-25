@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-23 15:51+0400\n"
-"PO-Revision-Date: 2015-06-23 15:51+0400\n"
+"POT-Creation-Date: 2015-06-25 15:46+0400\n"
+"PO-Revision-Date: 2015-06-25 15:48+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -82,11 +82,11 @@ msgstr "Другие события"
 
 #: includes/ecwd-cpt-filter.php:67
 msgid "From"
-msgstr ""
+msgstr "От"
 
 #: includes/ecwd-cpt-filter.php:74
 msgid "To"
-msgstr ""
+msgstr "до"
 
 #: includes/ecwd-functions.php:8
 msgid "Loading..."
@@ -94,19 +94,19 @@ msgstr "Загрузка..."
 
 #: includes/ecwd-functions.php:437 includes/texts.php:50
 msgid "DAYS"
-msgstr ""
+msgstr "ДНЕЙ"
 
 #: includes/ecwd-functions.php:438 includes/texts.php:51
 msgid "HOURS"
-msgstr ""
+msgstr "ЧАСОВ"
 
 #: includes/ecwd-functions.php:439 includes/texts.php:52
 msgid "MINUTES"
-msgstr ""
+msgstr "МИНУТ"
 
 #: includes/ecwd-functions.php:440 includes/texts.php:53
 msgid "SECONDS"
-msgstr ""
+msgstr "СЕКУНД"
 
 #: includes/texts.php:2
 msgid "January"
@@ -242,27 +242,27 @@ msgstr "С"
 
 #: includes/texts.php:41
 msgid "Show Filters"
-msgstr ""
+msgstr "Показать Фильтры"
 
 #: includes/texts.php:42
 msgid "Collapse Filters"
-msgstr ""
+msgstr "Свернуть Фильтры"
 
 #: includes/texts.php:43
 msgid "Reset Filters"
-msgstr ""
+msgstr "Сбросить фильтры"
 
 #: includes/texts.php:45
 msgid "Days"
-msgstr ""
+msgstr "Дни недели"
 
 #: includes/texts.php:46
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
 #: includes/texts.php:47
 msgid "Venues"
-msgstr ""
+msgstr "Места"
 
 #: views/ecwd-event-content.php:66 views/ecwd-event-content.php:152
 #: views/single-event.php:89 views/single-event.php:184
@@ -288,3 +288,7 @@ msgstr "события"
 #: views/single-event.php:330
 msgid "Related events"
 msgstr "Похожие события"
+
+#: includes/calendar-class.php:16
+msgid "No additional details for this event."
+msgstr "Нет дополнительной информации о мероприятии."

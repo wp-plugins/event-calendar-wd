@@ -513,6 +513,15 @@ span.ecwd_error{
 #ecwd-settings-content #add_on_title{
     margin-bottom:20px;
 }
+#ecwd-settings-content .ecwd-add-on {
+    position: relative;
+    height: 455px;
+}
+#ecwd-settings-content .ecwd_coming_soon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 #ecwd-settings-content .ecwd-add-on a{
       text-decoration: none;
 }
@@ -538,6 +547,9 @@ span.ecwd_error{
   padding: 9px 12px 9px 45px;
   font-size: 17px;
   border: 1px solid #93BBC7;
+    position: absolute;
+    left: 20px;
+    bottom: 0;
 }
 #ecwd-settings-content .ecwd-addon-descr span{
   padding: 5px 0 5px 10px;

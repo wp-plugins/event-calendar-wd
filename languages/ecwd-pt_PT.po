@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-25 15:42+0400\n"
-"PO-Revision-Date: 2015-06-25 15:43+0400\n"
+"POT-Creation-Date: 2015-06-25 15:46+0400\n"
+"PO-Revision-Date: 2015-06-25 15:46+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: de\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,36 +22,35 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-5: includes/ecwd-google-events-class.php\n"
 "X-Poedit-SearchPathExcluded-6: includes/ecwd-facebook-events-class.php\n"
 "X-Poedit-SearchPathExcluded-7: ecwd_admin_class.php\n"
-"X-Poedit-SearchPathExcluded-8: includes/ecwd-event-class.php\n"
 
 #: includes/calendar-class.php:174 includes/calendar-class.php:175
 #: views/widgets.php:168
 msgid "Month"
-msgstr "Monat"
+msgstr "Mês"
 
 #: includes/calendar-class.php:176 views/widgets.php:169
 msgid "List"
-msgstr "Liste"
+msgstr "Lista"
 
 #: includes/calendar-class.php:178
 msgid "Week"
-msgstr "Woche"
+msgstr "Semana"
 
 #: includes/calendar-class.php:182
 msgid "Day"
-msgstr "Tag"
+msgstr "Dia"
 
 #: includes/calendar-class.php:185
 msgid "Map"
-msgstr "Karte"
+msgstr "Mapa"
 
 #: includes/calendar-class.php:187
 msgid "4 Days"
-msgstr "4 Tage"
+msgstr "4 Dias"
 
 #: includes/calendar-class.php:190
 msgid "Posterboard"
-msgstr "Posterboard"
+msgstr ""
 
 #: includes/calendar-class.php:382 includes/calendar-class.php:416
 #: includes/calendar-class.php:563 includes/calendar-class.php:1167
@@ -61,237 +60,234 @@ msgstr "Posterboard"
 #: views/single-event.php:98 views/single-event.php:189
 #: views/single-event.php:354
 msgid "All day"
-msgstr "Den ganzen Tag"
+msgstr "Dia inteiro"
 
 #: includes/calendar-class.php:439 includes/calendar-class.php:515
 #: includes/calendar-class.php:1362
 msgid "No events"
-msgstr "Keine Veranstaltungen"
+msgstr "Não há eventos"
 
 #: includes/calendar-class.php:635
 msgid "No Events"
-msgstr "Keine Veranstaltungen"
+msgstr "Não há eventos"
 
 #: includes/calendar-class.php:973
 msgid "What're we looking for ?"
-msgstr "Was machen wir?"
+msgstr "O que vocę estamos procurando?"
 
 #: includes/calendar-class.php:1237
 msgid "More events"
-msgstr "Weitere Veranstaltungen"
+msgstr "Mais eventos"
 
 #: includes/ecwd-cpt-filter.php:67
 msgid "From"
-msgstr "Von"
+msgstr "De"
 
 #: includes/ecwd-cpt-filter.php:74
 msgid "To"
-msgstr "Bis"
+msgstr "Para"
 
 #: includes/ecwd-functions.php:8
 msgid "Loading..."
-msgstr "Laden"
+msgstr "Carregamento"
 
 #: includes/ecwd-functions.php:437 includes/texts.php:50
 msgid "DAYS"
-msgstr "TAGEN"
+msgstr "DIAS"
 
 #: includes/ecwd-functions.php:438 includes/texts.php:51
 msgid "HOURS"
-msgstr "STANDEN"
+msgstr "HORAS"
 
 #: includes/ecwd-functions.php:439 includes/texts.php:52
 msgid "MINUTES"
-msgstr "MINUTEN"
+msgstr "ATAS"
 
 #: includes/ecwd-functions.php:440 includes/texts.php:53
 msgid "SECONDS"
-msgstr "SEKUNDEN"
+msgstr "SEGUNDOS"
 
 #: includes/texts.php:2
 msgid "January"
-msgstr "Januar"
+msgstr "Janeiro"
 
 #: includes/texts.php:3
 msgid "February"
-msgstr "Februar"
+msgstr "Fevereiro"
 
 #: includes/texts.php:4
 msgid "March"
-msgstr "März"
+msgstr "Março"
 
 #: includes/texts.php:5
 msgid "April"
-msgstr "April"
+msgstr "Abril"
 
 #: includes/texts.php:6
 msgid "May"
-msgstr "May"
+msgstr "Maio"
 
 #: includes/texts.php:7
 msgid "June"
-msgstr "Juni"
+msgstr "Junho"
 
 #: includes/texts.php:8
 msgid "July"
-msgstr "Juli"
+msgstr "Julho"
 
 #: includes/texts.php:9
 msgid "August"
-msgstr "August"
+msgstr "Agosto"
 
 #: includes/texts.php:10
 msgid "September"
-msgstr "September"
+msgstr "Setembro"
 
 #: includes/texts.php:11
 msgid "October"
-msgstr "Oktober"
+msgstr "Outubro"
 
 #: includes/texts.php:12
 msgid "November"
-msgstr "November"
+msgstr "Novembro"
 
 #: includes/texts.php:13
 msgid "December"
-msgstr "Dezember"
+msgstr "Dezembro"
 
 #: includes/texts.php:14
 msgid "Sunday"
-msgstr "Sonntag"
+msgstr "Domingo"
 
 #: includes/texts.php:15
 msgid "Monday"
-msgstr "Montag"
+msgstr "Segunda"
 
 #: includes/texts.php:16
 msgid "Tuesday"
-msgstr "Dienstag"
+msgstr "Terça"
 
 #: includes/texts.php:17
 msgid "Wednesday"
-msgstr "Mittwoch"
+msgstr "Quarta"
 
 #: includes/texts.php:18
 msgid "Thursday"
-msgstr "Donnerstag"
+msgstr "Quinta"
 
 #: includes/texts.php:19
 msgid "Friday"
-msgstr "Freitag"
+msgstr "Sexta"
 
 #: includes/texts.php:20
 msgid "Saturday"
-msgstr "Samstag"
+msgstr "Sábado"
 
 #: includes/texts.php:22
 msgid "Sun"
-msgstr "Son"
+msgstr "Dom"
 
 #: includes/texts.php:23
 msgid "Mon"
-msgstr "Mon"
+msgstr "Seg"
 
 #: includes/texts.php:24
 msgid "Tue"
-msgstr "Die"
+msgstr "Ter"
 
 #: includes/texts.php:25
 msgid "Wed"
-msgstr "Mit"
+msgstr "Qua"
 
 #: includes/texts.php:26
 msgid "Thu"
-msgstr "Don"
+msgstr "Qui"
 
 #: includes/texts.php:27
 msgid "Fri"
-msgstr "Fre"
+msgstr "Sex"
 
 #: includes/texts.php:28
 msgid "Sat"
-msgstr "Sam"
+msgstr "Sab"
 
 #: includes/texts.php:31
 msgid "Su"
-msgstr "S"
+msgstr "1ª"
 
 #: includes/texts.php:32
 msgid "Mo"
-msgstr "M"
+msgstr "2ª"
 
 #: includes/texts.php:33
 msgid "Tu"
-msgstr "D"
+msgstr "3ª"
 
 #: includes/texts.php:34
 msgid "We"
-msgstr "M"
+msgstr "4ª"
 
 #: includes/texts.php:35
 msgid "Th"
-msgstr "D"
+msgstr "5ª"
 
 #: includes/texts.php:36
 msgid "Fr"
-msgstr "F"
+msgstr "6ª"
 
 #: includes/texts.php:37
 msgid "Sa"
-msgstr "S"
+msgstr "7ª"
 
 #: includes/texts.php:41
 msgid "Show Filters"
-msgstr "Filter anzeigen"
+msgstr "Mostrar Filtros"
 
 #: includes/texts.php:42
 msgid "Collapse Filters"
-msgstr "Collapse Filter"
+msgstr "Recolher Filtros"
 
 #: includes/texts.php:43
 msgid "Reset Filters"
-msgstr "Filter neu"
+msgstr "Reset Filtros"
 
 #: includes/texts.php:45
 msgid "Days"
-msgstr "Tagen"
+msgstr "Dias"
 
 #: includes/texts.php:46
 msgid "Categories"
-msgstr "Kategorien"
+msgstr "Categorias"
 
 #: includes/texts.php:47
 msgid "Venues"
-msgstr "Veranstaltungsorte"
+msgstr "Locais"
 
 #: views/ecwd-event-content.php:66 views/ecwd-event-content.php:152
 #: views/single-event.php:89 views/single-event.php:184
 msgid "Date"
-msgstr "Datum"
+msgstr "Data"
 
 #: views/ecwd-event-content.php:90 views/single-event.php:114
 msgid "Url"
-msgstr "Url"
+msgstr ""
 
 #: views/ecwd-event-content.php:96 views/single-event.php:121
 msgid "Organizers"
-msgstr "Veranstalter"
+msgstr "Organizadores"
 
 #: views/ecwd-organizer-content.php:105
 msgid "upcoming events"
-msgstr "kommende Veranstaltungen"
+msgstr "próximos eventos"
 
 #: views/ecwd-venue-content.php:136
 msgid "events"
-msgstr "veranstaltungen"
+msgstr "eventos"
 
 #: views/single-event.php:330
 msgid "Related events"
-msgstr "Keine Veranstaltungen"
+msgstr "Outros eventos"
 
 #: includes/calendar-class.php:16
 msgid "No additional details for this event."
-msgstr "Die Veranstaltung hat gerade erst begonnen"
-
-#~ msgid "The event has just started"
-#~ msgstr "Die Veranstaltung hat gerade erst begonnen"
+msgstr "Não há detalhes adicionais para este evento."

@@ -872,7 +872,7 @@ class ECWD_Display {
 		$events_ids = array();
 		foreach ( $array as $key => $event ) {
 			if ( ! in_array( $event['id'], $events_ids ) ) {
-				$events_ids[0] = $event['id'];
+				$events_ids[] = $event['id'];
 			} else {
 				unset( $array[ $key ] );
 			}
