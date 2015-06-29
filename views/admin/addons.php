@@ -15,9 +15,15 @@ if (!defined('ABSPATH')) {
 
 <div class="wrap">
     <?php settings_errors(); ?>
+
     <div id="ecwd-settings">
         <div id="ecwd-settings-content">
             <h2 id="add_on_title"><?php echo esc_html(get_admin_page_title()); ?></h2>
+	        <div>
+		        <p>
+			        <span style="color: #ba281e; font-size: 20px;">Attention:</span> Add-ons are supported by premium version of Event Calendar WD
+		        </p>
+	        </div>
             <?php
             if($addons){
                 foreach ($addons as $addon) {

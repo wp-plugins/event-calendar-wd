@@ -6,7 +6,7 @@
  */
 class ECWD {
 
-	protected $version = '1.0.8';
+	protected $version = '1.0.9';
 	protected $plugin_name = 'event-calendar-wd';
 	protected $prefix = 'ecwd';
 	protected $old_version = '1.4.11';
@@ -105,14 +105,18 @@ class ECWD {
 	public function enqueue_scripts() {
 		global $wp_scripts;
 		$map_included = false;
-		if ( isset( $wp_scripts->registered ) && $wp_scripts->registered ) {
+		if(isset($wp_scripts->registered) && $wp_scripts->registered) {
 			foreach ( $wp_scripts->registered as $wp_script ) {
-				if ( $wp_script->src && ( strpos( $wp_script->src, 'maps.googleapis.com' ) || strpos( $wp_script->src, 'maps.google.com' ) ) !== false ) {
-					$map_included = true;
-					break;
+				if ( $wp_script->src && (strpos( $wp_script->src, 'maps.googleapis.com' ) || strpos( $wp_script->src, 'maps.google.com' )) !== false ) {
+					if(is_array($wp_scripts->queue) && in_array($wp_script->handle, $wp_scripts->queue)) {
+						$map_included = true;
+						break;
+					}
+
 				}
 			}
 		}
+
 		if ( ! $map_included ) {
 			wp_enqueue_script( $this->prefix . '-maps-public', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', array( 'jquery' ), $this->version, true );
 		}

@@ -2,7 +2,7 @@
  * Admin CSS file
  */
 #ecwd-tabs > div{
-	display:none;
+    display:none;
 }
 #ecwd-settings{
     background: #ffffff;
@@ -112,7 +112,7 @@
 
 }
 .ecwd-events .ecwd-calendar-event-edit a{
-   font-size: 0;
+    font-size: 0;
     display: inline-block;
     float: left;
     margin: 0 1px;
@@ -234,12 +234,12 @@
 }
 
 #ecwd-settings-content .nav-tab-wrapper a{
-  background: #ffffff;
-  height: 21px;
-  margin-right: 4px;
-  display: inline-block;
-  font-weight: normal;
-  padding-top: 2px;
+    background: #ffffff;
+    height: 21px;
+    margin-right: 4px;
+    display: inline-block;
+    font-weight: normal;
+    padding-top: 2px;
 }
 
 .ecwd-tabs li a:focus{
@@ -253,7 +253,7 @@
 
 #ecwd-settings-content .nav-tab-wrapper {
     border-bottom:0;
-	padding-left: 0;
+    padding-left: 0;
 }
 
 .ecwd-tabs li:hover,.ecwd-tabs li.ui-state-active,
@@ -500,14 +500,14 @@ span.ecwd_error{
     float: left;
 }
 .ecwd-import-settings form{
-	float:left;
-	width:45%;
+    float:left;
+    width:45%;
 }
 .ecwd-import-settings input[type=file]{
-	  margin: 10px 0;
+    margin: 10px 0;
 }
 .ecwd-import-settings .ecwd-calendar-event-import{
-	  font-size: 15px;
+    font-size: 15px;
 }
 
 #ecwd-settings-content #add_on_title{
@@ -523,45 +523,45 @@ span.ecwd_error{
     left: 0;
 }
 #ecwd-settings-content .ecwd-add-on a{
-      text-decoration: none;
+    text-decoration: none;
 }
 #ecwd-settings-content .ecwd-add-on h2{
-	  color: #229DBF;
-	  font-size: 17px;
-	  border-bottom: 1px solid #898989;
-	  width: 92%;
-	  margin-bottom: 17px;
-	  padding: 5px 0 7px 0;
+    color: #229DBF;
+    font-size: 17px;
+    border-bottom: 1px solid #898989;
+    width: 92%;
+    margin-bottom: 17px;
+    padding: 5px 0 7px 0;
 }
 #ecwd-settings-content .ecwd-addon-descr{
-      font-size: 15px;
-      line-height: 20px;
-	  width: 90%;
-	  color: #303030;
+    font-size: 15px;
+    line-height: 20px;
+    width: 90%;
+    color: #303030;
 }
 #ecwd-settings-content .ecwd-addon-descr a{
-  display: inline-block;
-  margin-top: 15px;
-  background: #229DBF url(../images/Add_Ons.jpg) no-repeat 6px center;
-  color: #D2EBF0;
-  padding: 9px 12px 9px 45px;
-  font-size: 17px;
-  border: 1px solid #93BBC7;
+    display: inline-block;
+    margin-top: 15px;
+    background: #229DBF url(../images/Add_Ons.jpg) no-repeat 6px center;
+    color: #D2EBF0;
+    padding: 9px 12px 9px 45px;
+    font-size: 17px;
+    border: 1px solid #93BBC7;
     position: absolute;
     left: 20px;
     bottom: 0;
 }
 #ecwd-settings-content .ecwd-addon-descr span{
-  padding: 5px 0 5px 10px;
-  border-left: 1px solid #93CEE0;
+    padding: 5px 0 5px 10px;
+    border-left: 1px solid #93CEE0;
 }
 #ecwd-settings-content a:focus{
     outline:none;
-	box-shadow:none;
+    box-shadow:none;
 }
 #ecwd-settings-content .ecwd-add-on{
     width:310px;
-	float:left;
-	margin-right:40px;
-	margin-bottom:35px;
+    float:left;
+    margin-right:40px;
+    margin-bottom:35px;
 }

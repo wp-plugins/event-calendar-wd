@@ -964,7 +964,7 @@ class Calendar {
 					$svalue = $this->search_params['query'];
 				}
 				$html .= '<div class="ecwd-search">
-                        <input class="ecwd-search" name="search" type="text" placeholder="' . __( 'What\'re we looking for ?', 'ecwd' ) . '" value="' . $svalue . '">'
+                        <input class="ecwd-search" name="search" type="text" value="' . $svalue . '">'
 				         . '<button class="btn btn-default ecwd-search-submit"><span class="glyphicon glyphicon-search"></span><i class="fa fa-search"></i></button>
                 </div>';
 			}

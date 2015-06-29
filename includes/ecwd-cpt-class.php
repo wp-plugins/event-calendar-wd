@@ -17,7 +17,7 @@ class ECWD_Cpt {
 
 
 		//actions
-		add_action( 'init', array( $this, 'setup_cpt' ));
+		add_action( 'init', array( $this, 'setup_cpt' ) );
 
 		add_action( 'pre_get_posts', array( $this, 'add_custom_post_type_to_query' ) );
 		add_action( 'add_meta_boxes', array( $this, 'calendars_cpt_meta' ) );
@@ -64,7 +64,7 @@ class ECWD_Cpt {
 			$this,
 			'taxonomy_column'
 		), 10, 3 );
-		add_filter( 'generate_rewrite_rules', array( $this, 'filterRewriteRules' ), 2);
+		add_filter( 'generate_rewrite_rules', array( $this, 'filterRewriteRules' ), 2 );
 
 
 		add_action( 'wp_ajax_manage_calendar_events', array( $this, 'save_events' ) );
@@ -80,11 +80,11 @@ class ECWD_Cpt {
 		) );
 		add_filter( 'manage_' . ECWD_PLUGIN_PREFIX . '_event_posts_columns', array( $this, 'add_column_headers' ) );
 
-		add_filter( 'template_include', array($this, 'ecwd_templates') );
+		add_filter( 'template_include', array( $this, 'ecwd_templates' ) );
 
 		//category filter
-		add_filter('init',array($this, 'event_restrict_manage'));
-                
+		add_filter( 'init', array( $this, 'event_restrict_manage' ) );
+
 	}
 
 
@@ -177,10 +177,10 @@ class ECWD_Cpt {
 	 */
 	public function setup_cpt() {
 		global $ecwd_options;
-		$rewrite = false;
-		$venue_rewrite = false;
+		$rewrite           = false;
+		$venue_rewrite     = false;
 		$organizer_rewrite = false;
-		$event_supports = array();
+		$event_supports    = array();
 		if ( isset( $ecwd_options['event_comments'] ) && $ecwd_options['event_comments'] == 1 ) {
 			$event_supports[] = 'comments';
 		}
@@ -204,9 +204,9 @@ class ECWD_Cpt {
 
 			$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug . 's';
 			$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
-			$rewrite = array( 'slug' => $this->rewriteSlugSingular );
-			$venue_rewrite = array( 'slug' => 'venue' );
-			$organizer_rewrite = array( 'slug' => 'organizer' );
+			$rewrite                   = array( 'slug' => $this->rewriteSlugSingular );
+			$venue_rewrite             = array( 'slug' => 'venue' );
+			$organizer_rewrite         = array( 'slug' => 'organizer' );
 		}
 		//calendars
 		$calendar_labels = array(
@@ -243,6 +243,45 @@ class ECWD_Cpt {
 		);
 
 		register_post_type( self::CALENDAR_POST_TYPE, $calendar_args );
+
+
+		//events organizers
+		$organizers_labels = array(
+			'name'               => __( 'Organizers', 'ecwd' ),
+			'singular_name'      => __( 'Organizer', 'ecwd' ),
+			'name_admin_bar'     => __( 'Organizer', 'ecwd' ),
+			'add_new'            => __( 'Add New', 'ecwd' ),
+			'add_new_item'       => __( 'Add New Organizer', 'ecwd' ),
+			'new_item'           => __( 'New Organizer', 'ecwd' ),
+			'edit_item'          => __( 'Edit Organizer', 'ecwd' ),
+			'view_item'          => __( 'View Organizer', 'ecwd' ),
+			'all_items'          => __( 'All Organizers', 'ecwd' ),
+			'search_items'       => __( 'Search Organizer', 'ecwd' ),
+			'not_found'          => __( 'No Organizers found.', 'ecwd' ),
+			'not_found_in_trash' => __( 'No Organizers found in Trash.', 'ecwd' )
+		);
+
+		$organizers_args = array(
+			'labels'             => $organizers_labels,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			//'edit.php?post_type=ecwd_calendar',
+			'query_var'          => true,
+			'capability_type'    => 'post',
+			'taxonomies'         => array(),
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_icon'          => plugins_url( '/assets/organizer-icon.png', ECWD_MAIN_FILE ),
+			'supports'           => array(
+				'title',
+				'editor', 'thumbnail'
+			),
+			'rewrite'            => $organizer_rewrite
+		);
+
+		register_post_type( self::ORGANIZER_POST_TYPE, $organizers_args );
 
 
 //events
@@ -289,43 +328,6 @@ class ECWD_Cpt {
 		register_post_type( self::EVENT_POST_TYPE, $args );
 
 
-		//events organizers
-		$organizers_labels = array(
-			'name'               => __( 'Organizers', 'ecwd' ),
-			'singular_name'      => __( 'Organizer', 'ecwd' ),
-			'name_admin_bar'     => __( 'Organizer', 'ecwd' ),
-			'add_new'            => __( 'Add New', 'ecwd' ),
-			'add_new_item'       => __( 'Add New Organizer', 'ecwd' ),
-			'new_item'           => __( 'New Organizer', 'ecwd' ),
-			'edit_item'          => __( 'Edit Organizer', 'ecwd' ),
-			'view_item'          => __( 'View Organizer', 'ecwd' ),
-			'all_items'          => __( 'All Organizers', 'ecwd' ),
-			'search_items'       => __( 'Search Organizer', 'ecwd' ),
-			'not_found'          => __( 'No Organizers found.', 'ecwd' ),
-			'not_found_in_trash' => __( 'No Organizers found in Trash.', 'ecwd' )
-		);
-
-		$organizers_args = array(
-			'labels'             => $organizers_labels,
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			//'edit.php?post_type=ecwd_calendar',
-			'query_var'          => true,
-			'capability_type'    => 'post',
-			'taxonomies'         => array(),
-			'has_archive'        => true,
-			'hierarchical'       => false,
-			'menu_icon'          => plugins_url( '/assets/organizer-icon.png', ECWD_MAIN_FILE ),
-			'supports'           => array(
-				'title',
-				'editor'
-			),
-			'rewrite'            => $organizer_rewrite
-		);
-
-		register_post_type( self::ORGANIZER_POST_TYPE, $organizers_args );
 
 		//venues
 		$venues_labels = array(
@@ -358,7 +360,7 @@ class ECWD_Cpt {
 			'menu_icon'          => plugins_url( '/assets/venue-icon.png', ECWD_MAIN_FILE ),
 			'supports'           => array(
 				'title',
-				'editor'
+				'editor', 'thumbnail'
 			),
 			'rewrite'            => $venue_rewrite
 		);
@@ -629,21 +631,24 @@ class ECWD_Cpt {
 	 */
 	public function display_events_meta() {
 		$ip_addr = $_SERVER['REMOTE_ADDR'];
-		if ( $ip_addr == '127.0.0.1' ) {
-			$ip_addr = '37.157.218.77';
-		}
+		$long    = '';
+		$lat     = '';
+		if ( ini_get( 'allow_url_fopen' ) ) {
+			if ( $ip_addr == '127.0.0.1' ) {
+				$ip_addr = '37.157.218.77';
+			}
 
-		$url = 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr;
-		if ( false === $geoplugin = get_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr ) ) {
-			$geoplugin = unserialize( file_get_contents( 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr ) );
-			set_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr, $geoplugin, 12 * 60 * 60 );
-		}
-		$lat  = '';
-		$long = '';
+			$url = 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr;
+			if ( false === $geoplugin = get_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr ) ) {
+				$geoplugin = unserialize( file_get_contents( 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr ) );
+				set_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr, $geoplugin, 12 * 60 * 60 );
+			}
 
-		if ( $geoplugin['geoplugin_latitude'] && $geoplugin['geoplugin_longitude'] ) {
-			$lat  = $geoplugin['geoplugin_latitude'];
-			$long = $geoplugin['geoplugin_longitude'];
+
+			if ( $geoplugin['geoplugin_latitude'] && $geoplugin['geoplugin_longitude'] ) {
+				$lat  = $geoplugin['geoplugin_latitude'];
+				$long = $geoplugin['geoplugin_longitude'];
+			}
 		}
 		$args   = array(
 			'post_type'           => ECWD_PLUGIN_PREFIX . '_venue',
@@ -681,88 +686,87 @@ class ECWD_Cpt {
 	 */
 	public function display_theme_meta() {
 		global $post;
-		$post_id = $post->ID;
+		$post_id       = $post->ID;
 		$default_theme = array(
 			//general
-			ECWD_PLUGIN_PREFIX . '_width'=>'100%',
-			ECWD_PLUGIN_PREFIX . '_cal_border_color'=>'',
-			ECWD_PLUGIN_PREFIX . '_cal_border_width'=>'',
-			ECWD_PLUGIN_PREFIX . '_cal_border_radius'=>'',
+			ECWD_PLUGIN_PREFIX . '_width'                                  => '100%',
+			ECWD_PLUGIN_PREFIX . '_cal_border_color'                       => '',
+			ECWD_PLUGIN_PREFIX . '_cal_border_width'                       => '',
+			ECWD_PLUGIN_PREFIX . '_cal_border_radius'                      => '',
 			//header
-			ECWD_PLUGIN_PREFIX . '_cal_header_color'=>'#168fb5',
-			ECWD_PLUGIN_PREFIX . '_cal_header_border_color'=>'#91CEDF',
-			ECWD_PLUGIN_PREFIX . '_current_year_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_current_year_font_size'=>28,
-			ECWD_PLUGIN_PREFIX . '_current_month_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_current_month_font_size'=>16,
-			ECWD_PLUGIN_PREFIX . '_next_prev_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_next_prev_font_size'=>18,
+			ECWD_PLUGIN_PREFIX . '_cal_header_color'                       => '#168fb5',
+			ECWD_PLUGIN_PREFIX . '_cal_header_border_color'                => '#91CEDF',
+			ECWD_PLUGIN_PREFIX . '_current_year_color'                     => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_current_year_font_size'                 => 28,
+			ECWD_PLUGIN_PREFIX . '_current_month_color'                    => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_current_month_font_size'                => 16,
+			ECWD_PLUGIN_PREFIX . '_next_prev_color'                        => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_next_prev_font_size'                    => 18,
 			//views
-			ECWD_PLUGIN_PREFIX . '_view_tabs_bg_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_view_tabs_border_color'=>'#91CEDF',
-			ECWD_PLUGIN_PREFIX . '_view_tabs_current_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_view_tabs_text_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_view_tabs_font_size'=>16,
-			ECWD_PLUGIN_PREFIX . '_view_tabs_current_text_color'=>'#10738B',
+			ECWD_PLUGIN_PREFIX . '_view_tabs_bg_color'                     => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_view_tabs_border_color'                 => '#91CEDF',
+			ECWD_PLUGIN_PREFIX . '_view_tabs_current_color'                => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_view_tabs_text_color'                   => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_view_tabs_font_size'                    => 16,
+			ECWD_PLUGIN_PREFIX . '_view_tabs_current_text_color'           => '#10738B',
 			//search
-			ECWD_PLUGIN_PREFIX . '_search_bg_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_search_icon_color'=>'#ffffff',
+			ECWD_PLUGIN_PREFIX . '_search_bg_color'                        => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_search_icon_color'                      => '#ffffff',
 			//filter
-			ECWD_PLUGIN_PREFIX . '_filter_header_bg_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_filter_header_left_bg_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_filter_header_text_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_filter_header_left_text_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_filter_bg_color'=>'#ECECEC',
-			ECWD_PLUGIN_PREFIX . '_filter_border_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_filter_arrow_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_filter_reset_text_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_filter_reset_font_size'=>15,
-			ECWD_PLUGIN_PREFIX . '_filter_text_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_filter_font_size'=>16,
-
-			ECWD_PLUGIN_PREFIX . '_filter_item_bg_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_filter_item_border_color'=>'#DEE3E8',
-			ECWD_PLUGIN_PREFIX . '_filter_item_text_color'=>'#6E6E6E',
-			ECWD_PLUGIN_PREFIX . '_filter_item_font_size'=>15,
+			ECWD_PLUGIN_PREFIX . '_filter_header_bg_color'                 => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_filter_header_left_bg_color'            => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_filter_header_text_color'               => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_filter_header_left_text_color'          => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_filter_bg_color'                        => '#ECECEC',
+			ECWD_PLUGIN_PREFIX . '_filter_border_color'                    => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_filter_arrow_color'                     => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_filter_reset_text_color'                => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_filter_reset_font_size'                 => 15,
+			ECWD_PLUGIN_PREFIX . '_filter_text_color'                      => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_filter_font_size'                       => 16,
+			ECWD_PLUGIN_PREFIX . '_filter_item_bg_color'                   => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_filter_item_border_color'               => '#DEE3E8',
+			ECWD_PLUGIN_PREFIX . '_filter_item_text_color'                 => '#6E6E6E',
+			ECWD_PLUGIN_PREFIX . '_filter_item_font_size'                  => 15,
 			//week days
-			ECWD_PLUGIN_PREFIX . '_week_days_bg_color'=>'#F9F9F9',
-			ECWD_PLUGIN_PREFIX . '_week_days_border_color'=>'#B6B6B6',
-			ECWD_PLUGIN_PREFIX . '_week_days_text_color'=>'#585858',
-			ECWD_PLUGIN_PREFIX . '_week_days_font_size'=>17,
+			ECWD_PLUGIN_PREFIX . '_week_days_bg_color'                     => '#F9F9F9',
+			ECWD_PLUGIN_PREFIX . '_week_days_border_color'                 => '#B6B6B6',
+			ECWD_PLUGIN_PREFIX . '_week_days_text_color'                   => '#585858',
+			ECWD_PLUGIN_PREFIX . '_week_days_font_size'                    => 17,
 			//days
-			ECWD_PLUGIN_PREFIX . '_cell_bg_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_cell_weekend_bg_color'=>'#EDEDED',
-			ECWD_PLUGIN_PREFIX . '_cell_prev_next_bg_color'=>'#F9F9F9',
-			ECWD_PLUGIN_PREFIX . '_cell_border_color'=>'#B6B6B6',
-			ECWD_PLUGIN_PREFIX . '_day_number_bg_color'=>'#E0E0E0',
-			ECWD_PLUGIN_PREFIX . '_day_text_color'=>'#5C5C5C',
-			ECWD_PLUGIN_PREFIX . '_day_font_size'=>14,
-			ECWD_PLUGIN_PREFIX . '_current_day_cell_bg_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_current_day_number_bg_color'=>'#0071A0',
-			ECWD_PLUGIN_PREFIX . '_current_day_text_color'=>'#ffffff',
+			ECWD_PLUGIN_PREFIX . '_cell_bg_color'                          => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_cell_weekend_bg_color'                  => '#EDEDED',
+			ECWD_PLUGIN_PREFIX . '_cell_prev_next_bg_color'                => '#F9F9F9',
+			ECWD_PLUGIN_PREFIX . '_cell_border_color'                      => '#B6B6B6',
+			ECWD_PLUGIN_PREFIX . '_day_number_bg_color'                    => '#E0E0E0',
+			ECWD_PLUGIN_PREFIX . '_day_text_color'                         => '#5C5C5C',
+			ECWD_PLUGIN_PREFIX . '_day_font_size'                          => 14,
+			ECWD_PLUGIN_PREFIX . '_current_day_cell_bg_color'              => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_current_day_number_bg_color'            => '#0071A0',
+			ECWD_PLUGIN_PREFIX . '_current_day_text_color'                 => '#ffffff',
 			//events
-			ECWD_PLUGIN_PREFIX . '_event_title_color'=>'',
-			ECWD_PLUGIN_PREFIX . '_event_title_font_size'=>18,
-			ECWD_PLUGIN_PREFIX . '_event_details_bg_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_event_details_border_color'=>'#bfbfbf',
-			ECWD_PLUGIN_PREFIX . '_event_details_text_color'=>'#000000',
+			ECWD_PLUGIN_PREFIX . '_event_title_color'                      => '',
+			ECWD_PLUGIN_PREFIX . '_event_title_font_size'                  => 18,
+			ECWD_PLUGIN_PREFIX . '_event_details_bg_color'                 => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_event_details_border_color'             => '#bfbfbf',
+			ECWD_PLUGIN_PREFIX . '_event_details_text_color'               => '#000000',
 			//ECWD_PLUGIN_PREFIX . '_event_details_font_size',
 			//events list view
-			ECWD_PLUGIN_PREFIX . '_event_list_view_date_bg_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_event_list_view_date_text_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_event_list_view_date_font_size'=>15,
+			ECWD_PLUGIN_PREFIX . '_event_list_view_date_bg_color'          => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_event_list_view_date_text_color'        => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_event_list_view_date_font_size'         => 15,
 			//posterboard
-			ECWD_PLUGIN_PREFIX . '_event_posterboard_view_date_bg_color'=>'#585858',
-			ECWD_PLUGIN_PREFIX . '_event_posterboard_view_date_text_color'=>'#ffffff',
+			ECWD_PLUGIN_PREFIX . '_event_posterboard_view_date_bg_color'   => '#585858',
+			ECWD_PLUGIN_PREFIX . '_event_posterboard_view_date_text_color' => '#ffffff',
 			//pagination
-			ECWD_PLUGIN_PREFIX . '_page_numbers_bg_color'=>'#ffffff',
-			ECWD_PLUGIN_PREFIX . '_current_page_bg_color'=>'#10738B',
-			ECWD_PLUGIN_PREFIX . '_page_number_color'=>'#A5A5A5',
+			ECWD_PLUGIN_PREFIX . '_page_numbers_bg_color'                  => '#ffffff',
+			ECWD_PLUGIN_PREFIX . '_current_page_bg_color'                  => '#10738B',
+			ECWD_PLUGIN_PREFIX . '_page_number_color'                      => '#A5A5A5',
 		);
 
-		if(isset($_REQUEST['theme']) && $_REQUEST['theme']=='reset'){
+		if ( isset( $_REQUEST['theme'] ) && $_REQUEST['theme'] == 'reset' ) {
 			$data = json_encode( $default_theme );
-			update_post_meta( $post_id, self::THEME_POST_TYPE.'_params', $data );
+			update_post_meta( $post_id, self::THEME_POST_TYPE . '_params', $data );
 			//wp_redirect('post.php?post='.$post_id.'&action=edit');
 		}
 
@@ -784,22 +788,22 @@ class ECWD_Cpt {
 	 */
 	public function display_venue_meta() {
 		$ip_addr = $_SERVER['REMOTE_ADDR'];
-		if ( $ip_addr = '127.0.0.1' ) {
-			$ip_addr = '37.157.218.77';
-		}
+		$lat     = '';
+		$long    = '';
+		if ( ini_get( 'allow_url_fopen' ) ) {
+			if ( $ip_addr == '127.0.0.1' ) {
+				$ip_addr = '37.157.218.77';
+			}
 
-		$url = 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr;
-		if ( false == $geoplugin = get_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr ) ) {
-			$geoplugin = unserialize( file_get_contents( 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr ) );
-			set_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr, $geoplugin, 12 * 60 * 60 );
-		}
-		$lat       = '';
-		$long      = '';
-		$geoplugin = unserialize( file_get_contents( 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr ) );
-
-		if ( is_numeric( $geoplugin['geoplugin_latitude'] ) && is_numeric( $geoplugin['geoplugin_longitude'] ) ) {
-			$lat  = $geoplugin['geoplugin_latitude'];
-			$long = $geoplugin['geoplugin_longitude'];
+			$url = 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr;
+			if ( false == $geoplugin = get_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr ) ) {
+				$geoplugin = unserialize( file_get_contents( 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr ) );
+				set_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr, $geoplugin, 12 * 60 * 60 );
+			}
+			if ( is_numeric( $geoplugin['geoplugin_latitude'] ) && is_numeric( $geoplugin['geoplugin_longitude'] ) ) {
+				$lat  = $geoplugin['geoplugin_latitude'];
+				$long = $geoplugin['geoplugin_longitude'];
+			}
 		}
 		include_once( ECWD_DIR . '/views/admin/ecwd-venue-meta.php' );
 	}
@@ -958,7 +962,6 @@ class ECWD_Cpt {
 			ECWD_PLUGIN_PREFIX . '_filter_font_size',
 			ECWD_PLUGIN_PREFIX . '_filter_item_bg_color',
 			ECWD_PLUGIN_PREFIX . '_filter_item_border_color',
-
 			ECWD_PLUGIN_PREFIX . '_filter_item_text_color',
 			ECWD_PLUGIN_PREFIX . '_filter_item_font_size',
 			//week days
@@ -1005,14 +1008,14 @@ class ECWD_Cpt {
 		$ecwd_post_meta_fields[ $post_type ] = apply_filters( $post_type . '_meta', $ecwd_post_meta_fields[ $post_type ] );
 
 		if ( current_user_can( 'edit_post', $post_id ) ) {
-			if ( $post_type == ECWD_PLUGIN_PREFIX . '_event' && !isset($_POST[ ECWD_PLUGIN_PREFIX . '_event_show_map' ])) {
+			if ( $post_type == ECWD_PLUGIN_PREFIX . '_event' && ! isset( $_POST[ ECWD_PLUGIN_PREFIX . '_event_show_map' ] ) ) {
 				$_POST[ ECWD_PLUGIN_PREFIX . '_event_show_map' ] = 'no';
 			}
 // Loop through our array and make sure it is posted and not empty in order to update it, otherwise we delete it
 			if ( $post_type == ECWD_PLUGIN_PREFIX . '_theme' ) {
 				$values = array();
-				$data = json_encode( $values );
-				update_post_meta( $post_id, $post_type.'_params', $data );
+				$data   = json_encode( $values );
+				update_post_meta( $post_id, $post_type . '_params', $data );
 			} else {
 				foreach ( $ecwd_post_meta_fields[ $post_type ] as $pmf ) {
 					if ( isset( $_POST[ $pmf ] ) && ! empty( $_POST[ $pmf ] ) ) {
@@ -1098,12 +1101,12 @@ class ECWD_Cpt {
 	public function event_column_content( $column_name, $post_ID ) {
 		switch ( $column_name ) {
 			case 'event-id':
-				$start = get_post_meta($post_ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true);
-				$end = get_post_meta($post_ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true);
-				if($start) {
+				$start = get_post_meta( $post_ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true );
+				$end   = get_post_meta( $post_ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true );
+				if ( $start ) {
 					echo date( 'Y/m/d', strtotime( $start ) );
 					echo ' - ' . date( 'Y/m/d', strtotime( $end ) );
-				}else{
+				} else {
 					echo 'No dates';
 				}
 				break;
@@ -1269,6 +1272,7 @@ class ECWD_Cpt {
 			)
 		);
 	}
+
 	public function get_ecwd_calendars() {
 		$args      = array(
 			'numberposts' => - 1,
@@ -1280,8 +1284,8 @@ class ECWD_Cpt {
 
 	}
 
-	public function ecwd_templates($template){
-		$post_types = array( self::EVENT_POST_TYPE);
+	public function ecwd_templates( $template ) {
+		$post_types = array( self::EVENT_POST_TYPE );
 		if ( is_singular( $post_types ) && ! file_exists( get_stylesheet_directory() . '/single-event.php' ) ) {
 			$template = ECWD_DIR . '/views/single-event.php';
 		}
@@ -1313,7 +1317,7 @@ class ECWD_Cpt {
 			return false;
 		}
 	}
-        
+
 	public static function get_instance() {
 		if ( null == self::$instance ) {
 			self::$instance = new self;
