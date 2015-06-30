@@ -17,8 +17,10 @@ Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpre
 *   5 beautiful customizable themes
 *   Posterboard view
 *   4 days view
-*   Map view
-*   Add ons support
+*   Map view 
+*   Add ons support  
+*   Pro support   
+
 
 = Features of Event Calendar WD: =  
 
