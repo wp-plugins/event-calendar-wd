@@ -12,12 +12,37 @@ Organize and publish your events in an easy and elegant way using Event Calendar
 
 == Description ==
 
-https://www.youtube.com/watch?v=htmdAkRuIzw
+Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpress-event-calendar-wd.html) to add features:
+
+*   5 beautiful customizable themes
+*   Posterboard view
+*   4 days view
+*   Map view
+*   Add ons support
+
+= Features of Event Calendar WD: =  
+
+*   SEO-friendly
+*   Responsive design
+*   Unlimited number of calendars/events
+*   Structured event markup (microdata)
+*   Event categories
+*   Event tag
+*   Support for venues
+*   Support for organizers
+*   Google Maps integration
+*   Event search
+*   Social media integration
+*   Recurring events
+*   Month, week, day, list views
+
 
 [WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
 [Demo](http://wpdemo.web-dorado.com/event-calendar-wd/)  
 [User Guide](https://web-dorado.com/wordpress-event-calendar-wd/installing.html)  
 [Support Forum](https://web-dorado.com/forum/wordpress-event-calendar-wd.html)
+
+https://www.youtube.com/watch?v=htmdAkRuIzw
 
 Looking for an enhanced tool for displaying and managing various events within the site? Whether you have a single event you want to display on a calendar or multiple events per day, the Event Calendar plugin will help you to organize the events using elegant views.
  
@@ -39,29 +64,7 @@ Need to mention the hosts of the event? The Event Calendar WD plugin uses organi
 
 The Event Calendar WD can be also used as an integral part of your site, not simply as a plugin. Since the event calendars are being created as a custom post, there is a possibility to display the event calendars among the standard post listings such as related posts or latest posts.
 
-= Features of Event Calendar WD: =  
 
-*   SEO-friendly
-*   Responsive design
-*   Unlimited number of calendars/events
-*   Structured event markup (microdata)
-*   Event categories
-*   Event tag
-*   Support for venues
-*   Support for organizers
-*   Google Maps integration
-*   Event search
-*   Social media integration
-*   Recurring events
-*   Month, week, day, list views
-
-Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpress-event-calendar-wd.html) to add features:
-
-*   5 beautiful customizable themes
-*   Posterboard view
-*   4 days view
-*   Map view
-*   Add ons support
 
 ###IMPORTANT:   
 If you think you found a bug in  Event Calendar WD or have any problem/question concerning the plugin, please check out [Support Forum](https://web-dorado.com/forum/wordpress-event-calendar-wd.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
