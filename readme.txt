@@ -12,16 +12,6 @@ Organize and publish your events in an easy and elegant way using Event Calendar
 
 == Description ==
 
-Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpress-event-calendar-wd.html) to add features:
-
-*   5 beautiful customizable themes
-*   Posterboard view
-*   4 days view
-*   Map view 
-*   Add ons support  
-*   Pro support   
-
-
 = Features of Event Calendar WD: =  
 
 *   SEO-friendly
@@ -38,11 +28,27 @@ Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpre
 *   Recurring events
 *   Month, week, day, list views
 
+Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpress-event-calendar-wd.html) to add features:
+
+*   5 beautiful customizable themes
+*   Posterboard view
+*   4 days view
+*   Map view 
+*   Add ons support  
+*   Pro support   
+
+= Event Calendar WD Addons: =  
+[Filter Add-on](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/filter.html) 
+[Countdown](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/countdown.html) 
+[Upcoming Events](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html) 
 
 [WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
 [Demo](http://wpdemo.web-dorado.com/event-calendar-wd/)  
 [User Guide](https://web-dorado.com/wordpress-event-calendar-wd/installing.html)  
 [Support Forum](https://web-dorado.com/forum/wordpress-event-calendar-wd.html)
+
+
+
 
 https://www.youtube.com/watch?v=htmdAkRuIzw
 
