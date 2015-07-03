@@ -4,13 +4,18 @@ Donate link: https://web-dorado.com/products/wordpress-event-calendar-wd.html
 Tags: calendar, calendars, event, event calendar, event manager, events calendar, calendar widget, event registration, event management,events, agenda,  holiday calendar , scheduling, free calendar, Calender, upcoming events , event widget , event list, calendar localization, Organizer, editorial calendar, Interactive Calendar, news calendar, meeting , appointment, event tracking, event organizer, upcoming events widget, event page, event bookings, recurring, recurring events, conference, date, dates, schedule, times, venue, AJAX, responsive, shortcode, seminar, summit
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Organize and publish your events in an easy and elegant way using Event Calendar WD. 
 
 == Description ==
+
+
+Looking for an enhanced tool for displaying and managing various events within the site? Whether you have a single event you want to display on a calendar or multiple events per day, the Event Calendar plugin will help you to organize the events using elegant views.
+ 
+You can choose to display the event calendar with all four views (choosing the ordering of the views) or select only the view(s) you prefer. The event calendar uses the following default views- Month, Week, List and Day.
 
 = Features of Event Calendar WD: =  
 
@@ -51,10 +56,6 @@ Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpre
 
 
 https://www.youtube.com/watch?v=htmdAkRuIzw
-
-Looking for an enhanced tool for displaying and managing various events within the site? Whether you have a single event you want to display on a calendar or multiple events per day, the Event Calendar plugin will help you to organize the events using elegant views.
- 
-You can choose to display the event calendar with all four views (choosing the ordering of the views) or select only the view(s) you prefer. The event calendar uses the following default views- Month, Week, List and Day.
  
 The plugin is created based on WordPress core standards. This means that each calendar/event is a custom post, the category is taxonomy and standard tags are applicable for each post. Thus the Event Calendar WD fully inherits the user and SEO-friendly standards of WordPress.
  
@@ -127,10 +128,15 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 
 == Changelog ==
 
+= 1.0.10 =
+Added: Organizers and venues archive page order option 
+Added: Show categories and tags in event page option
+Fixed: Featured image sizes in widget
+
 = 1.0.9 =
-Fixed: show google maps conflict with other plugins
-Fixed: geolocation bug 
-Fixed: save organizer featured image issue 
+Fixed: Show google maps conflict with other plugins
+Fixed: Geolocation bug 
+Fixed: Save organizer featured image issue 
 
 = 1.0.8 =
 Changed: Event page

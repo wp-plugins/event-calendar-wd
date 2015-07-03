@@ -9,7 +9,7 @@ class ECWD_Event {
      * Class constructor
      *
      */
-    public function __construct($id, $calendar_id, $title, $description, $location, $start_time, $end_time, $url, $latLong = '', $permalink = '', $event='', $term_metas = '', $metas = '') {
+    public function __construct($id, $calendar_id, $title, $description, $location, $start_time, $end_time, $url, $latLong = '', $permalink = '', $event='', $term_metas = '', $metas = '', $image='') {
 
         $this->event_id = $id;
         $this->calendar_id = $calendar_id;
@@ -24,6 +24,7 @@ class ECWD_Event {
         $this->post = $event;
         $this->terms = $term_metas;
         $this->metas = $metas;
+        $this->image = $image;
 
 
     }

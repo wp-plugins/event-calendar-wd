@@ -344,6 +344,7 @@ class ECWD_Display {
 			$terms     = array_key_exists( 'terms', $arr ) ? $arr['terms'] : '';
 			$post      = array_key_exists( 'post', $arr ) ? $arr['post'] : '';
 			$metas     = array_key_exists( 'metas', $arr ) ? $arr['metas'] : '';
+			$image     = array_key_exists( 'image', $arr ) ? $arr['image'] : '';
 			if ( $metas && isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_venue' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_venue' ][0] ) {
 				$venue_post = get_post( $metas[ ECWD_PLUGIN_PREFIX . '_event_venue' ][0] );
 				if ( $venue_post ) {
@@ -486,7 +487,8 @@ class ECWD_Display {
 										'all_day_event' => ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] == 1 ) ? 1 : 0,
 										'venue'         => $venue,
 										'organizers'    => $organizers,
-										'post'          => $post
+										'post'          => $post,
+										'image'         => $image
 									);
 								}
 
@@ -532,7 +534,8 @@ class ECWD_Display {
 									'all_day_event' => ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] == 1 ) ? 1 : 0,
 									'venue'         => $venue,
 									'organizers'    => $organizers,
-									'post'          => $post
+									'post'          => $post,
+									'image'         => $image
 								);
 							}
 						}
@@ -598,7 +601,8 @@ class ECWD_Display {
 										'all_day_event' => ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] == 1 ) ? 1 : 0,
 										'venue'         => $venue,
 										'organizers'    => $organizers,
-										'post'          => $post
+										'post'          => $post,
+										'image'         => $image
 									);
 								}
 							}
@@ -678,7 +682,8 @@ class ECWD_Display {
 									'all_day_event' => ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] == 1 ) ? 1 : 0,
 									'venue'         => $venue,
 									'organizers'    => $organizers,
-									'post'          => $post
+									'post'          => $post,
+									'image'         => $image
 								);
 							}
 						}
@@ -714,7 +719,8 @@ class ECWD_Display {
 						'all_day_event' => ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0] == 1 ) ? 1 : 0,
 						'venue'         => $venue,
 						'organizers'    => $organizers,
-						'post'          => $post
+						'post'          => $post,
+						'image'         => $image
 					);
 					// }
 				}

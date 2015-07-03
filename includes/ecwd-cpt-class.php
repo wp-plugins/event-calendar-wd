@@ -81,6 +81,7 @@ class ECWD_Cpt {
 		add_filter( 'manage_' . ECWD_PLUGIN_PREFIX . '_event_posts_columns', array( $this, 'add_column_headers' ) );
 
 		add_filter( 'template_include', array( $this, 'ecwd_templates' ) );
+		add_filter( 'request', array(&$this, 'ecwd_archive_order'));
 
 		//category filter
 		add_filter( 'init', array( $this, 'event_restrict_manage' ) );
@@ -272,7 +273,7 @@ class ECWD_Cpt {
 			'capability_type'    => 'post',
 			'taxonomies'         => array(),
 			'has_archive'        => true,
-			'hierarchical'       => false,
+			'hierarchical'       => true,
 			'menu_icon'          => plugins_url( '/assets/organizer-icon.png', ECWD_MAIN_FILE ),
 			'supports'           => array(
 				'title',
@@ -356,7 +357,7 @@ class ECWD_Cpt {
 			'capability_type'    => 'post',
 			'taxonomies'         => array(),
 			'has_archive'        => true,
-			'hierarchical'       => false,
+			'hierarchical'       => true,
 			'menu_icon'          => plugins_url( '/assets/venue-icon.png', ECWD_MAIN_FILE ),
 			'supports'           => array(
 				'title',
@@ -809,6 +810,18 @@ class ECWD_Cpt {
 	}
 
 
+	//order orgs and venues by post name
+	function ecwd_archive_order( $vars ) {
+		global $ecwd_options;
+		$orderby = isset($ecwd_options['cpt_order'])?$ecwd_options['cpt_order']:'post_name';
+		$types = array(self::ORGANIZER_POST_TYPE, self::VENUE_POST_TYPE);
+		if ( !is_admin() && isset($vars['post_type']) && is_post_type_hierarchical($vars['post_type']) && in_array($vars['post_type'],$types)) {
+			$vars['orderby'] = $orderby;
+			$vars['order'] = 'ASC';
+		}
+		return $vars;
+	}
+
 	public function save_events() {
 		$status = 'error';
 		if ( isset( $_POST[ ECWD_PLUGIN_PREFIX . '_event_id' ] ) && isset( $_POST[ ECWD_PLUGIN_PREFIX . '_calendar_id' ] ) && isset( $_POST[ ECWD_PLUGIN_PREFIX . '_action' ] ) ) {
@@ -1135,7 +1148,7 @@ class ECWD_Cpt {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => ECWD_PLUGIN_PREFIX . '_event_category' ),
+			'rewrite'           => array( 'slug' =>'event_category' ),
 		);
 		//register_taxonomy_for_object_type(ECWD_PLUGIN_PREFIX.'_event_category', array(ECWD_PLUGIN_PREFIX.'_event'));
 		register_taxonomy( ECWD_PLUGIN_PREFIX . '_event_category', array( ECWD_PLUGIN_PREFIX . '_event' ), $args );
@@ -1147,7 +1160,7 @@ class ECWD_Cpt {
 				'hierarchical'  => false,
 				'label'         => __( 'Event Tags', 'ecwd' ),
 				'singular_name' => __( 'Event Tag', 'ecwd' ),
-				'rewrite'       => true,
+				'rewrite'           => array( 'slug' =>'event_tag' ),
 				'query_var'     => true
 			)
 		);

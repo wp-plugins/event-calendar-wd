@@ -106,6 +106,12 @@ function ecwd_register_settings() {
 				'desc' => __( 'Check to display events within website post list in main pages.', 'ecwd' ),
 				'type' => 'checkbox'
 			),
+			'cpt_order'        => array(
+				'id'   => 'cpt_order',
+				'name' => __( 'Order of Organizers and Venues by', 'ecwd' ),
+				'desc' => __( 'Select Order of Organizers and Venues.', 'ecwd' ),
+				'type' => 'order_select'
+			),
 			'social_icons'   => array(
 				'id'   => 'social_icons',
 				'name' => __( 'Enable Social Icons', 'ecwd' ),
@@ -118,8 +124,13 @@ function ecwd_register_settings() {
 				'desc' =>'',
 				'type' => 'radio',
 				'default'=>1
+			),
+			'category_and_tags' => array(
+				'id'   => 'category_and_tags',
+				'name' => __( 'Enable Category and Tags', 'ecwd' ),
+				'desc' => __( 'Check to display category and Tags.', 'ecwd' ),
+				'type' => 'checkbox'
 			)
-
 		)
 
 	);
@@ -193,6 +204,25 @@ function ecwd_week_select_callback( $args ) {
 	$html = "\n" . '<select  id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" >
         <option value="0" ' . selected( 0, isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Sunday</option>
         <option value="1" ' . selected( 1, isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Monday</option>
+    </select>' . "\n";
+
+	// Render description text directly to the right in a label if it exists.
+	if ( ! empty( $args['desc'] ) ) {
+		$html .= '<p class="description">' . $args['desc'] . '</p>' . "\n";
+	}
+
+	echo $html;
+}
+/*
+ * Order select callback function
+ */
+
+function ecwd_order_select_callback( $args ) {
+	global $ecwd_options;
+	$html = "\n" . '<select  id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" >
+        <option value="post_name" ' . selected( 'post_name', isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Name</option>
+        <option value="ID" ' . selected( 'ID', isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>ID</option>
+        <option value="post_date" ' . selected( 'post_date', isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Date</option>
     </select>' . "\n";
 
 	// Render description text directly to the right in a label if it exists.

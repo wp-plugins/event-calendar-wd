@@ -66,6 +66,15 @@ if ( has_post_thumbnail() ) {
 	$featured_image = wp_get_attachment_url( get_post_thumbnail_id( $post->ID, 'full', false ) );
 }
 
+$category_and_tags = false;
+
+if ( isset( $ecwd_options['category_and_tags'] ) && $ecwd_options['category_and_tags'] != '' ) {
+	$category_and_tags = $ecwd_options['category_and_tags'];
+}
+$args             = array( 'orderby' => 'name', 'order' => 'ASC', 'fields' => 'all' );
+$event_tags       = wp_get_post_terms( $post->ID, 'ecwd_event_tag', $args );
+$event_categories = wp_get_post_terms( $post->ID, 'ecwd_event_category', $args );
+
 get_header();
 ?>
 <div id="ecwd-events-content" class="ecwd-events-single hentry">
@@ -123,34 +132,33 @@ get_header();
 							<div class="event-detalis-org">
 								<label class="ecwd-event-org-info"
 								       title="<?php _e( 'Organizers', 'ecwd' ); ?>"></label>
-								<?php if ( $organizers ) {
-									foreach ( $organizers as $organizer ) { ?>
-										<span itemprop="organizer">
-						<a href="<?php echo get_permalink( $organizer['ID'] ) ?>"><?php echo $organizer['post_title'] ?></a>
-					</span>
-									<?php }
-								} ?>
+								<?php
+								foreach ( $organizers as $organizer ) { ?>
+									<span itemprop="organizer">
+											<a href="<?php echo get_permalink( $organizer['ID'] ) ?>"><?php echo $organizer['post_title'] ?></a>
+										</span>
+								<?php } ?>
 							</div>
 						<?php } ?>
 						<div class="event-venue" itemprop="location" itemscope
 						     itemtype="http://schema.org/Place">
 							<?php if ( $venue_post_id ) { ?>
+								<label class="ecwd-venue-info"
+								       title="<?php _e( 'Venue', 'ecwd' ); ?>"></label>
 								<span itemprop="name"><a
 										href="<?php echo $venue_permalink ?>"><?php echo $venue; ?></a></span>
 								<div class="address" itemprop="address" itemscope
 								     itemtype="http://schema.org/PostalAddress">
 									<?php echo $ecwd_event_location; ?>
-									<?php
-									if ( $ecwd_event_latlong ) {
-										?>
-									<?php } ?>
 								</div>
 
 							<?php } elseif ( $ecwd_event_location ) { ?>
-								<div class="address" itemprop="address" itemscope
-								     itemtype="http://schema.org/PostalAddress">
+								<label class="ecwd-venue-info"
+								       title="<?php _e( 'Location', 'ecwd' ); ?>"></label>
+								<span class="address" itemprop="address" itemscope
+								      itemtype="http://schema.org/PostalAddress">
 									<?php echo $ecwd_event_location; ?>
-								</div>
+								</span>
 							<?php } ?>
 						</div>
 					</div>
@@ -159,21 +167,20 @@ get_header();
 					?>
 
 					<div class="ecwd-social">
-        <span class="share-links">
-			<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>" class="ecwd-twitter"
-			   target="_blank" data-original-title="Tweet It">
-				<span class="visuallyhidden">Twitter</span></a>
-			<a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink( $post_id ) ?>" class="ecwd-facebook"
-			   target="_blank" data-original-title="Share on Facebook">
-				<span class="visuallyhidden">Facebook</span></a>
-			<a href="http://plus.google.com/share?url=<?php echo get_permalink( $post_id ) ?>" class="ecwd-google-plus"
-			   target="_blank" data-original-title="Share on Google+">
-				<span class="visuallyhidden">Google+</span></a>
-		</span>
+				        <span class="share-links">
+							<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>" class="ecwd-twitter"
+							   target="_blank" data-original-title="Tweet It">
+								<span class="visuallyhidden">Twitter</span></a>
+							<a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink( $post_id ) ?>" class="ecwd-facebook"
+							   target="_blank" data-original-title="Share on Facebook">
+								<span class="visuallyhidden">Facebook</span></a>
+							<a href="http://plus.google.com/share?url=<?php echo get_permalink( $post_id ) ?>" class="ecwd-google-plus"
+							   target="_blank" data-original-title="Share on Google+">
+								<span class="visuallyhidden">Google+</span></a>
+						</span>
 					</div>
 				<?php } ?>
 				<?php
-				//if($ecwd_event_show_map==1){
 				if ( $ecwd_event_show_map == 1 && $ecwd_event_latlong ) {
 					$map_events               = array();
 					$map_events[0]['latlong'] = explode( ',', $ecwd_event_latlong );
@@ -243,9 +250,70 @@ get_header();
 
 					?>
 				</div>
+				<!-- Content -->
 				<div>
 					<?php the_content(); ?>
 				</div>
+				<!-- End Content -->
+				<!-- Categories and tags -->
+				<?php if ( $category_and_tags == 1 ) { ?>
+					<div class="event_cageory_and_tags">
+
+						<?php
+						if ( ! empty( $event_categories ) ) { ?>
+							<ul class="event_categories">
+								<?php
+
+								foreach ( $event_categories as $category ) {
+
+									$metas = get_option( "ecwd_event_category_$category->term_id" );
+
+									?>
+									<li class="event_category event-details-title" >
+										<?php if ( $metas['color'] ) { ?>
+											<span class="event-metalabel"
+											      style="background:<?php echo $metas['color']; ?>"></span>
+											<span class="event_catgeory_name"> <a
+													href="<?php echo get_category_link( $category ); ?>"
+													style="color:<?php echo $metas['color']; ?>"><?php echo $category->name; ?> </a></span>
+										<?php } else { ?>
+											<span class="event_catgeory_name"> <a
+													href="<?php echo get_category_link( $category ); ?>"><?php echo $category->name; ?> </a></span>
+										<?php } ?>
+									</li>
+								<?php
+								}
+								?>
+							</ul>
+						<?php
+						}
+						?>
+
+
+						<?php
+						if ( ! empty( $event_tags ) ) {
+							?>
+
+							<ul class="event_tags">
+
+								<?php
+								foreach ( $event_tags as $tag ) {
+									?>
+									<li class="event_tag">
+							<span class="event_tag_name">
+								<a href="<?php echo get_tag_link( $tag ); ?>">#<?php echo $tag->name; ?> </a>
+							</span>
+									</li>
+								<?php
+								}
+								?></ul>
+						<?php
+						}
+						?>
+					</div>
+				<?php } ?>
+				<!--	END Categories and tags -->
+
 
 
 				<?php
@@ -324,16 +392,13 @@ get_header();
 
 					$d      = new ECWD_Display( 0, '', '', $today );
 					$events = $d->get_event_days( $events );
-
-
-
 					?>
 
 					<?php if ( count( $events ) > 0 ) {
 						$events = $d->events_unique( $events );
 						?>
-
-						<div class="ecwd-venue-events">
+						<!--	Related  Events-->
+						<div class="ecwd-upcoming-events">
 							<h3> <?php _e( 'Related events', 'ecwd' ) ?></h3>
 
 							<div class="upcoming_events_slider">
@@ -399,6 +464,7 @@ get_header();
 				<?php }?>
 
 			</div>
+			<!--	#Related  Events-->
 		</div> <!-- #post-x -->
 		<?php
 
