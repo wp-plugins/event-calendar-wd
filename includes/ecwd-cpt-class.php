@@ -232,6 +232,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
+			'menu_position'      =>'26,11',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'has_archive'        => false,
@@ -268,7 +269,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			//'edit.php?post_type=ecwd_calendar',
+			'menu_position'      =>'26,13',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'taxonomies'         => array(),
@@ -306,7 +307,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			//'edit.php?post_type=ecwd_calendar',
+			'menu_position'      =>'26,14',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'taxonomies'         => array(
@@ -352,7 +353,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			//'edit.php?post_type=ecwd_calendar',
+			'menu_position'      =>'26,15',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'taxonomies'         => array(),
@@ -634,23 +635,6 @@ class ECWD_Cpt {
 		$ip_addr = $_SERVER['REMOTE_ADDR'];
 		$long    = '';
 		$lat     = '';
-		if ( ini_get( 'allow_url_fopen' ) ) {
-			if ( $ip_addr == '127.0.0.1' ) {
-				$ip_addr = '37.157.218.77';
-			}
-
-			$url = 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr;
-			if ( false === $geoplugin = get_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr ) ) {
-				$geoplugin = unserialize( file_get_contents( 'http://www.geoplugin.net/php.gp?ip=' . $ip_addr ) );
-				set_transient( ECWD_PLUGIN_PREFIX . '_ip_' . $ip_addr, $geoplugin, 12 * 60 * 60 );
-			}
-
-
-			if ( $geoplugin['geoplugin_latitude'] && $geoplugin['geoplugin_longitude'] ) {
-				$lat  = $geoplugin['geoplugin_latitude'];
-				$long = $geoplugin['geoplugin_longitude'];
-			}
-		}
 		$args   = array(
 			'post_type'           => ECWD_PLUGIN_PREFIX . '_venue',
 			'post_status'         => 'publish',

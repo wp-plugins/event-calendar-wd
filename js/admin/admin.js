@@ -381,17 +381,31 @@ function initialize() {
     geocoder = new google.maps.Geocoder();
 
     var lat_long = document.getElementById('ecwd_lat_long').value.split(',');
-    var myLatlng = new google.maps.LatLng(parseFloat(lat_long[0]), parseFloat(lat_long[1]));
+    var lat_long_available = false;
+    if(lat_long[0]) {
+        var myLatlng = new google.maps.LatLng(parseFloat(lat_long[0]), parseFloat(lat_long[1]));
+        lat_long_available = true;
+    }else{
+        var myLatlng = new google.maps.LatLng(53.65914, 0.072050);
+    }
     var ecwd_zoom = parseInt(document.getElementById('ecwd_map_zoom').value);
     var ecwd_marker = parseInt(document.getElementById('ecwd_marker').value);
+
     var mapOptions = {
         zoom: ecwd_zoom,
         center: myLatlng,
         scrollwheel: false
     };
 
-     map = new google.maps.Map(document.getElementById('map-canvas'),
+    map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
+
+    if (!lat_long_available && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(initialLocation);
+        });
+    }
 
 
     var input = document.getElementById('ecwd_event_location');

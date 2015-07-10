@@ -2199,6 +2199,7 @@ a.ecwd-google-plus{
     font-size: 20px !important;
     height: 40px;
     line-height: 38px !important;
+    padding: 0;
 }
 
 .ecwd-calendar-more-event .ecwd-modal ul.events li {

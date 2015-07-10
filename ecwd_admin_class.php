@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.10';
+	protected $version = '1.0.11';
 	protected $ecwd_page = null;
 
 	private function __construct() {
@@ -79,18 +79,8 @@ class ECWD_Admin {
 				'display_admin_page'
 			)
 		);
-		$this->ecwd_page[] = add_submenu_page(
-			'edit.php?post_type=ecwd_calendar', __( 'Add-ons', 'ecwd' ), __( 'Add-ons', 'ecwd' ), 'manage_options', $this->prefix . '_addons', array(
-				$this,
-				'display_addons_page'
-			)
-		);
-		$this->ecwd_page[] = add_submenu_page(
-			'edit.php?post_type=ecwd_calendar', __( 'Themes', 'ecwd' ), __( 'Themes', 'ecwd' ), 'manage_options', $this->prefix . '_themes', array(
-				$this,
-				'display_themes_page'
-			)
-		);
+
+
 		$this->ecwd_page[] = add_submenu_page(
 			'edit.php?post_type=ecwd_calendar', __( 'Licensing', 'ecwd' ), __( 'Licensing', 'ecwd' ), 'manage_options', $this->prefix . '_licensing', array(
 				$this,
@@ -109,7 +99,18 @@ class ECWD_Admin {
 				'display_featured_themes'
 			)
 		);
-
+		$this->ecwd_page[] = add_menu_page(
+			__( 'Calendar Add-ons', 'ecwd' ), __( 'Calendar Add-ons', 'ecwd' ), 'manage_options', $this->prefix . '_addons', array(
+			$this,
+			'display_addons_page'
+		),plugins_url( '/assets/add-ons-icon.png', ECWD_MAIN_FILE ), '26,12'
+		);
+		$this->ecwd_page[] = add_menu_page(
+			__( 'Calendar Themes', 'ecwd' ), __( 'Calendar Themes', 'ecwd' ), 'manage_options', $this->prefix . '_themes', array(
+			$this,
+			'display_themes_page'
+		),plugins_url( '/assets/themes-icon.png', ECWD_MAIN_FILE ), '26,18'
+		);
 
 	}
 
@@ -137,23 +138,30 @@ class ECWD_Admin {
 				'icon'        => '',
 				'image'       => plugins_url( 'assets/upcoming_events.png', __FILE__ ),
 			),
+			'import_export'   => array(
+				'name'        => 'ECWD Import/Export',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html',
+				'description' => 'The following data of the Event Calendar WD can be exported and imported: Events, Categories, Venues,Organizers and Tags. The exported/imported data will be in CSV format, which can be further edited, modified and imported',
+				'icon'        => '',
+				'image'       => plugins_url( 'assets/import_export.png', __FILE__ )
+			),
 			'fb'                        => array(
 				'name'        => 'ECWD Facebook Integration',
-				'url'         => '#',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html',
 				'description' => 'This addon integrates ECWD with your Facebook page and gives functionality to import events or just display events without importing.',
 				'icon'        => '',
 				'image'       => plugins_url( 'assets/add_fb.jpg', __FILE__ ),
 			),
 			'gcal'                      => array(
 				'name'        => 'ECWD Google Calendar Integration',
-				'url'         => '#',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/google-calendar-integration.html',
 				'description' => 'This addon integrates ECWD with your Google Calendar and gives functionality to import events or just display events without importing.',
 				'icon'        => '',
 				'image'       => plugins_url( 'assets/add_gcal.jpg', __FILE__ ),
 			),
 			'ical'                      => array(
 				'name'        => 'ECWD iCAL Integration',
-				'url'         => '#',
+				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html',
 				'description' => 'This addon integrates ECWD with your iCAL Calendar and gives functionality to import events or just display events without importing.',
 				'icon'        => '',
 				'image'       => plugins_url( 'assets/add_ical.jpg', __FILE__ )

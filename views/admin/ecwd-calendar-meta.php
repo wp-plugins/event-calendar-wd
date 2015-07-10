@@ -107,7 +107,7 @@ $ecwd_calendar_12_hour_time_format = get_post_meta($post->ID, ECWD_PLUGIN_PREFIX
     <tr>
         <th scope="row"><?php _e('Theme', 'ecwd'); ?></th>
         <td>
-            <a href="<?php echo admin_url('edit.php?post_type=ecwd_calendar&page=ecwd_themes');?>"><?php _e('Default', 'ecwd');?></a> <sup style="color: #ba281e;">pro</sup>
+            <a href="<?php echo admin_url('admin.php?page=ecwd_themes');?>"><?php _e('Default', 'ecwd');?></a> <sup style="color: #ba281e;">pro</sup>
         </td>
     </tr>
 </table>
