@@ -45,9 +45,11 @@ Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpre
 = Event Calendar WD Add-ons: =  
 [Filter Add-on](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/filter.html)  
 [Countdown](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/countdown.html)      
-[Upcoming Events](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html)    
-
-
+[Upcoming Events](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html)   
+[Google Calendar Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/google-calendar-integration.html)   
+[iCal Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html)   
+[Facebook Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html)   
+[Import/Export](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html)   
 
 [WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
 [Demo](http://wpdemo.web-dorado.com/event-calendar-wd/)  
