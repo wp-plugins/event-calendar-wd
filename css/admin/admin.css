@@ -486,6 +486,8 @@ span.ecwd_error{
     margin-top:0;
 }
 #ecwd_theme_meta .with_ecwd_color:after,
+#ecwd-settings-content .ecwd-addons_updates:after,
+#ecwd-settings-content .main-plugin:after,
 #ecwd-settings-content:after{
     content:'';
     display:table;
@@ -513,13 +515,10 @@ span.ecwd_error{
 #ecwd-settings-content #add_on_title{
     margin-bottom:20px;
 }
-#ecwd-settings-content .ecwd-add-on {
-    position: relative;
-    height: 455px;
-}
+
 #ecwd-settings-content .ecwd_coming_soon {
     position: absolute;
-    top: 0;
+    top: 44px;
     left: 0;
 }
 #ecwd-settings-content .ecwd-add-on a{
@@ -527,29 +526,82 @@ span.ecwd_error{
 }
 #ecwd-settings-content .ecwd-add-on h2{
     color: #229DBF;
-    font-size: 17px;
-    border-bottom: 1px solid #898989;
-    width: 92%;
-    margin-bottom: 17px;
-    padding: 5px 0 7px 0;
+    font-size: 16px;
+    margin-bottom: 9px;
+    padding: 0 0 7px;
+    line-height: 1.2;
 }
 #ecwd-settings-content .ecwd-addon-descr{
-    font-size: 15px;
-    line-height: 20px;
-    width: 90%;
-    color: #303030;
+    font-size: 13px;
+    line-height: 18px;
+    height: 100%;
+    width: 53%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 8px 10px 10px;
+    background: #23282D;
+    color: #D1DDE0;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: rotateY(-90deg);
+    -moz-transform: rotateY(-90deg);
+    transform: rotateY(-90deg);
+    -webkit-transition: -webkit-transform 0.4s, opacity 0.1s 0.3s;
+    -moz-transition: -moz-transform 0.4s, opacity 0.1s 0.3s;
+    transition: transform 0.4s, opacity 0.1s 0.3s;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
-#ecwd-settings-content .ecwd-addon-descr a{
+.grid figcaption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    background: #2c3f52;
+    color: #ed4e6e;
+}
+#ecwd-settings-content .ecwd-addon,
+#ecwd-settings-content .ecwd-addon-price{
     display: inline-block;
     margin-top: 15px;
-    background: #229DBF url(../images/Add_Ons.jpg) no-repeat 6px center;
-    color: #D2EBF0;
+    font-size: 15px;
+    border: 1px solid #DCDCDC;
+    font-weight: bold;
+}
+#ecwd-settings-content .ecwd-addon{
+    background: #FFFFFF url(../images/Add_Ons.jpg) no-repeat 6px center;
+    color: #66686B;
     padding: 9px 12px 9px 45px;
-    font-size: 17px;
-    border: 1px solid #93BBC7;
-    position: absolute;
-    left: 20px;
-    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+#ecwd-settings-content .ecwd-addon-price{
+    background: #FFFFFF;
+    color: #229CBF;
+    padding: 9px 12px;
+}
+#ecwd-settings-content .ecwd-add-on:hover .ecwd-addon-price,
+#ecwd-settings-content .ecwd-addon-price:hover{
+    background: #229CBF;
+    color: #DDECF1;
+}
+#ecwd-settings-content .ecwd-add-on:hover .ecwd-addon,
+#ecwd-settings-content .ecwd-addon:hover{
+    background: #23282D url(../images/Add_Ons_hover.jpg) no-repeat 6px center;
+    color: #DDDEDE;
+}
+#ecwd-settings-content .ecwd-addon span{
+    border-left: 1px solid #A7A9AB;
+    padding: 4px 10px 4px 10px;
 }
 #ecwd-settings-content .ecwd-addon-descr span{
     padding: 5px 0 5px 10px;
@@ -563,5 +615,119 @@ span.ecwd_error{
     width:310px;
     float:left;
     margin-right:40px;
-    margin-bottom:35px;
+    margin-bottom:57px;
+    -webkit-perspective: 1700px;
+    -moz-perspective: 1700px;
+    perspective: 1700px;
+    -webkit-perspective-origin: 0 50%;
+    -moz-perspective-origin: 0 50%;
+    perspective-origin: 0 50%;
+    position: relative;
+}
+#ecwd-settings-content .main-plugin .ecwd-add-on{
+    float: left;
+    margin-right: 25px;
+    height: auto;
+}
+#ecwd-settings-content .ecwd-figure{
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    position: relative;
+    width:100%;
+    height: 232px;
+    margin: 0;
+}
+#ecwd-settings-content .ecwd-figure-img{
+    overflow: hidden;
+}
+#ecwd-settings-content .ecwd-figure-img img{
+    -webkit-transition: -webkit-transform 0.4s;
+    -moz-transition: -moz-transform 0.4s;
+    transition: transform 0.4s;
+}
+#ecwd-settings-content .ecwd-figure:hover img{
+    -webkit-transform: translateX(25%);
+    -moz-transform: translateX(25%);
+    -ms-transform: translateX(25%);
+    transform: translateX(25%);
+}
+#ecwd-settings-content .ecwd-figure:hover figcaption{
+    opacity: 1;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: -webkit-transform 0.4s, opacity 0.1s;
+    -moz-transition: -moz-transform 0.4s, opacity 0.1s;
+    transition: transform 0.4s, opacity 0.1s;
+}
+#ecwd-settings-content .ecwd-addon-subtitle {
+    font-size: 25px;
+    border-bottom: 1px solid #C1C4C7;
+    padding-bottom: 23px;
+}
+#ecwd-settings-content .main-plugin .main-plugin-img {
+    float: left;
+    margin-right: 2%;
+    width: 26%;
+}
+#ecwd-settings-content .main-plugin .main-plugin-img img{
+    max-width:100%;
+}
+#ecwd-settings-content .main-plugin .main-plugin-info {
+    float: left;
+}
+#ecwd-settings-content .main-plugin {
+    margin-bottom: 25px;
+}
+#ecwd-settings-content .main-plugin_desc-cont p,
+#ecwd-settings-content .main-plugin_desc-cont {
+    font-size: 14px;
+}
+#ecwd-settings-content .main-plugin-desc-info p{
+    margin: 2px 0 13px;
+}
+#ecwd-settings-content .ecwd-addons_updates .main-plugin-desc-info p{
+    margin: 2px 0 4px;
+}
+#ecwd-settings-content .main-plugin-desc {
+    margin-bottom: 12px;
+}
+#ecwd-settings-content .main-plugin-info h2 {
+    padding: 0;
+    line-height: 1;
+    margin-bottom: 14px;
+}
+#ecwd-settings-content .main-plugin-info h2 a {
+    color: #323A45;
+    text-decoration: none;
+    font-weight: bold;
+}
+#ecwd-settings-content .main-plugin-desc-info {
+    border-bottom: 1px solid #C0C4C7;
+    width: 71%;
+}
+#ecwd-settings-content .ecwd-addons_updates .main-plugin-desc-info {
+    border-bottom: 0;
+    width: 100%;
+}
+#ecwd-settings-content  .update-info {
+    background:url(../../assets/updates_icon.jpg) no-repeat;
+    padding-left:25px;
+    color: #bc0b0b;
+}
+#ecwd-settings-content .ecwd-addons_updates .ecwd-figure {
+    margin-bottom: 10px;
+}
+#ecwd-settings-content .ecwd-addons_updates .ecwd-addon-descr-update {
+    border-top: 1px solid #898989;
+    padding-top: 6px;
+}
+#ecwd-settings-content .ecwd-addons_updates h2{
+    color: #323A45;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }

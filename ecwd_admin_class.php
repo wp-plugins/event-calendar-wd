@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.11';
+	protected $version = '1.0.13';
 	protected $ecwd_page = null;
 
 	private function __construct() {
@@ -54,9 +54,6 @@ class ECWD_Admin {
 		}
 	}
 
-	public function save_events() {
-		wp_die();
-	}
 
 	public static function activate() {
 		//setup default theme if there is no one
@@ -117,62 +114,66 @@ class ECWD_Admin {
 	public function display_addons_page() {
 
 		$addons = array(
-			'event_filters' => array(
-				'name'        => 'ECWD Filter Bar',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/filter.html',
-				'description' => 'This add-on is designed for advanced event filter and browsing. It will display multiple filters, which will make it easier for the user to find the relevant event from the calendar.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/add_filters.png', __FILE__ ),
+			'Events Grouping' => array(
+				'event_filters'   => array(
+					'name'        => 'ECWD Filter Bar',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/filter.html',
+					'description' => 'This add-on is designed for advanced event filter and browsing. It will display multiple filters, which will make it easier for the user to find the relevant event from the calendar.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_filters.png', __FILE__ ),
+				),
+				'event_countdown' => array(
+					'name'        => 'ECWD Event Countdown',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/countdown.html',
+					'description' => 'With this add-on you can add an elegant countdown to your site. It supports calendar events or a custom one. The styles and colors of the countdown can be modified. It can be used as both as widget and shortcode.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_cdown.jpg', __FILE__ ),
+				),
+				'upcoming_events' => array(
+					'name'        => 'ECWD Upcoming events widget',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html',
+					'description' => 'The Upcoming events widget is designed for displaying upcoming events lists. The number of events, the event date ranges, as well as the appearance of the widget is fully customizable and easy to manage.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/upcoming_events.png', __FILE__ ),
+				),
+				'import_export'   => array(
+					'name'        => 'ECWD Import/Export',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html',
+					'description' => 'The following data of the Event Calendar WD can be exported and imported: Events, Categories, Venues,Organizers and Tags. The exported/imported data will be in CSV format, which can be further edited, modified and imported',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/import_export.png', __FILE__ )
+				),
 			),
-			'event_countdown'           => array(
-				'name'        => 'ECWD Event Countdown',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/countdown.html',
-				'description' => 'With this add-on you can add an elegant countdown to your site. It supports calendar events or a custom one. The styles and colors of the countdown can be modified. It can be used as both as widget and shortcode.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/add_cdown.jpg', __FILE__ ),
-			),
-			'upcoming_events'                        => array(
-				'name'        => 'ECWD Upcoming events widget',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html',
-				'description' => 'The Upcoming events widget is designed for displaying upcoming events lists. The number of events, the event date ranges, as well as the appearance of the widget is fully customizable and easy to manage.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/upcoming_events.png', __FILE__ ),
-			),
-			'import_export'   => array(
-				'name'        => 'ECWD Import/Export',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html',
-				'description' => 'The following data of the Event Calendar WD can be exported and imported: Events, Categories, Venues,Organizers and Tags. The exported/imported data will be in CSV format, which can be further edited, modified and imported',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/import_export.png', __FILE__ )
-			),
-			'fb'                        => array(
-				'name'        => 'ECWD Facebook Integration',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html',
-				'description' => 'This addon integrates ECWD with your Facebook page and gives functionality to import events or just display events without importing.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/add_fb.jpg', __FILE__ ),
-			),
-			'gcal'                      => array(
-				'name'        => 'ECWD Google Calendar Integration',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/google-calendar-integration.html',
-				'description' => 'This addon integrates ECWD with your Google Calendar and gives functionality to import events or just display events without importing.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/add_gcal.jpg', __FILE__ ),
-			),
-			'ical'                      => array(
-				'name'        => 'ECWD iCAL Integration',
-				'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html',
-				'description' => 'This addon integrates ECWD with your iCAL Calendar and gives functionality to import events or just display events without importing.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/add_ical.jpg', __FILE__ )
-			),
-			'add_event'                 => array(
-				'name'        => 'ECWD Frontend Event Management',
-				'url'         => '#',
-				'description' => 'This add-on makes possible to add and  manage events in frontend. Site administrators can manage frontend event submissions.',
-				'icon'        => '',
-				'image'       => plugins_url( 'assets/add_addevent.jpg', __FILE__ ),
-			),
+			'Integrations'    => array(
+				'fb'        => array(
+					'name'        => 'ECWD Facebook Integration',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html',
+					'description' => 'This addon integrates ECWD with your Facebook page and gives functionality to import events or just display events without importing.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_fb.jpg', __FILE__ ),
+				),
+				'gcal'      => array(
+					'name'        => 'ECWD Google Calendar Integration',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/google-calendar-integration.html',
+					'description' => 'This addon integrates ECWD with your Google Calendar and gives functionality to import events or just display events without importing.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_gcal.jpg', __FILE__ ),
+				),
+				'ical'      => array(
+					'name'        => 'ECWD iCAL Integration',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html',
+					'description' => 'This addon integrates ECWD with your iCAL Calendar and gives functionality to import events or just display events without importing.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_ical.jpg', __FILE__ )
+				),
+				'add_event' => array(
+					'name'        => 'ECWD Frontend Event Management',
+					'url'         => '#',
+					'description' => 'This add-on makes possible to add and  manage events in frontend. Site administrators can manage frontend event submissions.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_addevent.jpg', __FILE__ ),
+				)
+			)
 
 
 		);
