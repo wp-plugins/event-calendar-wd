@@ -10,7 +10,6 @@ class ECWD_Event {
      *
      */
     public function __construct($id, $calendar_id, $title, $description, $location, $start_time, $end_time, $url, $latLong = '', $permalink = '', $event='', $term_metas = '', $metas = '', $image='') {
-
         $this->event_id = $id;
         $this->calendar_id = $calendar_id;
         $this->title = $title;
@@ -228,5 +227,28 @@ class ECWD_Event {
             return sprintf($smallest[0], 1);
         }
     }
+
+
+	public static function getLink( $event, $date ) {
+		// if permalinks are off use ugly links.
+		$date = date('Y-m-d', strtotime($date));
+		if ( '' == get_option( 'permalink_structure' ) ) {
+			return esc_url_raw( self::uglyLink($event,$date ) );
+		}
+
+		$link     = trailingslashit( get_permalink( $event->ID ) );
+		$eventUrl = trailingslashit( esc_url_raw( $link ) );
+		$eventUrl  = trailingslashit( esc_url_raw( $eventUrl . $date ) );
+		//$eventUrl = add_query_arg('eventDate', $date, $eventUrl );
+		return $eventUrl;
+
+	}
+
+	public static function uglyLink(  $event, $date  ) {
+		$eventUrl = add_query_arg( 'post_type', 'ecwd_event', home_url() );
+		$eventUrl = add_query_arg( array( 'eventDate' => $date ), get_permalink($event->ID) );
+		return $eventUrl;
+	}
+
 
 }

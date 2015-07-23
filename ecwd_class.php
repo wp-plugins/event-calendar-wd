@@ -6,10 +6,10 @@
  */
 class ECWD {
 
-	protected $version = '1.0.13';
+	protected $version = '1.0.14';
 	protected $plugin_name = 'event-calendar-wd';
 	protected $prefix = 'ecwd';
-	protected $old_version = '1.4.11';
+	protected $old_version = '1.0.13';
 	protected static $instance = null;
 
 	private function __construct() {

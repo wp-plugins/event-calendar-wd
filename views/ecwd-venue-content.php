@@ -5,7 +5,7 @@
 
 $date_format  = 'Y-m-d';
 $time_format  = 'H:i';
-$social_icons = false;
+$ecwd_social_icons = false;
 if ( isset( $ecwd_options['date_format'] ) && $ecwd_options['date_format'] != '' ) {
 	$date_format = $ecwd_options['date_format'];
 }
@@ -13,7 +13,7 @@ if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != ''
 	$time_format = $ecwd_options['time_format'];
 }
 if ( isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '' ) {
-	$social_icons = $ecwd_options['social_icons'];
+	$ecwd_social_icons = $ecwd_options['social_icons'];
 }
 
 $post_id   = $post->ID;
@@ -92,7 +92,7 @@ echo $content;
 ?>
 
 <div class="ecwd-venue">
-	<?php if ( $social_icons ) { ?>
+	<?php if ( $ecwd_social_icons ) { ?>
 		<div class="ecwd-social">
             <span class="share-links">
 			<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>" class="ecwd-twitter"

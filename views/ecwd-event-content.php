@@ -11,7 +11,7 @@ $meta    = get_post_meta( $post_id );
 
 $date_format  = 'Y-m-d';
 $time_format  = 'H:i';
-$social_icons = false;
+$ecwd_social_icons = false;
 if ( isset( $ecwd_options['date_format'] ) && $ecwd_options['date_format'] != '' ) {
 	$date_format = $ecwd_options['date_format'];
 }
@@ -19,7 +19,7 @@ if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != ''
 	$time_format = $ecwd_options['time_format'];
 }
 if ( isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '' ) {
-	$social_icons = $ecwd_options['social_icons'];
+	$ecwd_social_icons = $ecwd_options['social_icons'];
 }
 // Load up all post meta data
 $ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true );
@@ -121,7 +121,7 @@ if ( is_array( $ecwd_event_organizers ) || is_object( $ecwd_event_organizers ) )
 			<?php } ?>
 		</div>
 	</div>
-	<?php if ( $social_icons ) {
+	<?php if ( $ecwd_social_icons ) {
 		?>
 		<div class="ecwd-social">
         <span class="share-links">

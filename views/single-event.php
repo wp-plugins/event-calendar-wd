@@ -9,13 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $post;
 global $wp;
 global $ecwd_options;
+global $wp_query;
 
 $post_id = $post->ID;
 $meta    = get_post_meta( $post_id );
 
-$date_format  = 'Y-m-d';
-$time_format  = 'H:i';
-$social_icons = false;
+$date_format       = 'Y-m-d';
+$time_format       = 'H:i';
+$ecwd_social_icons = false;
 if ( isset( $ecwd_options['date_format'] ) && $ecwd_options['date_format'] != '' ) {
 	$date_format = $ecwd_options['date_format'];
 }
@@ -23,13 +24,49 @@ if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != ''
 	$time_format = $ecwd_options['time_format'];
 }
 if ( isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '' ) {
-	$social_icons = $ecwd_options['social_icons'];
+	$ecwd_social_icons = $ecwd_options['social_icons'];
 }
 // Load up all post meta data
-$ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true );
-$ecwd_event_latlong  = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_lat_long', true );
-$ecwd_event_zoom     = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_map_zoom', true );
-$ecwd_event_show_map = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_show_map', true );
+
+
+$ecwd_event                                            = $post;
+$ecwd_event_metas                                      = get_post_meta( $ecwd_event->ID, '', true );
+$ecwd_event_date_from  = $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ][0];
+$ecwd_event_date_to    = $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ][0];
+$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ] = array( 0 => '' );
+if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ] ) ) {
+	$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ] = array( 0 => '' );
+}
+if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ] ) ) {
+	$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ] = array( 0 => '' );
+}
+if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ] ) ) {
+	$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ] = array( 0 => '' );
+}
+if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ] ) ) {
+	$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ] = array( 0 => '' );
+}
+
+$permalink = get_the_permalink($ecwd_event->ID);
+$this_event = $events[ $ecwd_event->ID ] = new ECWD_Event( $ecwd_event->ID, '', $ecwd_event->post_title, $ecwd_event->post_content, $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ][0], $permalink, $ecwd_event, '', $ecwd_event_metas );
+$d          = new ECWD_Display('');
+if ( isset( $_GET['eventDate'] ) || isset($wp_query->query_vars['eventDate'] )) {
+	$fromDate      = isset( $_GET['eventDate'] )?$_GET['eventDate']:$wp_query->query_vars['eventDate'];
+
+	$eventdayslong = $d->dateDiff( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ][0], $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_date_to' ][0] );
+	$toDate        = date('Y-m-d', strtotime( ( date( "Y-m-d", ( strtotime( $fromDate ) ) ) . " +" . ( $eventdayslong + 2 ) . " days" ) ));
+	$this_event_dates = $d->get_event_days( array($ecwd_event->ID=> $this_event ), 1, $fromDate, $toDate );
+	if(isset($this_event_dates[0]['from']) && strtotime($fromDate)==strtotime($this_event_dates[0]['from'])) {
+		$ecwd_event_date_from = $this_event_dates[0]['from'].' '.$this_event_dates[0]['starttime'];
+		$ecwd_event_date_to   = $this_event_dates[0]['to'].' '.$this_event_dates[0]['endtime'];
+	}
+}
+
+
+$ecwd_event_location = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_location' ][0]:'';
+$ecwd_event_latlong  = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_lat_long' ][0]:'';
+$ecwd_event_zoom     = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_map_zoom' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_map_zoom' ][0]:'';
+$ecwd_event_show_map = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_show_map' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_show_map' ][0]:0;
 if ( $ecwd_event_show_map == '' ) {
 	$ecwd_event_show_map = 1;
 }
@@ -37,15 +74,16 @@ if ( ! $ecwd_event_zoom ) {
 	$ecwd_event_zoom = 17;
 }
 
-$ecwd_event_organizers = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_organizers', true );
-$ecwd_event_date_from  = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_date_from', true );
-$ecwd_event_date_to    = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_date_to', true );
-$ecwd_event_url        = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_url', true );
-$ecwd_event_video      = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_video', true );
-$ecwd_all_day_event    = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_all_day_event', true );
-$venue                 = '';
-$venue_permalink       = '';
-$venue_post_id         = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_venue', true );
+$ecwd_event_organizers = $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0];
+
+
+
+$ecwd_event_url     = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ][0]:'';
+$ecwd_event_video   = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_video' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_video' ][0]:'';
+$ecwd_all_day_event = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_all_day_event' ][0]:0;
+$venue              = '';
+$venue_permalink    = '';
+$venue_post_id      = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_venue' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_venue' ][0]:0;
 if ( $venue_post_id ) {
 	$venue_post = get_post( $venue_post_id );
 	if ( $venue_post ) {
@@ -54,8 +92,8 @@ if ( $venue_post_id ) {
 	}
 }
 
-$this_event_url = get_permalink( $post->ID );
-$organizers     = array();
+$organizers = array();
+
 if ( is_array( $ecwd_event_organizers ) || is_object( $ecwd_event_organizers ) ) {
 	foreach ( $ecwd_event_organizers as $ecwd_event_organizer ) {
 		$organizers[] = get_post( $ecwd_event_organizer, ARRAY_A );
@@ -100,24 +138,24 @@ get_header();
 						<div class="event-detalis-date">
 							<label class="ecwd-event-date-info"
 							       title="<?php _e( 'Date', 'ecwd' ); ?>"></label>
-			 <span class="ecwd-event-date" itemprop="startDate"
-			       content="<?php echo date( 'Y-m-d', strtotime( $ecwd_event_date_from ) ) . 'T' . date( 'H:i', strtotime( $ecwd_event_date_from ) ) ?>">
-                 <?php if ( $ecwd_all_day_event == 1 ) {
-	                 echo date( $date_format, strtotime( $ecwd_event_date_from ) );
-	                 if ( $ecwd_all_day_event == 1 ) {
-		                 if ( $ecwd_event_date_to && date( $date_format, strtotime( $ecwd_event_date_from ) ) !== date( $date_format, strtotime( $ecwd_event_date_to ) ) ) {
-			                 echo ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) );
-		                 }
-		                 echo ' ' . __( 'All day', 'ecwd' );
-	                 }
-                 } else {
-	                 echo date( $date_format, strtotime( $ecwd_event_date_from ) ) . ' ' . date( $time_format, strtotime( $ecwd_event_date_from ) );
+									 <span class="ecwd-event-date" itemprop="startDate"
+									       content="<?php echo date( 'Y-m-d', strtotime( $ecwd_event_date_from ) ) . 'T' . date( 'H:i', strtotime( $ecwd_event_date_from ) ) ?>">
+						                 <?php if ( $ecwd_all_day_event == 1 ) {
+							                 echo date( $date_format, strtotime( $ecwd_event_date_from ) );
+							                 if ( $ecwd_all_day_event == 1 ) {
+								                 if ( $ecwd_event_date_to && date( $date_format, strtotime( $ecwd_event_date_from ) ) !== date( $date_format, strtotime( $ecwd_event_date_to ) ) ) {
+									                 echo ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) );
+								                 }
+								                 echo ' ' . __( 'All day', 'ecwd' );
+							                 }
+						                 } else {
+							                 echo date( $date_format, strtotime( $ecwd_event_date_from ) ) . ' ' . date( $time_format, strtotime( $ecwd_event_date_from ) );
 
-	                 if ( $ecwd_event_date_to ) {
-		                 echo ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) ) . ' ' . date( $time_format, strtotime( $ecwd_event_date_to ) );
-	                 }
-                 } ?>
-			 </span>
+							                 if ( $ecwd_event_date_to ) {
+								                 echo ' - ' . date( $date_format, strtotime( $ecwd_event_date_to ) ) . ' ' . date( $time_format, strtotime( $ecwd_event_date_to ) );
+							                 }
+						                 } ?>
+									 </span>
 						</div>
 						<?php if ( $ecwd_event_url ) { ?>
 							<div class="ecwd-url">
@@ -161,20 +199,24 @@ get_header();
 								</span>
 							<?php } ?>
 						</div>
+						<?php do_action( 'ecwd_view_ext' );?>
 					</div>
 				</div>
-				<?php if ( $social_icons ) {
+				<?php if ( $ecwd_social_icons ) {
 					?>
 
 					<div class="ecwd-social">
 				        <span class="share-links">
-							<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>" class="ecwd-twitter"
+							<a href="http://twitter.com/home?status=<?php echo get_permalink( $post_id ) ?>"
+							   class="ecwd-twitter"
 							   target="_blank" data-original-title="Tweet It">
 								<span class="visuallyhidden">Twitter</span></a>
-							<a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink( $post_id ) ?>" class="ecwd-facebook"
+							<a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink( $post_id ) ?>"
+							   class="ecwd-facebook"
 							   target="_blank" data-original-title="Share on Facebook">
 								<span class="visuallyhidden">Facebook</span></a>
-							<a href="http://plus.google.com/share?url=<?php echo get_permalink( $post_id ) ?>" class="ecwd-google-plus"
+							<a href="http://plus.google.com/share?url=<?php echo get_permalink( $post_id ) ?>"
+							   class="ecwd-google-plus"
 							   target="_blank" data-original-title="Share on Google+">
 								<span class="visuallyhidden">Google+</span></a>
 						</span>
@@ -269,7 +311,7 @@ get_header();
 									$metas = get_option( "ecwd_event_category_$category->term_id" );
 
 									?>
-									<li class="event_category event-details-title" >
+									<li class="event_category event-details-title">
 										<?php if ( $metas['color'] ) { ?>
 											<span class="event-metalabel"
 											      style="background:<?php echo $metas['color']; ?>"></span>

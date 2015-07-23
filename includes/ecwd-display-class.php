@@ -309,11 +309,19 @@ class ECWD_Display {
 	/**
 	 * Returns array of days with events, with sub-arrays of events for that day
 	 */
-	public function get_event_days( $events = '', $current_month = 1 ) {
+	/**
+	 * Returns array of days with events, with sub-arrays of events for that day
+	 */
+	public function get_event_days( $events = '', $current_month = 1, $start_date = '', $end_date = '' ) {
 		if ( ! $events ) {
 			$events = $this->merged_events;
 
 		}
+		if ( $start_date && $end_date ) {
+			$this->start_date = $start_date;
+			$this->end_date   = $end_date;
+		}
+
 		foreach ( $events as $id => $arr ) {
 
 			if ( is_int( $arr->start_time ) ) {
@@ -359,21 +367,23 @@ class ECWD_Display {
 			if ( $metas && isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
 				if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
 					$organizers_ids = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] );
-				}elseif(is_array($metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] )){
+				} elseif ( is_array( $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0] ) ) {
 					$organizers_ids = $metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0];
-				}else{
+				} else {
 					$organizers_ids = array();
 				}
-				foreach ( $organizers_ids as $organizer_id ) {
-					if ( $organizer_id ) {
-						$opost = get_post( $organizer_id );
-						if ( $opost ) {
-							$organizers[]    = array(
-								'id'        => $opost->ID,
-								'name'      => $opost->post_title,
-								'permalink' => get_permalink( $opost->ID )
-							);
-							$organizersIDs[] = $opost->ID;
+				if ( $organizers_ids ) {
+					foreach ( $organizers_ids as $organizer_id ) {
+						if ( $organizer_id ) {
+							$opost = get_post( $organizer_id );
+							if ( $opost ) {
+								$organizers[]    = array(
+									'id'        => $opost->ID,
+									'name'      => $opost->post_title,
+									'permalink' => get_permalink( $opost->ID )
+								);
+								$organizersIDs[] = $opost->ID;
+							}
 						}
 					}
 				}
@@ -423,8 +433,7 @@ class ECWD_Display {
 				$event_week_last_day = '';
 				if ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'weekly' ) {
 					$days = array();
-					if ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] != '' ) {
-
+					if ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] != '' && $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] != 1 ) {
 
 						if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) ) {
 							$days = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] );
@@ -436,6 +445,9 @@ class ECWD_Display {
 					}
 
 					$until = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] : $to );
+					if(strtotime($until)>strtotime($this->end_date)){
+						$until = $this->end_date;
+					}
 					$how   = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] : 1 );
 					if ( count( $days ) ) {
 						$event_week_last_day = $days[ count( $days ) - 1 ];
@@ -468,6 +480,9 @@ class ECWD_Display {
 
 
 								if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+									if($permalink){
+										$permalink = ECWD_Event::getLink($post, $from);
+									}
 									$this->events[] = array(
 										'color'         => $color,
 										'title'         => $title,
@@ -497,6 +512,10 @@ class ECWD_Display {
 					}
 				} elseif ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'daily' ) {
 					$until         = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] : $to );
+
+					if(strtotime($until)>strtotime($this->end_date)){
+						$until = $this->end_date;
+					}
 					$how           = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] : 1 );
 					$eventdays     = $this->dateDiff( $from, $until );
 					$eventdayslong = $this->dateDiff( $from, $to );
@@ -514,7 +533,11 @@ class ECWD_Display {
 							$from_date = date( 'Y-m-d', $from_date );
 							$from      = $date;
 							$to        = date( 'Y-m-d', strtotime( $from . ' + ' . $eventdayslong . ' days' ) );
+
 							if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+								if($permalink){
+									$permalink = ECWD_Event::getLink($post, $from);
+								}
 								$this->events[] = array(
 									'color'         => $color,
 									'title'         => $title,
@@ -581,7 +604,9 @@ class ECWD_Display {
 								$to        = strtotime( ( date( "Y-m-d", ( strtotime( $from ) ) ) . " +" . ( $eventdayslong ) . " days" ) );
 								$to        = date( 'Y-m-d', $to );
 								if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
-
+									if($permalink){
+										$permalink = ECWD_Event::getLink($post, $from);
+									}
 									$this->events[] = array(
 										'color'         => $color,
 										'title'         => $title,
@@ -662,7 +687,9 @@ class ECWD_Display {
 							$to        = strtotime( ( date( "Y-m-d", ( strtotime( $from_date ) ) ) . " +" . ( $eventdayslong ) . " days" ) );
 							$to        = date( 'Y-m-d', $to );
 							if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
-
+								if($permalink){
+									$permalink = ECWD_Event::getLink($post, $from);
+								}
 								$this->events[] = array(
 									'color'         => $color,
 									'title'         => $title,
@@ -699,7 +726,10 @@ class ECWD_Display {
 
 				$date = strtotime( date( "Y-m-d", strtotime( $from ) ) );
 				$date = date( "Y-n-j", $date );
-				if ( ! $current_month || ( strtotime( $from ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) ) && strtotime( $from ) >= strtotime( $this->year . '-' . $this->month . '-1' ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+				if ( ! $current_month || ( strtotime( $from ) <= strtotime( $this->end_date ) && strtotime( $from ) >= strtotime( $this->start_date ) && in_array( strtolower( date( 'l', strtotime( $from ) ) ), $weekdays ) ) ) {
+					if($permalink){
+						$permalink = ECWD_Event::getLink($post, $from);
+					}
 					$this->events[] = array(
 						'color'         => $color,
 						'title'         => $title,

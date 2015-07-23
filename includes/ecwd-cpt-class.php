@@ -64,6 +64,7 @@ class ECWD_Cpt {
 			$this,
 			'taxonomy_column'
 		), 10, 3 );
+		add_filter( 'query_vars', array( $this, 'ecwdEventQueryVars' ) );
 		add_filter( 'generate_rewrite_rules', array( $this, 'filterRewriteRules' ), 2 );
 
 
@@ -390,6 +391,13 @@ class ECWD_Cpt {
 			}
 		}
 
+	}
+
+	public function ecwdEventQueryVars( $qvars ) {
+		$qvars[] = 'eventDate';
+		$qvars[] = self::EVENT_POST_TYPE;
+
+		return $qvars;
 	}
 
 	public function filterRewriteRules( $wp_rewrite ) {
