@@ -63,6 +63,13 @@ function ecwd_register_settings() {
 				'size' => 'medium-text',
 				'type' => 'text'
 			),
+			'time_type'       => array(
+				'id'   => 'time_type',
+				'name' => __( 'Show AM/PM', 'ecwd' ),
+				'desc' => __( 'Select the time format type', 'ecwd' ),
+				'size' => 'medium-text',
+				'type' => 'time_type_select'
+			),
 			'week_starts'    => array(
 				'id'   => 'week_starts',
 				'name' => __( 'Week start day', 'ecwd' ),
@@ -204,6 +211,26 @@ function ecwd_week_select_callback( $args ) {
 	$html = "\n" . '<select  id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" >
         <option value="0" ' . selected( 0, isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Sunday</option>
         <option value="1" ' . selected( 1, isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Monday</option>
+    </select>' . "\n";
+
+	// Render description text directly to the right in a label if it exists.
+	if ( ! empty( $args['desc'] ) ) {
+		$html .= '<p class="description">' . $args['desc'] . '</p>' . "\n";
+	}
+
+	echo $html;
+}
+
+/*
+* Time type select callback function
+ */
+
+function ecwd_time_type_select_callback( $args ) {
+	global $ecwd_options;
+	$html = "\n" . '<select  id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" >
+        <option value="" ' . selected( "", isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Use 24-hour format</option>
+        <option value="a" ' . selected( "a", isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Use am/pm</option>
+        <option value="A" ' . selected( "A", isset( $ecwd_options[ $args['id'] ] ) ? $ecwd_options[ $args['id'] ] : '', false ) . '>Use AM/PM</option>
     </select>' . "\n";
 
 	// Render description text directly to the right in a label if it exists.

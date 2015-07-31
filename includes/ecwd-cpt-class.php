@@ -206,9 +206,9 @@ class ECWD_Cpt {
 
 			$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug . 's';
 			$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
-			$rewrite                   = array( 'slug' => $this->rewriteSlugSingular );
-			$venue_rewrite             = array( 'slug' => 'venue' );
-			$organizer_rewrite         = array( 'slug' => 'organizer' );
+			$rewrite                   = array( 'slug' => _x( $this->rewriteSlugSingular, 'URL slug', 'ecwd' ), "with_front" => true);
+			$venue_rewrite             = array( 'slug' => _x( 'venue', 'URL slug', 'ecwd' ), "with_front" => true);
+			$organizer_rewrite         = array( 'slug' => _x( 'organizer', 'URL slug', 'ecwd' ), "with_front" => true);
 		}
 		//calendars
 		$calendar_labels = array(

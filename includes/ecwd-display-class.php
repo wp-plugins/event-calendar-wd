@@ -904,6 +904,97 @@ class ECWD_Display {
 		return $next_event;
 
 	}
+
+	public function get_repeat_rate( $event_id, $metas = '', $datefomat = 'Y-m-d' ) {
+		$repeat_text = '';
+		if ( ! $metas ) {
+			$metas = get_post_meta( $event_id, '', true );
+		}
+		$from = $metas[ ECWD_PLUGIN_PREFIX . '_event_date_from' ][0];
+		$days = array();
+		if ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] != '' ) {
+			if ( is_serialized( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] ) ) {
+				$days = unserialize( $metas[ ECWD_PLUGIN_PREFIX . '_event_day' ][0] );
+			}
+		} else {
+			$days = array( strtolower( date( 'l', strtotime( $from ) ) ) );
+		}
+		if ( $metas && isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] ) && $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] !== 'no_repeat' && $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] != '' ) {
+			$how = ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_how' ][0] : 1 );
+
+			if ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'daily' ) {
+				if ( $how > 1 ) {
+					$repeat_text .= 'Repeat every ' . $how . ' days';
+				} else {
+					$repeat_text .= 'Repeat every day';
+				}
+			} elseif ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'weekly' ) {
+				if ( $how > 1 ) {
+					$repeat_text .= 'Repeat every ' . $how . ' weeks';
+				} else {
+					$repeat_text .= 'Repeat every week';
+				}
+
+
+				if ( count( $days ) > 0 ) {
+					$repeat_text .= ' on ';
+					foreach ( $days as $i => $day ) {
+						$repeat_text .= ucfirst( $day ) . 's';
+						if ( $i !== ( count( $days ) - 1 ) ) {
+							$repeat_text .= ',';
+						}
+						$repeat_text .= ' ';
+					}
+				}
+			} elseif ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'monthly' ) {
+				if ( $how > 1 ) {
+					$repeat_text .= 'Repeat every ' . $how . ' months';
+				} else {
+					$repeat_text .= 'Repeat every month';
+				}
+				$repeat_days = isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_month_on_days' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_month_on_days' ][0] : 1;
+
+				if ( $repeat_days == 1 ) {
+					$repeat_text .= ' on the same day';
+				} else {
+					$repeat_when = isset( $metas[ ECWD_PLUGIN_PREFIX . '_monthly_list_monthly' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_monthly_list_monthly' ][0] : false;
+					$repeat_day  = isset( $metas[ ECWD_PLUGIN_PREFIX . '_monthly_week_monthly' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_monthly_week_monthly' ][0] : false;
+					if ( $repeat_when && $repeat_day ) {
+						$repeat_text .= ' on the ' . ucfirst( $repeat_when ) . ' ' . ucfirst( $repeat_day );
+					}
+				}
+			} elseif ( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_event' ][0] == 'yearly' ) {
+				if ( $how > 1 ) {
+					$repeat_text .= 'Repeat every ' . $how . ' years';
+				} else {
+					$repeat_text .= 'Repeat every year';
+				}
+
+				$repeat_days = isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_year_on_days' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_year_on_days' ][0] : 1;
+				if ( isset( $metas[ ECWD_PLUGIN_PREFIX . '_event_year_month' ][0] ) ) {
+					$month     = $metas[ ECWD_PLUGIN_PREFIX . '_event_year_month' ][0];
+					$monthName = date( 'F', strtotime( '2015-' . $month . '-1' ) );
+				} else {
+					$monthName = date( 'F', strtotime( $from ) );
+				}
+				$repeat_text .= ' in ' . $monthName;
+				if ( $repeat_days == 1 ) {
+					$repeat_text .= ' on the same day';
+				} else {
+					$repeat_when = isset( $metas[ ECWD_PLUGIN_PREFIX . '_monthly_list_yearly' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_monthly_list_yearly' ][0] : false;
+					$repeat_day  = isset( $metas[ ECWD_PLUGIN_PREFIX . '_monthly_week_yearly' ][0] ) ? $metas[ ECWD_PLUGIN_PREFIX . '_monthly_week_yearly' ][0] : false;
+					if ( $repeat_when && $repeat_day ) {
+						$repeat_text .= ' on the ' . ucfirst( $repeat_when ) . ' ' . ucfirst( $repeat_day );
+					}
+				}
+			}
+			$repeat_text .= ' until ' . date( $datefomat, strtotime( $metas[ ECWD_PLUGIN_PREFIX . '_event_repeat_repeat_until' ][0] ) );
+
+		}
+
+		return $repeat_text;
+	}
+
 	function events_unique( $array ) {
 		$events_ids = array();
 		foreach ( $array as $key => $event ) {

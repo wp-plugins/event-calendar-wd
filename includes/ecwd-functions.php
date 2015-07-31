@@ -348,6 +348,10 @@ function ecwd_add_meta_tags() {
 		if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 			$time_format = $ecwd_options['time_format'];
 		}
+		$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
+                if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
+                    $time_format = str_replace('H', 'h', $time_format);
+                }
 		$ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true );
 		$description         = '';
 		if ( $ecwd_all_day_event == 1 ) {
@@ -389,6 +393,10 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 	if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 		$time_format = $ecwd_options['time_format'];
 	}
+	$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
+        if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
+            $time_format = str_replace('H', 'h', $time_format);
+        }
 	$defaults = array(
 		'title_text' => '',
 		'sort'       => 'asc',

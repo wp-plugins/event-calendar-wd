@@ -18,6 +18,10 @@ if ( isset( $ecwd_options['date_format'] ) && $ecwd_options['date_format'] != ''
 if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 	$time_format = $ecwd_options['time_format'];
 }
+$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
+if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
+    $time_format = str_replace('H', 'h', $time_format);
+}
 if ( isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '' ) {
 	$ecwd_social_icons = $ecwd_options['social_icons'];
 }

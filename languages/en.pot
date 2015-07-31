@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: event_calendar_wd\n"
-"POT-Creation-Date: 2015-06-25 15:42+0400\n"
+"POT-Creation-Date: 2015-07-23 13:04+0400\n"
 "PO-Revision-Date: 2015-06-05 12:45+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,59 +24,55 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-6: includes/ecwd-facebook-events-class.php\n"
 "X-Poedit-SearchPathExcluded-7: ecwd_admin_class.php\n"
 
-#: includes/calendar-class.php:174 includes/calendar-class.php:175
+#: includes/calendar-class.php:175 includes/calendar-class.php:176
 #: views/widgets.php:168
 msgid "Month"
 msgstr ""
 
-#: includes/calendar-class.php:176 views/widgets.php:169
+#: includes/calendar-class.php:177 views/widgets.php:169
 msgid "List"
 msgstr ""
 
-#: includes/calendar-class.php:178
+#: includes/calendar-class.php:179
 msgid "Week"
 msgstr ""
 
-#: includes/calendar-class.php:182
+#: includes/calendar-class.php:183
 msgid "Day"
 msgstr ""
 
-#: includes/calendar-class.php:185
+#: includes/calendar-class.php:186
 msgid "Map"
 msgstr ""
 
-#: includes/calendar-class.php:187
+#: includes/calendar-class.php:188
 msgid "4 Days"
 msgstr ""
 
-#: includes/calendar-class.php:190
+#: includes/calendar-class.php:191
 msgid "Posterboard"
 msgstr ""
 
-#: includes/calendar-class.php:382 includes/calendar-class.php:416
-#: includes/calendar-class.php:563 includes/calendar-class.php:1167
-#: includes/calendar-class.php:1306 includes/ecwd-functions.php:359
-#: views/ecwd-event-content.php:75 views/ecwd-event-content.php:157
-#: views/ecwd-organizer-content.php:128 views/ecwd-venue-content.php:173
-#: views/single-event.php:98 views/single-event.php:189
-#: views/single-event.php:354
+#: includes/calendar-class.php:383 includes/calendar-class.php:417
+#: includes/calendar-class.php:572 includes/calendar-class.php:1181
+#: includes/calendar-class.php:1330 includes/ecwd-functions.php:360
+#: views/ecwd-event-content.php:76 views/ecwd-event-content.php:158
+#: views/ecwd-organizer-content.php:145 views/ecwd-venue-content.php:178
+#: views/single-event.php:151 views/single-event.php:247
+#: views/single-event.php:487
 msgid "All day"
 msgstr ""
 
-#: includes/calendar-class.php:439 includes/calendar-class.php:515
-#: includes/calendar-class.php:1362
+#: includes/calendar-class.php:440 includes/calendar-class.php:520
+#: includes/calendar-class.php:1386
 msgid "No events"
 msgstr ""
 
-#: includes/calendar-class.php:635
+#: includes/calendar-class.php:644
 msgid "No Events"
 msgstr ""
 
-#: includes/calendar-class.php:973
-msgid "What're we looking for ?"
-msgstr ""
-
-#: includes/calendar-class.php:1237
+#: includes/calendar-class.php:1256
 msgid "More events"
 msgstr ""
 
@@ -88,23 +84,77 @@ msgstr ""
 msgid "To"
 msgstr ""
 
+#: includes/ecwd-display-class.php:876 includes/ecwd-display-class.php:882
+#: includes/ecwd-display-class.php:900 includes/ecwd-display-class.php:917
+#: includes/texts.php:60
+msgid "Repeat every"
+msgstr ""
+
+#: includes/ecwd-display-class.php:876 includes/texts.php:66
+msgid "days"
+msgstr ""
+
+#: includes/ecwd-display-class.php:878 includes/texts.php:61
+msgid "Repeat every day"
+msgstr ""
+
+#: includes/ecwd-display-class.php:882 includes/texts.php:67
+msgid "weeks"
+msgstr ""
+
+#: includes/ecwd-display-class.php:884 includes/texts.php:62
+msgid "Repeat every week"
+msgstr ""
+
+#: includes/ecwd-display-class.php:889
+msgid "on"
+msgstr ""
+
+#: includes/ecwd-display-class.php:900 includes/texts.php:68
+msgid "months"
+msgstr ""
+
+#: includes/ecwd-display-class.php:902 includes/texts.php:63
+msgid "Repeat every month"
+msgstr ""
+
+#: includes/ecwd-display-class.php:907 includes/ecwd-display-class.php:931
+msgid "on the same day"
+msgstr ""
+
+#: includes/ecwd-display-class.php:912 includes/ecwd-display-class.php:936
+msgid "on the"
+msgstr ""
+
+#: includes/ecwd-display-class.php:917 includes/texts.php:69
+msgid "years"
+msgstr ""
+
+#: includes/ecwd-display-class.php:919 includes/texts.php:64
+msgid "Repeat every year"
+msgstr ""
+
+#: includes/ecwd-display-class.php:940 includes/texts.php:70
+msgid "until"
+msgstr ""
+
 #: includes/ecwd-functions.php:8
 msgid "Loading..."
 msgstr ""
 
-#: includes/ecwd-functions.php:437 includes/texts.php:50
+#: includes/ecwd-functions.php:439 includes/texts.php:53
 msgid "DAYS"
 msgstr ""
 
-#: includes/ecwd-functions.php:438 includes/texts.php:51
+#: includes/ecwd-functions.php:440 includes/texts.php:54
 msgid "HOURS"
 msgstr ""
 
-#: includes/ecwd-functions.php:439 includes/texts.php:52
+#: includes/ecwd-functions.php:441 includes/texts.php:55
 msgid "MINUTES"
 msgstr ""
 
-#: includes/ecwd-functions.php:440 includes/texts.php:53
+#: includes/ecwd-functions.php:442 includes/texts.php:56
 msgid "SECONDS"
 msgstr ""
 
@@ -156,139 +206,176 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: includes/texts.php:14
+#: includes/texts.php:15
 msgid "Sunday"
 msgstr ""
 
-#: includes/texts.php:15
+#: includes/texts.php:16
 msgid "Monday"
 msgstr ""
 
-#: includes/texts.php:16
+#: includes/texts.php:17
 msgid "Tuesday"
 msgstr ""
 
-#: includes/texts.php:17
+#: includes/texts.php:18
 msgid "Wednesday"
 msgstr ""
 
-#: includes/texts.php:18
+#: includes/texts.php:19
 msgid "Thursday"
 msgstr ""
 
-#: includes/texts.php:19
+#: includes/texts.php:20
 msgid "Friday"
 msgstr ""
 
-#: includes/texts.php:20
+#: includes/texts.php:21
 msgid "Saturday"
 msgstr ""
 
-#: includes/texts.php:22
+#: includes/texts.php:25
 msgid "Sun"
 msgstr ""
 
-#: includes/texts.php:23
+#: includes/texts.php:26
 msgid "Mon"
 msgstr ""
 
-#: includes/texts.php:24
+#: includes/texts.php:27
 msgid "Tue"
 msgstr ""
 
-#: includes/texts.php:25
+#: includes/texts.php:28
 msgid "Wed"
 msgstr ""
 
-#: includes/texts.php:26
+#: includes/texts.php:29
 msgid "Thu"
 msgstr ""
 
-#: includes/texts.php:27
+#: includes/texts.php:30
 msgid "Fri"
 msgstr ""
 
-#: includes/texts.php:28
+#: includes/texts.php:31
 msgid "Sat"
 msgstr ""
 
-#: includes/texts.php:31
+#: includes/texts.php:34
 msgid "Su"
 msgstr ""
 
-#: includes/texts.php:32
+#: includes/texts.php:35
 msgid "Mo"
 msgstr ""
 
-#: includes/texts.php:33
+#: includes/texts.php:36
 msgid "Tu"
 msgstr ""
 
-#: includes/texts.php:34
+#: includes/texts.php:37
 msgid "We"
 msgstr ""
 
-#: includes/texts.php:35
+#: includes/texts.php:38
 msgid "Th"
 msgstr ""
 
-#: includes/texts.php:36
+#: includes/texts.php:39
 msgid "Fr"
 msgstr ""
 
-#: includes/texts.php:37
+#: includes/texts.php:40
 msgid "Sa"
 msgstr ""
 
-#: includes/texts.php:41
+#: includes/texts.php:44
 msgid "Show Filters"
 msgstr ""
 
-#: includes/texts.php:42
+#: includes/texts.php:45
 msgid "Collapse Filters"
 msgstr ""
 
-#: includes/texts.php:43
+#: includes/texts.php:46
 msgid "Reset Filters"
 msgstr ""
 
-#: includes/texts.php:45
+#: includes/texts.php:48
 msgid "Days"
 msgstr ""
 
-#: includes/texts.php:46
+#: includes/texts.php:49
 msgid "Categories"
 msgstr ""
 
-#: includes/texts.php:47
+#: includes/texts.php:50
 msgid "Venues"
 msgstr ""
 
-#: views/ecwd-event-content.php:66 views/ecwd-event-content.php:152
-#: views/single-event.php:89 views/single-event.php:184
+#: includes/texts.php:57
+msgid "The event has just started"
+msgstr ""
+
+#: includes/texts.php:72
+msgid "Sundays"
+msgstr ""
+
+#: includes/texts.php:73
+msgid "Mondays"
+msgstr ""
+
+#: includes/texts.php:74
+msgid "Tuesdays"
+msgstr ""
+
+#: includes/texts.php:75
+msgid "Wednesdays"
+msgstr ""
+
+#: includes/texts.php:76
+msgid "Thursdays"
+msgstr ""
+
+#: includes/texts.php:77
+msgid "Fridays"
+msgstr ""
+
+#: includes/texts.php:78
+msgid "Saturdays"
+msgstr ""
+
+#: views/ecwd-event-content.php:67 views/ecwd-event-content.php:153
+#: views/single-event.php:142 views/single-event.php:242
 msgid "Date"
 msgstr ""
 
-#: views/ecwd-event-content.php:90 views/single-event.php:114
+#: views/ecwd-event-content.php:91 views/single-event.php:170
 msgid "Url"
 msgstr ""
 
-#: views/ecwd-event-content.php:96 views/single-event.php:121
+#: views/ecwd-event-content.php:97 views/single-event.php:177
 msgid "Organizers"
 msgstr ""
 
-#: views/ecwd-organizer-content.php:105
+#: views/ecwd-organizer-content.php:109
 msgid "upcoming events"
 msgstr ""
 
-#: views/ecwd-venue-content.php:136
+#: views/ecwd-venue-content.php:141
 msgid "events"
 msgstr ""
 
-#: views/single-event.php:330
+#: views/single-event.php:190
+msgid "Venue"
+msgstr ""
+
+#: views/single-event.php:200
+msgid "Location"
+msgstr ""
+
+#: views/single-event.php:449
 msgid "Related events"
 msgstr ""
 
-#: includes/calendar-class.php:16
-msgid "No additional details for this event."
-msgstr ""

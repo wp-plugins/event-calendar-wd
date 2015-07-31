@@ -23,6 +23,11 @@ if ( isset( $ecwd_options['date_format'] ) && $ecwd_options['date_format'] != ''
 if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 	$time_format = $ecwd_options['time_format'];
 }
+$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
+if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
+    $time_format = str_replace('H', 'h', $time_format);
+}
+
 if ( isset( $ecwd_options['social_icons'] ) && $ecwd_options['social_icons'] != '' ) {
 	$ecwd_social_icons = $ecwd_options['social_icons'];
 }
@@ -74,7 +79,7 @@ if ( ! $ecwd_event_zoom ) {
 	$ecwd_event_zoom = 17;
 }
 
-$ecwd_event_organizers = $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0];
+$ecwd_event_organizers = isset($ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0])?$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_organizers' ][0]:'';
 
 
 
