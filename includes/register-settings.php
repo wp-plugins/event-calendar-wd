@@ -125,6 +125,12 @@ function ecwd_register_settings() {
 				'desc' => __( 'Check to display social icons in event, organizer and venue pages.', 'ecwd' ),
 				'type' => 'checkbox'
 			),
+			'show_repeat_rate' => array(
+				'id'   => 'show_repeat_rate',
+				'name' => __( 'Show the repeat rate', 'ecwd' ),
+				'desc' => __( 'Check to show the repeat rate in event page .', 'ecwd' ),
+				'type' => 'checkbox'
+			),
 			'related_events'     => array(
 				'id'   => 'related_events',
 				'name' => __( 'Show related events in the event page', 'ecwd' ),

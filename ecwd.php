@@ -3,7 +3,7 @@
  * Plugin Name:     Event Calendar WD
  * Plugin URI:		https://web-dorado.com/products/wordpress-event-calendar-wd.html 
  * Description:     Event Calendar WD is an easy event management and planning tool with advanced features.
- * Version:         1.0.15
+ * Version:         1.0.16
  * Author:          WebDorado
  * Author URI:      http://web-dorado.com
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html

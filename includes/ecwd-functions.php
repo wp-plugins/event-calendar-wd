@@ -395,8 +395,8 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 	}
 	$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
         if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
-            $time_format = str_replace('H', 'h', $time_format);
-        }
+                    $time_format = str_replace('H', 'h', $time_format);
+                }
 	$defaults = array(
 		'title_text' => '',
 		'sort'       => 'asc',
