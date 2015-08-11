@@ -101,16 +101,18 @@
                 alert('Date to must be greater or equal to Date from');
                 e.preventDefault();
             }
-            var repeat = $('input[name="ecwd_event_repeat_event"]:checked').val();
-            var until = Date.parse($('#ecwd_event_repeat_until_input').val());
-            if (repeat !== 'no_repeat') {
-                if (until == '' || isNaN(until)) {
-                    alert('Please set the repeat until date');
-                    e.preventDefault();
-                }
-                if (!isNaN(dateFrom) && !isNaN(until) && until <= dateFrom) {
-                    alert('Repeat until date must be greater than Date from');
-                    e.preventDefault();
+            if($('input[name="ecwd_event_repeat_event"]').length>0) {
+                var repeat = $('input[name="ecwd_event_repeat_event"]:checked').val();
+                var until = Date.parse($('#ecwd_event_repeat_until_input').val());
+                if (repeat !== 'no_repeat') {
+                    if (until == '' || isNaN(until)) {
+                        alert('Please set the repeat until date');
+                        e.preventDefault();
+                    }
+                    if (!isNaN(dateFrom) && !isNaN(until) && until <= dateFrom) {
+                        alert('Repeat until date must be greater than Date from');
+                        e.preventDefault();
+                    }
                 }
             }
         });

@@ -83,7 +83,8 @@ class Calendar {
 		}
 		$this->timeformat .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
                 if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
-                    $this->timeformat = str_replace('H', 'h', $this->timeformat);
+	                $this->timeformat = str_replace('H', 'g', $this->timeformat);
+	                $this->timeformat = str_replace('h', 'g', $this->timeformat);
                 }
 		if ( isset( $ecwd_options['week_starts'] ) && $ecwd_options['week_starts'] != '' ) {
 			$this->weekstartday = $ecwd_options['week_starts'];

@@ -328,6 +328,7 @@ function ecwd_event_post( $post ) {
 			$post->comment_status = 'open';
 		}
 	}
+
 	return $post;
 }
 
@@ -348,10 +349,11 @@ function ecwd_add_meta_tags() {
 		if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 			$time_format = $ecwd_options['time_format'];
 		}
-		$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
-                if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
-                    $time_format = str_replace('H', 'h', $time_format);
-                }
+		$time_format .= ( isset( $ecwd_options['time_type'] ) ? ' ' . $ecwd_options['time_type'] : '' );
+		if ( isset( $ecwd_options['time_type'] ) && $ecwd_options['time_type'] != '' ) {
+			$time_format = str_replace( 'H', 'g', $time_format );
+			$time_format = str_replace( 'h', 'g', $time_format );
+		}
 		$ecwd_event_location = get_post_meta( $post->ID, ECWD_PLUGIN_PREFIX . '_event_location', true );
 		$description         = '';
 		if ( $ecwd_all_day_event == 1 ) {
@@ -393,10 +395,11 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 	if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 		$time_format = $ecwd_options['time_format'];
 	}
-	$time_format .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
-        if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
-                    $time_format = str_replace('H', 'h', $time_format);
-                }
+	$time_format .= ( isset( $ecwd_options['time_type'] ) ? ' ' . $ecwd_options['time_type'] : '' );
+	if ( isset( $ecwd_options['time_type'] ) && $ecwd_options['time_type'] != '' ) {
+		$time_format = str_replace( 'H', 'g', $time_format );
+		$time_format = str_replace( 'h', 'g', $time_format );
+	}
 	$defaults = array(
 		'title_text' => '',
 		'sort'       => 'asc',
@@ -404,8 +407,8 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 	);
 
 	$args = array_merge( $defaults, $args );
-	extract($args);
-	$finish_text = isset($args['finish_text'])?$args['finish_text']:'';
+	extract( $args );
+	$finish_text = isset( $args['finish_text'] ) ? $args['finish_text'] : '';
 
 	$date   = ( isset( $args['date'] ) ? $args['date'] : '' );
 	$d      = new ECWD_Display( '', $title_text, $sort );
@@ -438,10 +441,10 @@ function ecwd_print_countdown( $event_id, $widget = 1, $theme_id = null, $args =
 		$markup .= '<div class="ecwd_countdown">';
 		$markup .= '<input type="hidden" name="ecwd_end_time" value="' . $start . '"/>';
 		$markup .= '<input type="hidden" name="ecwd_timezone" value="' . $diff . '"/>';
-		$markup .= '<input type="hidden" name="ecwd_text_days" value="' . __('DAYS', 'ecwd') . '"/>';
-		$markup .= '<input type="hidden" name="ecwd_text_hours" value="' . __('HOURS', 'ecwd') . '"/>';
-		$markup .= '<input type="hidden" name="ecwd_text_minutes" value="' . __('MINUTES', 'ecwd') . '"/>';
-		$markup .= '<input type="hidden" name="ecwd_text_seconds" value="' . __('SECONDS', 'ecwd') . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_days" value="' . __( 'DAYS', 'ecwd' ) . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_hours" value="' . __( 'HOURS', 'ecwd' ) . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_minutes" value="' . __( 'MINUTES', 'ecwd' ) . '"/>';
+		$markup .= '<input type="hidden" name="ecwd_text_seconds" value="' . __( 'SECONDS', 'ecwd' ) . '"/>';
 		$markup .= '<input type="hidden" name="ecwd_finish_text" value="' . $finish_text . '"/>';
 		if ( $theme_id ) {
 			$theme = get_post_meta( $theme_id, 'ecwd_countdown_theme', true );

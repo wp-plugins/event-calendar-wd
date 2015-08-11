@@ -32,8 +32,8 @@ global $ecwd_tabs;
 					<span>Google Maps integration</span>
 					<span>Event search</span>
 					<span>Social media integration</span>
-					<span>Recurring events</span>
 					<span>Month, week, day, list views</span>
+					<span>Recurring events</span>
 					<span>5 beautiful customizable themes</span>
 					<span>Posterboard view</span>
 					<span>4 days view</span>
@@ -56,7 +56,7 @@ global $ecwd_tabs;
 					<span class="yes"></span>
 					<span class="yes"></span>
 					<span class="yes"></span>
-					<span class="yes"></span>
+					<span class="no"></span>
 					<span class="no"></span>
 					<span class="no"></span>
 					<span class="no"></span>

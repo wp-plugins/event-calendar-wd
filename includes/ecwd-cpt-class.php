@@ -82,7 +82,7 @@ class ECWD_Cpt {
 		add_filter( 'manage_' . ECWD_PLUGIN_PREFIX . '_event_posts_columns', array( $this, 'add_column_headers' ) );
 
 		add_filter( 'template_include', array( $this, 'ecwd_templates' ) );
-		add_filter( 'request', array(&$this, 'ecwd_archive_order'));
+		add_filter( 'request', array( &$this, 'ecwd_archive_order' ) );
 
 		//category filter
 		add_filter( 'init', array( $this, 'event_restrict_manage' ) );
@@ -206,9 +206,12 @@ class ECWD_Cpt {
 
 			$this->rewriteSlug         = ( isset( $ecwd_options['events_slug'] ) && $ecwd_options['events_slug'] !== '' ) ? $ecwd_options['events_slug'] : $defaultSlug . 's';
 			$this->rewriteSlugSingular = ( isset( $ecwd_options['event_slug'] ) && $ecwd_options['event_slug'] !== '' ) ? $ecwd_options['event_slug'] : $defaultSlug;
-			$rewrite                   = array( 'slug' => _x( $this->rewriteSlugSingular, 'URL slug', 'ecwd' ), "with_front" => true);
-			$venue_rewrite             = array( 'slug' => _x( 'venue', 'URL slug', 'ecwd' ), "with_front" => true);
-			$organizer_rewrite         = array( 'slug' => _x( 'organizer', 'URL slug', 'ecwd' ), "with_front" => true);
+			$rewrite                   = array(
+				'slug'       => _x( $this->rewriteSlugSingular, 'URL slug', 'ecwd' ),
+				"with_front" => true
+			);
+			$venue_rewrite             = array( 'slug' => _x( 'venue', 'URL slug', 'ecwd' ), "with_front" => true );
+			$organizer_rewrite         = array( 'slug' => _x( 'organizer', 'URL slug', 'ecwd' ), "with_front" => true );
 		}
 		//calendars
 		$calendar_labels = array(
@@ -233,7 +236,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			'menu_position'      =>'26,11',
+			'menu_position'      => '26,11',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'has_archive'        => false,
@@ -270,7 +273,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			'menu_position'      =>'26,13',
+			'menu_position'      => '26,13',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'taxonomies'         => array(),
@@ -279,7 +282,8 @@ class ECWD_Cpt {
 			'menu_icon'          => plugins_url( '/assets/organizer-icon.png', ECWD_MAIN_FILE ),
 			'supports'           => array(
 				'title',
-				'editor', 'thumbnail'
+				'editor',
+				'thumbnail'
 			),
 			'rewrite'            => $organizer_rewrite
 		);
@@ -308,7 +312,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			'menu_position'      =>'26,14',
+			'menu_position'      => '26,14',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'taxonomies'         => array(
@@ -329,7 +333,6 @@ class ECWD_Cpt {
 		);
 
 		register_post_type( self::EVENT_POST_TYPE, $args );
-
 
 
 		//venues
@@ -354,7 +357,7 @@ class ECWD_Cpt {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
-			'menu_position'      =>'26,15',
+			'menu_position'      => '26,15',
 			'query_var'          => true,
 			'capability_type'    => 'post',
 			'taxonomies'         => array(),
@@ -363,7 +366,8 @@ class ECWD_Cpt {
 			'menu_icon'          => plugins_url( '/assets/venue-icon.png', ECWD_MAIN_FILE ),
 			'supports'           => array(
 				'title',
-				'editor', 'thumbnail'
+				'editor',
+				'thumbnail'
 			),
 			'rewrite'            => $venue_rewrite
 		);
@@ -643,13 +647,14 @@ class ECWD_Cpt {
 		$ip_addr = $_SERVER['REMOTE_ADDR'];
 		$long    = '';
 		$lat     = '';
-		$args   = array(
+		$is_ = $this->is();
+		$args    = array(
 			'post_type'           => ECWD_PLUGIN_PREFIX . '_venue',
 			'post_status'         => 'publish',
 			'posts_per_page'      => - 1,
 			'ignore_sticky_posts' => 1
 		);
-		$venues = get_posts( $args );
+		$venues  = get_posts( $args );
 		include_once( ECWD_DIR . '/views/admin/ecwd-event-meta.php' );
 	}
 
@@ -805,12 +810,13 @@ class ECWD_Cpt {
 	//order orgs and venues by post name
 	function ecwd_archive_order( $vars ) {
 		global $ecwd_options;
-		$orderby = isset($ecwd_options['cpt_order'])?$ecwd_options['cpt_order']:'post_name';
-		$types = array(self::ORGANIZER_POST_TYPE, self::VENUE_POST_TYPE);
-		if ( !is_admin() && isset($vars['post_type']) && is_post_type_hierarchical($vars['post_type']) && in_array($vars['post_type'],$types)) {
+		$orderby = isset( $ecwd_options['cpt_order'] ) ? $ecwd_options['cpt_order'] : 'post_name';
+		$types   = array( self::ORGANIZER_POST_TYPE, self::VENUE_POST_TYPE );
+		if ( ! is_admin() && isset( $vars['post_type'] ) && is_post_type_hierarchical( $vars['post_type'] ) && in_array( $vars['post_type'], $types ) ) {
 			$vars['orderby'] = $orderby;
-			$vars['order'] = 'ASC';
+			$vars['order']   = 'ASC';
 		}
+
 		return $vars;
 	}
 
@@ -1140,7 +1146,7 @@ class ECWD_Cpt {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' =>'event_category' ),
+			'rewrite'           => array( 'slug' => 'event_category' ),
 		);
 		//register_taxonomy_for_object_type(ECWD_PLUGIN_PREFIX.'_event_category', array(ECWD_PLUGIN_PREFIX.'_event'));
 		register_taxonomy( ECWD_PLUGIN_PREFIX . '_event_category', array( ECWD_PLUGIN_PREFIX . '_event' ), $args );
@@ -1152,7 +1158,7 @@ class ECWD_Cpt {
 				'hierarchical'  => false,
 				'label'         => __( 'Event Tags', 'ecwd' ),
 				'singular_name' => __( 'Event Tag', 'ecwd' ),
-				'rewrite'           => array( 'slug' =>'event_tag' ),
+				'rewrite'       => array( 'slug' => 'event_tag' ),
 				'query_var'     => true
 			)
 		);
@@ -1321,6 +1327,15 @@ class ECWD_Cpt {
 			//add log
 			return false;
 		}
+	}
+
+	private function is() {
+		if ( 1 == get_option( 'ecwd_old_events' ) ) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	public static function get_instance() {

@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.16';
+	protected $version = '1.0.17';
 	protected $ecwd_page = null;
 
 	private function __construct() {
@@ -56,10 +56,23 @@ class ECWD_Admin {
 
 
 	public static function activate() {
-		//setup default theme if there is no one
-
 		if ( ! defined( 'ECWD_PLUGIN_PREFIX' ) ) {
 			define( 'ECWD_PLUGIN_PREFIX', 'ecwd' );
+		}
+		$has_option = get_option('ecwd_old_events');
+		if($has_option === false) {
+			$old_event = get_posts( array(
+				'posts_per_page' => 1,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'post_type'      => 'ecwd_event',
+				'post_status'    => 'any'
+			) );
+			if ( $old_event && isset( $old_event[0]->post_date ) ) {
+				add_option( 'ecwd_old_events', 1 );
+			} else {
+				add_option( 'ecwd_old_events', 0 );
+			}
 		}
 
 	}

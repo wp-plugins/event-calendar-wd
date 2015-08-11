@@ -42,42 +42,42 @@ function ecwd_register_settings() {
 		/* General Settings */
 
 		'general' => array(
-			'time_zone'      => array(
+			'time_zone'         => array(
 				'id'   => 'time_zone',
 				'name' => __( 'TimeZone', 'ecwd' ),
 				'desc' => __( 'If the timezone is not set, the server timezone will be used (if set in php settings), otherwise the Europe/Berlin timezone will be used', 'ecwd' ),
 				'size' => 'medium-text',
 				'type' => 'text'
 			),
-			'date_format'    => array(
+			'date_format'       => array(
 				'id'   => 'date_format',
 				'name' => __( 'Date format', 'ecwd' ),
 				'desc' => __( 'Set the format for displaying event dates. Ex Y-m-d or Y/m/d', 'ecwd' ),
 				'size' => 'medium-text',
 				'type' => 'text'
 			),
-			'time_format'    => array(
+			'time_format'       => array(
 				'id'   => 'time_format',
 				'name' => __( 'Time format', 'ecwd' ),
 				'desc' => __( 'Set the format for displaying event time. Ex H:i or H/i', 'ecwd' ),
 				'size' => 'medium-text',
 				'type' => 'text'
 			),
-			'time_type'       => array(
+			'time_type'         => array(
 				'id'   => 'time_type',
 				'name' => __( 'Show AM/PM', 'ecwd' ),
 				'desc' => __( 'Select the time format type', 'ecwd' ),
 				'size' => 'medium-text',
 				'type' => 'time_type_select'
 			),
-			'week_starts'    => array(
+			'week_starts'       => array(
 				'id'   => 'week_starts',
 				'name' => __( 'Week start day', 'ecwd' ),
 				'desc' => __( 'Define the starting day for the week.', 'ecwd' ),
 				'size' => 'medium-text',
 				'type' => 'week_select'
 			),
-			'enable_rewrite' => array(
+			'enable_rewrite'    => array(
 				'id'      => 'enable_rewrite',
 				'name'    => __( 'Enable rewrite', 'ecwd' ),
 				'default' => 'events',
@@ -85,7 +85,7 @@ function ecwd_register_settings() {
 				'type'    => 'radio',
 				'default' => 1
 			),
-			'events_slug'    => array(
+			'events_slug'       => array(
 				'id'      => 'events_slug',
 				'name'    => __( 'Events slug', 'ecwd' ),
 				'default' => 'events',
@@ -93,7 +93,7 @@ function ecwd_register_settings() {
 				'size'    => 'medium-text',
 				'type'    => 'text'
 			),
-			'event_slug'     => array(
+			'event_slug'        => array(
 				'id'      => 'event_slug',
 				'name'    => __( 'Single Event slug', 'ecwd' ),
 				'default' => 'event',
@@ -101,42 +101,36 @@ function ecwd_register_settings() {
 				'size'    => 'medium-text',
 				'type'    => 'text'
 			),
-			'event_comments' => array(
+			'event_comments'    => array(
 				'id'   => 'event_comments',
 				'name' => __( 'Enable comments for events', 'ecwd' ),
 				'desc' => __( 'Check to enable commenting.', 'ecwd' ),
 				'type' => 'checkbox'
 			),
-			'event_loop'     => array(
+			'event_loop'        => array(
 				'id'   => 'event_loop',
 				'name' => __( 'Include events in main loop', 'ecwd' ),
 				'desc' => __( 'Check to display events within website post list in main pages.', 'ecwd' ),
 				'type' => 'checkbox'
 			),
-			'cpt_order'        => array(
+			'cpt_order'         => array(
 				'id'   => 'cpt_order',
 				'name' => __( 'Order of Organizers and Venues by', 'ecwd' ),
 				'desc' => __( 'Select Order of Organizers and Venues.', 'ecwd' ),
 				'type' => 'order_select'
 			),
-			'social_icons'   => array(
+			'social_icons'      => array(
 				'id'   => 'social_icons',
 				'name' => __( 'Enable Social Icons', 'ecwd' ),
 				'desc' => __( 'Check to display social icons in event, organizer and venue pages.', 'ecwd' ),
 				'type' => 'checkbox'
 			),
-			'show_repeat_rate' => array(
-				'id'   => 'show_repeat_rate',
-				'name' => __( 'Show the repeat rate', 'ecwd' ),
-				'desc' => __( 'Check to show the repeat rate in event page .', 'ecwd' ),
-				'type' => 'checkbox'
-			),
-			'related_events'     => array(
-				'id'   => 'related_events',
-				'name' => __( 'Show related events in the event page', 'ecwd' ),
-				'desc' =>'',
-				'type' => 'radio',
-				'default'=>1
+			'related_events'    => array(
+				'id'      => 'related_events',
+				'name'    => __( 'Show related events in the event page', 'ecwd' ),
+				'desc'    => '',
+				'type'    => 'radio',
+				'default' => 1
 			),
 			'category_and_tags' => array(
 				'id'   => 'category_and_tags',
@@ -147,6 +141,14 @@ function ecwd_register_settings() {
 		)
 
 	);
+	if ( 1 == get_option( 'ecwd_old_events' ) ) {
+		$ecwd_settings['general']['show_repeat_rate'] = array(
+			'id'   => 'show_repeat_rate',
+			'name' => __( 'Show the repeat rate', 'ecwd' ),
+			'desc' => __( 'Check to show the repeat rate in event page .', 'ecwd' ),
+			'type' => 'checkbox'
+		);
+	}
 
 	/* If the options do not exist then create them for each section */
 	if ( false == get_option( ECWD_PLUGIN_PREFIX . '_settings' ) ) {
@@ -195,7 +197,7 @@ function ecwd_get_settings_field_args( $option, $section ) {
 		'options' => isset( $option['options'] ) ? $option['options'] : '',
 		'std'     => isset( $option['std'] ) ? $option['std'] : '',
 		'href'    => isset( $option['href'] ) ? $option['href'] : '',
-		'default'    => isset( $option['default'] ) ? $option['default'] : ''
+		'default' => isset( $option['default'] ) ? $option['default'] : ''
 	);
 
 	// Link label to input using 'label_for' argument if text, textarea, password, select, or variations of.
@@ -246,6 +248,7 @@ function ecwd_time_type_select_callback( $args ) {
 
 	echo $html;
 }
+
 /*
  * Order select callback function
  */
@@ -306,7 +309,7 @@ function ecwd_status_select_callback( $args ) {
 
 function ecwd_checkbox_callback( $args ) {
 	global $ecwd_options;
-	$checked = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : (isset( $args['default'])?checked( 1, $args['default'], false):'');
+	$checked = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : ( isset( $args['default'] ) ? checked( 1, $args['default'], false ) : '' );
 	$html    = "\n" . '<div class="checkbox-div"><input type="checkbox" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="1" ' . $checked . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']"></label></div>' . "\n";
 	// Render description text directly to the right in a label if it exists.
 	if ( ! empty( $args['desc'] ) ) {
@@ -326,11 +329,11 @@ function ecwd_radio_callback( $args ) {
 
 	$checked_no = isset( $ecwd_options[ $args['id'] ] ) ? checked( 0, $ecwd_options[ $args['id'] ], false ) : '';
 
-	$checked_yes = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : (isset($args['default'])? checked( 1, $args['default'], false ):'');
+	$checked_yes = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : ( isset( $args['default'] ) ? checked( 1, $args['default'], false ) : '' );
 
 
-	$html    = "\n" . ' <div class="checkbox-div"><input type="radio" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="1" ' . $checked_yes . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes"></label></div> <label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes">Yes</label>' . "\n";
-	$html    .=  '<div class="checkbox-div"> <input type="radio" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="0" ' . $checked_no . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no"></label></div> <label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no">No</label>' . "\n";
+	$html = "\n" . ' <div class="checkbox-div"><input type="radio" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="1" ' . $checked_yes . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes"></label></div> <label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_yes">Yes</label>' . "\n";
+	$html .= '<div class="checkbox-div"> <input type="radio" id="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no" name="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']" value="0" ' . $checked_no . '/><label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no"></label></div> <label for="ecwd_settings_' . $args['section'] . '[' . $args['id'] . ']_no">No</label>' . "\n";
 	// Render description text directly to the right in a label if it exists.
 	if ( ! empty( $args['desc'] ) ) {
 		$html .= '<p class="description">' . $args['desc'] . '</p>' . "\n";
