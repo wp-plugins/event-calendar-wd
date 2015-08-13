@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-event-calendar-wd.html
 Tags: calendar, calendars, event, event calendar, event manager, events calendar, calendar widget, event registration, event management,events, agenda,  holiday calendar , scheduling, free calendar, Calender, upcoming events , event widget , event list, calendar localization, Organizer, editorial calendar, Interactive Calendar, news calendar, meeting , appointment, event tracking, event organizer, upcoming events widget, event page, event bookings, recurring, recurring events, conference, date, dates, schedule, times, venue, AJAX, responsive, shortcode, seminar, summit
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 1.0.17
+Stable tag: 1.0.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,11 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 6. If the installation does not succeed, please contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 == Changelog ==
+
+= 1.0.18 =
+Added: Themes folder   
+Changed: Related events title style   
+Added: Apply category color to event title in event page option  
 
 = 1.0.17 =
 Fixed: Time format issue

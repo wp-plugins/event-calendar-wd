@@ -118,6 +118,19 @@ $args = array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'all');
 $event_tags = wp_get_post_terms($post->ID, 'ecwd_event_tag', $args);
 $event_categories = wp_get_post_terms($post->ID, 'ecwd_event_category', $args);
 
+$event_title_style = '';
+if(isset($ecwd_options['cat_title_color']) && $ecwd_options['cat_title_color']==1) {
+	if ( ! empty( $event_categories ) ) {
+		if ( isset( $event_categories[0] ) ) {
+			$cat   = $event_categories[0];
+			$metas = get_option( "ecwd_event_category_$cat->term_id" );
+			if ( isset( $metas['color'] ) ) {
+				$event_title_style = 'style = "color: ' . $metas['color'] . '"';
+			}
+		}
+	}
+}
+
 get_header();
 ?>
 <div id="ecwd-events-content" class="ecwd-events-single hentry">
@@ -131,7 +144,7 @@ get_header();
 
             <div class="ecwd-event" itemscope itemtype="http://schema.org/Event">
                 <header class="entry-header">
-    <?php the_title('<h1 class="ecwd-events-single-event-title summary entry-title">', '</h1>'); ?>
+	                <?php the_title( '<h1 class="ecwd-events-single-event-title summary entry-title" '.$event_title_style.'>', '</h1>' ); ?>
                 </header>
                 <div class="event-detalis">
 

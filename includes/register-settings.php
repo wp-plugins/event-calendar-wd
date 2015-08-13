@@ -132,6 +132,13 @@ function ecwd_register_settings() {
 				'type'    => 'radio',
 				'default' => 1
 			),
+			'cat_title_color'    => array(
+				'id'      => 'cat_title_color',
+				'name'    => __( 'Apply category color to event title in event page', 'ecwd' ),
+				'desc'    => '',
+				'type'    => 'radio',
+				'default' => 0
+			),
 			'category_and_tags' => array(
 				'id'   => 'category_and_tags',
 				'name' => __( 'Enable Category and Tags', 'ecwd' ),
@@ -327,7 +334,7 @@ function ecwd_checkbox_callback( $args ) {
 function ecwd_radio_callback( $args ) {
 	global $ecwd_options;
 
-	$checked_no = isset( $ecwd_options[ $args['id'] ] ) ? checked( 0, $ecwd_options[ $args['id'] ], false ) : '';
+	$checked_no = isset( $ecwd_options[ $args['id'] ] ) ? checked( 0, $ecwd_options[ $args['id'] ], false ) : ( isset( $args['default'] ) ? checked( 0, $args['default'], false ) : '' );
 
 	$checked_yes = isset( $ecwd_options[ $args['id'] ] ) ? checked( 1, $ecwd_options[ $args['id'] ], false ) : ( isset( $args['default'] ) ? checked( 1, $args['default'], false ) : '' );
 

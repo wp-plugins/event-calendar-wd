@@ -1678,7 +1678,6 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 .upcoming_events_item .event-title a{
     font-size: 22px;
     font-weight: bold;
-    text-transform: uppercase;
 }
 .upcoming_events_item .event-title{
     margin: 0px 0 3px;
