@@ -119,6 +119,13 @@ function ecwd_register_settings() {
 				'desc' => __( 'Select Order of Organizers and Venues.', 'ecwd' ),
 				'type' => 'order_select'
 			),
+			'events_new_tab'    => array(
+				'id'      => 'events_new_tab',
+				'name'    => __( 'Open events in new tab', 'ecwd' ),
+				'desc'    => '',
+				'type'    => 'radio',
+				'default' => 0
+			),
 			'social_icons'      => array(
 				'id'   => 'social_icons',
 				'name' => __( 'Enable Social Icons', 'ecwd' ),

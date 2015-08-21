@@ -7,7 +7,9 @@
 
 
 
-.calendar_main:after, #ecwd-events-content .event-detalis:after{
+.calendar_main:after, #ecwd-events-content .event-detalis:after,
+.ecwd_list .event-organizers:after,
+.ecwd_list .event-venue:after {
     content: '';
     clear: both;
     display:table;
@@ -81,14 +83,14 @@
     max-width: 95%;
 }
 .cal_blue.ecwd_calendar_container {
-    width:100%;
-    color:#262e3a;
-    border:none;
-    background:#FFFFFF;
+    width:100% !important;
+    color:#262e3a !important;
+    border:none !important;
+    background:#FFFFFF !important;
     font-family: "Lucida Grande","Lucida Sans Unicode",sans-serif;
-    font-size:10px;
-    table-layout: fixed;
-    margin: 0 0 10px 0;
+    font-size:10px !important;
+    table-layout: fixed !important;
+    margin: 0 0 10px 0 !important;
 }
 table.cal_blue.ecwd_calendar_container #month_selector {
     width:auto;
@@ -119,7 +121,7 @@ table.cal_blue.ecwd_calendar_container td {
 }
 
 table.cal_blue.ecwd_calendar_container .normal-day-heading, table.cal_blue.ecwd_calendar_container .weekend-heading {
-    color:#585858;
+    color:#585858 !important;
     font-size:1.6em;
     height:1.2em;
     line-height:1.2em;
@@ -1309,6 +1311,7 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 .ecwd_calendar .ecwd_list .ecwd-list-img-container img{
     margin-top: 1px;
     max-width: 100%;
+    width: 100%;
     height: auto;
 }
 
@@ -1330,6 +1333,7 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
     text-transform: none;
     letter-spacing: 0;
     clear: none;
+    display: block !important;
 }
 
 
@@ -1469,13 +1473,13 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 .event-organizers,
 .event-detalis-org,
 .event-venue{
-    clear:both;
     padding-left: 26px;
     font-size: 14px;
     font-style: italic;
     line-height: 1.4;
     margin: 5px 0;
     color: #010101;
+    clear: both;
 }
 
 .event-detalis .event-detalis-org,.event-detalis .event-venue{
@@ -1500,12 +1504,46 @@ div[class^="ecwd-page-"].ecwd_calendar  .ecwd-week-date.resp{
 .event-organizers{
     background:url(images/org.png) no-repeat left;
 }
+
 .event-venue{
     background:url(images/loc.png) no-repeat left;
 }
 .event-detalis .event-venue{
     background:none;
 }
+
+.day-event-list .event-organizers,
+.day-event-list .event-venue,
+.ecwd_list .event-organizers,
+.ecwd_list .event-venue,
+.day4-event-list .event-organizers,
+.day4-event-list .event-venue,
+.week-event-list .event-organizers,
+.week-event-list .event-venue{
+    clear:none;
+    display:flex;
+    margin-bottom:5px;
+}
+
+.day4-event-list .event-content,
+.ecwd_list .event-content,
+.day-event-list .event-content,
+.week-event-list .event-content{
+    margin-top: 10px;
+}
+.ecwd_list .event-organizers img{
+    float:left;
+    margin: 1px 7px 0 0 !important;
+}
+.ecwd_list .event-venue img{
+    float:left;
+    margin: 6px 7px 0 0 !important;
+}
+.ecwd_list .event-organizers .ecwd-org-cont,
+.ecwd_list .event-venue .ecwd-org-cont{
+    float:left;
+}
+
 
 /*#######################EVENT PAGE##############################*/
 
@@ -2463,6 +2501,10 @@ a.ecwd-google-plus{
         overflow: hidden;
     }
 
+}
+
+table.ecwd_calendar_container  > tbody > tr >td{
+    vertical-align: top !important;
 }
 
 

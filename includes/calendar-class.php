@@ -26,10 +26,13 @@ class Calendar {
 	public $tags = array();
 	public $venues = array();
 	public $organizers = array();
-	public $displays = array( 'full', 'list', 'week', 'day', 'map', '4day', 'posterboard' );
+	public $displays = array( 'full', 'list', 'week', 'day');
 	public $filters = array( 'categories', 'tags', 'venues', 'organizers' );
 	public $event_search = 'yes';
 	public $displaysName;
+	public $eventlinktarget;
+	public $event_popup = "no";
+
 //--------------------------------------------------------------------------------------------
 // Weekday names/abbreviations (array must start with Sunday=0)
 //--------------------------------------------------------------------------------------------
@@ -81,11 +84,15 @@ class Calendar {
 		if ( isset( $ecwd_options['time_format'] ) && $ecwd_options['time_format'] != '' ) {
 			$this->timeformat = $ecwd_options['time_format'];
 		}
+
+		$this->eventlinktarget .= (isset( $ecwd_options['events_new_tab']) && $ecwd_options['events_new_tab']==1 ?' target="_blank" ': '');
+
 		$this->timeformat .= (isset( $ecwd_options['time_type'])?' '.$ecwd_options['time_type']: '');
-                if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
-	                $this->timeformat = str_replace('H', 'g', $this->timeformat);
-	                $this->timeformat = str_replace('h', 'g', $this->timeformat);
-                }
+		if(isset($ecwd_options['time_type']) && $ecwd_options['time_type'] !=''){
+			$this->timeformat = str_replace('H', 'g', $this->timeformat);
+			$this->timeformat = str_replace('h', 'g', $this->timeformat);
+
+		}
 		if ( isset( $ecwd_options['week_starts'] ) && $ecwd_options['week_starts'] != '' ) {
 			$this->weekstartday = $ecwd_options['week_starts'];
 		}
@@ -404,7 +411,7 @@ class Calendar {
 
 								$map_events[ $i ]['infow'] = '<div class="ecwd_map_event">';
 								if ( $event['permalink'] ) {
-									$map_events[ $i ]['infow'] .= '<a href="' . $event['permalink'] . '"';
+									$map_events[ $i ]['infow'] .= '<a href="' . $event['permalink'] . '"' . $this->eventlinktarget ;
 									if ( isset( $event['color'] ) && $event['color'] !== '' ) {
 										$map_events[ $i ]['infow'] .= ' style= "color:' . $event['color'] . '"';
 									}
@@ -482,7 +489,7 @@ class Calendar {
 							$html .= '<div class="ecwd-event-content"><div class="ecwd-event-details">';
 							$html .= '<div class="ecwd-event-header"><div class="date">' . $dates . '</div>';
 							if ( $event['permalink'] !== '' ) {
-								$html .= '<h2 itemprop="name" ><a href="' . $event['permalink'] . '" style="color: ' . $event['color'] . '">' . $event['title'] . '</a></h2>';
+								$html .= '<h2 itemprop="name" ><a href="' . $event['permalink'] . '" '.$this->eventlinktarget.' style="color: ' . $event['color'] . '">' . $event['title'] . '</a></h2>';
 							} else {
 								$html .= '<h2 itemprop="name" style="color: ' . $event['color'] . '">' . $event['title'] . '</h2>';
 							}
@@ -566,7 +573,7 @@ class Calendar {
 							}
 							$html .= '<div class="event-main-content">';
 							if ( $event['permalink'] != '' ) {
-								$html .= '<h3 class="event-title"  itemprop="name"><a href="' . $event['permalink'] . '" itemprop="url" style="color:' . $event['color'] . ';">' . $event['title'] . '</a></h3>';
+								$html .= '<h3 class="event-title"  itemprop="name"><a href="' . $event['permalink'] . '" '.$this->eventlinktarget.' itemprop="url" style="color:' . $event['color'] . ';">' . $event['title'] . '</a></h3>';
 							} else {
 								$html .= '<h3 class="event-title" style="color:' . $event['color'] . ';" itemprop="name">' . $event['title'] . '</h3>';
 							}
@@ -599,15 +606,15 @@ class Calendar {
 							}
 							$html .= '</div>';
 							if ( isset( $event['organizers'] ) && count( $event['organizers'] ) > 0 ) {
-								$html .= '<div class="event-organizers">';
+								$html .= '<div class="event-organizers"><div class="ecwd-org-cont">';
 								foreach ( $event['organizers'] as $organizer ) {
 									$html .= '<div class="event-organizer" itemprop="organizer"> <a href="' . $organizer['permalink'] . '">' . $organizer['name'] . '</a></div>';
 								}
-								$html .= '</div>';
+								$html .= '</div></div>';
 							}
 
 							if ( $event['location'] !== '' ) {
-								$html .= '<div class="event-venue" itemprop="location" itemscope itemtype="http://schema.org/Place">
+								$html .= '<div class="event-venue" itemprop="location" itemscope itemtype="http://schema.org/Place"><div class="ecwd-org-cont">
                                             <span itemprop="name">';
 								if ( isset( $event['venue']['name'] ) ) {
 									$html .= '<a href="' . $event['venue']['permalink'] . '">' . $event['venue']['name'] . '</a>';
@@ -617,7 +624,8 @@ class Calendar {
                                             <div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                                               ' . ( $event['location'] ? $event['location'] : "" ) . '
                                             </div>
-                                          </div>';
+                                          </div>
+										 </div>';
 							}
 							$html .= '<div class="event-content" itemprop="description">' . ( $event['details'] ? $event['details'] : $this->eventemptytext ) . '</div></div>';
 
@@ -1145,7 +1153,7 @@ class Calendar {
                         }*/
 					}
 					if ( $cellevent['permalink'] ) {
-						$eventcontent .= '<a href="' . $cellevent['permalink'] . '"><span itemprop="name">' . $cellevent['title'] . '</span></a>';
+						$eventcontent .= '<a href="' . $cellevent['permalink'] . '" '.$this->eventlinktarget.'><span itemprop="name">' . $cellevent['title'] . '</span></a>';
 					} else {
 						$eventcontent .= '<span itemprop="name">' . $cellevent['title'] . '</span>';
 					}
@@ -1162,7 +1170,7 @@ class Calendar {
 						$eventcontent .= ' <span class="event-metalabel" style="background:' . $cellevent['color'] . '"></span>
                                          <h5 style="color:' . $cellevent['color'] . '" itemprop="name">';
 						if ( isset( $cellevent['permalink'] ) && $cellevent['permalink'] !== '' ) {
-							$eventcontent .= '<a href="' . $cellevent['permalink'] . '" style="color: ' . $cellevent['color'] . '">' . $cellevent['title'] . '</a>';
+							$eventcontent .= '<a href="' . $cellevent['permalink'] . '" '.$this->eventlinktarget.' style="color: ' . $cellevent['color'] . '">' . $cellevent['title'] . '</a>';
 						} else {
 							$eventcontent .= $cellevent['title'];
 						}
@@ -1172,7 +1180,7 @@ class Calendar {
 						$eventcontent .= ' <span class="event-metalabel"></span>
                                          <h5 itemprop="name">';
 						if ( isset( $cellevent['permalink'] ) && $cellevent['permalink'] !== '' ) {
-							$eventcontent .= '<a href="' . $cellevent['permalink'] . '">' . $cellevent['title'] . '</a>';
+							$eventcontent .= '<a href="' . $cellevent['permalink'] . '" '.$this->eventlinktarget.'>' . $cellevent['title'] . '</a>';
 						} else {
 							$eventcontent .= $cellevent['title'];
 						}
@@ -1206,12 +1214,14 @@ class Calendar {
 					$eventdate .= '</div>';
 					$eventcontent .= $eventdate;
 				}
+
 				if ( isset( $cellevent['organizers'] ) && count( $cellevent['organizers'] ) > 0 ) {
 					$eventcontent .= '<div class="event-organizers">';
 					foreach ( $cellevent['organizers'] as $organizer ) {
 						$eventcontent .= '<div class="event-organizer" itemprop="organizer"> <a href="' . $organizer['permalink'] . '">' . $organizer['name'] . '</a></div>';
 					}
 					$eventcontent .= '</div>';
+
 				}
 				if ( $cellevent['location'] !== '' ) {
 					$eventcontent .= '<div class="event-venue" itemprop="location" itemscope itemtype="http://schema.org/Place">';
@@ -1223,6 +1233,7 @@ class Calendar {
 					}
 					$eventcontent .= '</div>';
 				}
+
 				if ( isset( $cellevent['link'] ) && $cellevent['link'] != '' ) {
 					$eventcontent .= '<div  class="ecwd-link"> <a href="' . $cellevent['link'] . '"  itemprop="url">' . $cellevent['link'] . '</a></div>';
 				}
@@ -1245,6 +1256,7 @@ class Calendar {
 
 				$eventcontent .= '</div><div class="ecwd-event-arrow-right"></div>';
 
+
 				$eventcontent .= '</li> ';
 
 
@@ -1253,6 +1265,7 @@ class Calendar {
 //                }
 
 			}
+
 			$content .= $eventcontent;
 
 			if ( $i > 2 && $this->displaytype !== 'mini' ) {
@@ -1315,7 +1328,7 @@ class Calendar {
 						}
 
 						if ( $cellevent['permalink'] != '' ) {
-							$html .= '<h3 class="event-title" itemprop="name"> <a href="' . $cellevent['permalink'] . '"';
+							$html .= '<h3 class="event-title" itemprop="name"> <a href="' . $cellevent['permalink'] . '" '.$this->eventlinktarget;
 							if ( isset( $cellevent['color'] ) && $cellevent['color'] !== '' ) {
 								$html .= ' style="color:' . $cellevent['color'] . ';"';
 							}
@@ -1358,11 +1371,11 @@ class Calendar {
 						}
 						$html .= '</div>';
 						if ( isset( $cellevent['organizers'] ) && count( $cellevent['organizers'] ) > 0 ) {
-							$eventcontent .= '<div class="event-organizers">';
+							$html .= '<div class="event-organizers">';
 							foreach ( $cellevent['organizers'] as $organizer ) {
-								$eventcontent .= '<div class="event-organizer" itemprop="organizer"> <a href="' . $organizer['permalink'] . '">' . $organizer['name'] . '</a></div>';
+								$html .= '<div class="event-organizer" itemprop="organizer"> <a href="' . $organizer['permalink'] . '">' . $organizer['name'] . '</a></div>';
 							}
-							$eventcontent .= '</div>';
+							$html .= '</div>';
 						}
 						if ( $cellevent['location'] != '' ) {
 							$html .= '<div class="event-venue" itemprop="location" itemscope itemtype="http://schema.org/Place">

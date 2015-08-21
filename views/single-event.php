@@ -38,7 +38,9 @@ $ecwd_event = $post;
 $ecwd_event_metas = get_post_meta($ecwd_event->ID, '', true);
 $ecwd_event_date_from = $ecwd_event_metas[ECWD_PLUGIN_PREFIX . '_event_date_from'][0];
 $ecwd_event_date_to = $ecwd_event_metas[ECWD_PLUGIN_PREFIX . '_event_date_to'][0];
-$ecwd_event_metas[ECWD_PLUGIN_PREFIX . '_event_url'] = array(0 => '');
+if ( ! isset( $ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ] ) ) {
+	$ecwd_event_metas[ ECWD_PLUGIN_PREFIX . '_event_url' ] = array( 0 => '' );
+}
 if (!isset($ecwd_event_metas[ECWD_PLUGIN_PREFIX . '_event_location'])) {
     $ecwd_event_metas[ECWD_PLUGIN_PREFIX . '_event_location'] = array(0 => '');
 }

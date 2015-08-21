@@ -17,7 +17,7 @@ table.cal_blue.ecwd_calendar_container .weekend {
 }
 
 table.cal_blue.ecwd_calendar_container .normal-day-heading, table.cal_blue.ecwd_calendar_container .weekend-heading{
-  background: #FFFFFF;
+  background: #FFFFFF !important;
 }
 
 
