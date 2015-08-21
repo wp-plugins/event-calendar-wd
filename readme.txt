@@ -131,10 +131,10 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 == Changelog ==
 
 = 1.0.19 =
-Fixed: Show event url issue
-Added: Open event in new tab option
-Added: Ajax themes support
-Fixed: Styles for several themes
+Fixed: Show event url issue    
+Added: Open event in new tab option    
+Added: Ajax themes support     
+Fixed: Styles for several themes    
 
 = 1.0.18 =
 Added: Themes folder   
