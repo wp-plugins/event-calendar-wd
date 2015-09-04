@@ -463,7 +463,7 @@ get_header();
                     }
 
                     $d = new ECWD_Display(0, '', '', $today);
-                    $events = $d->get_event_days($events);
+                    $events = $d->get_event_days($events, 0);
                     ?>
 
                     <?php
@@ -551,5 +551,5 @@ get_header();
 <?php endwhile; ?>
 
 </div>
-
+<script id="ecwd_script_handler" type="text/javascript">if(typeof ecwd_js_init_call=="object"){ecwd_js_init_call = new ecwd_js_init();}</script>
 <?php get_footer(); ?>

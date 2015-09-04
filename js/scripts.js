@@ -3,22 +3,20 @@
 /**
  * Public JS functions
  */
-jQuery(document).ajaxComplete(function(e, xhr, settings){
-    ecwd_load();
-});
 
-jQuery(document).ready(function () {
-    ecwd_load();
-});
-
-function ecwd_load(){
-
+if(typeof ecwd_js_init_call !="object")
+var ecwd_js_init_call;
+if(typeof ecwd_js_init !="function")
+var ecwd_js_init;
+(function ($){
+ecwd_js_init = function () {
+        ecwd_eventsOff();
     if(jQuery('#ecwd-calendar-main-css').length == 0){
         jQuery("<link/>", {
             id: 'ecwd-calendar-main-css',
             rel: "stylesheet",
             type: "text/css",
-            href: 'http://'+location.hostname + '/wp-content/plugins/event-calendar-wd/css/calendar.css?ver=1'
+            href: ecwd.plugin_url+'/css/calendar.css?ver=1'
         }).appendTo("head");
     }
     var cwidth = jQuery(".calendar_main .ecwd_calendar").width();
@@ -41,14 +39,12 @@ function ecwd_load(){
         doMasonry();
     }, 1);
 
-    if (jQuery('.ecwd_map_div').length > 0) {
-        showMap();
-    }
+    
     jQuery('.ecwd_reset_filters').click(function () {
         jQuery(this).closest('.ecwd_filters').find('input:checkbox').attr('checked', false);
     });
 
-    jQuery('body').on('click', '.ecwd_calendar_prev_next .next, .ecwd_calendar_prev_next .previous, .ecwd_calendar .type, .cpage, .current-month a, .ecwd_filter, .ecwd_reset_filters', function (e) {
+    jQuery('.ecwd_calendar_prev_next .next, .ecwd_calendar_prev_next .previous, .ecwd_calendar .type, .cpage, .current-month a, .ecwd_filter, .ecwd_reset_filters').on('click', function (e) {
         var days = jQuery('input[name="ecwd_weekdays[]"]:checked').map(function () {
             return this.value;
         }).get();
@@ -112,21 +108,21 @@ function ecwd_load(){
             ecwd_date_filter: date,
             ecwd_nonce: ecwd.ajaxnonce
         }, function (data) {
-            jQuery(main_div).find('div.ecwd_calendar').replaceWith(data);
-
-            if (jQuery('.ecwd_map_div').length > 0) {
-                showMap();
-            }
-            if (jQuery('.ecwd-poster-board').length > 0) {
-                doMasonry();
-            }
-
-
-        })
+            $(main_div).find('div.ecwd_calendar').replaceWith(data);
+            
+        });
         e.stopPropagation();
     });
 
-
+    jQuery('.ecwd_calendar .more_events_link').on('click',function(){
+        jQuery('.ecwd_calendar #'+jQuery(this).attr('div-id')).show().css({'opacity':'1','pointer-events': 'auto'});
+        return false;
+    });
+    jQuery('.ecwd_calendar .ecwd-more-events-close .fa').on('click',function(){
+        jQuery(this).closest('.ecwd-modal').hide().css({'opacity':'0','pointer-events': 'none'});
+        return false;
+    });
+    
     function createSearchForm() {
         var scinpt = document.getElementById("ecwd-search-submit");
         if (scinpt !== null) {
@@ -193,14 +189,7 @@ function ecwd_load(){
             ecwd_type: calendar_ids_class[1],
             ecwd_nonce: ecwd.ajaxnonce
         }, function (data) {
-            jQuery(main_div).find('div.ecwd_calendar').replaceWith(data);
-            if (jQuery('.ecwd_map_div').length > 0) {
-                showMap();
-            }
-            if (jQuery('.ecwd-poster-board').length > 0) {
-                doMasonry();
-            }
-
+            $(main_div).find('div.ecwd_calendar').replaceWith(data);
         });
         jQuery('.ecwd-search-submit').blur();
     }
@@ -210,7 +199,7 @@ function ecwd_load(){
 
     var ulEvent, day;
     var ulEventFull, dayFull;
-    jQuery('body').on('click', 'div.ecwd_calendar .has-events', function (e) {
+    jQuery('div.ecwd_calendar .has-events').on('click', function (e) {
         dayFull = jQuery(this).attr('data-date').split('-');
         dayFull = dayFull[2];
         ulEventFull = jQuery(this).find('ul.events');
@@ -272,20 +261,8 @@ function ecwd_load(){
     jQuery('.ecwd-show-map-span').click(function () {
         jQuery('.ecwd-show-map').show();
     });
-
-
-    jQuery(window).resize(function () {
-        jQuery(".ecwd-poster-board").masonry("reload");
-        view_click = 0;
-        cwidth = jQuery(".ecwd_calendar").width();
-        jQuery('.ecwd_calendar').find('.ecwd-events-day-details').html('');
-        upcomingEventsSlider();
-        calendarFullResponsive();
-        show_filters();
-        showFilterSliderArrow();
-
-    });
-
+    
+    
     function doMasonry() {
         var $container = jQuery('.ecwd-poster-board');
         if($container.length && jQuery('.ecwd-poster-board').find('.ecwd-poster-item').length>0) {
@@ -622,7 +599,13 @@ function ecwd_load(){
 
     }
 
-    function showMap() {
+    this.showMap = function () {
+            if (typeof google == 'undefined' || typeof google.maps == "undefined") {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=ecwd_js_init_call.showMap';
+                document.body.appendChild(script);
+            }else{
         var maps = [];
         jQuery(".ecwd_map_div").each(function (k, v) {
             maps[k] = this;
@@ -685,7 +668,19 @@ function ecwd_load(){
             });
 
         });
-
+            }
     }
-
+    if (jQuery('.ecwd_map_div').length > 0) {
+        this.showMap();
+    }
+    }
+    ecwd_js_init_call = new ecwd_js_init();
+}(jQuery));
+function ecwd_eventsOff(){
+    jQuery(".calendar_main").find("*").off();
+    jQuery(".calendar_main").children().off();
 }
+
+jQuery(window).resize(function () {
+    ecwd_js_init_call = new ecwd_js_init();
+});

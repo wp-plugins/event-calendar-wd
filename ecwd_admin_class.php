@@ -6,13 +6,15 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.19';
+	protected $version = '1.0.22';
 	protected $ecwd_page = null;
+	protected $notices = null;
 
 	private function __construct() {
 		$plugin        = ECWD::get_instance();
 		$this->prefix  = $plugin->get_prefix();
 		$this->version = $plugin->get_version();
+		$this->notices = new ECWD_Notices();
 		add_filter( 'plugin_action_links_' . plugin_basename( plugin_dir_path( __FILE__ ) . $this->prefix . '.php' ), array(
 			$this,
 			'add_action_links'
@@ -33,8 +35,12 @@ class ECWD_Admin {
 		}
 		//add_filter( 'auto_update_plugin', array($this, 'ecwd_update'), 10, 2 );
 
-		//Wed Dorado Logo
+		//Web Dorado Logo
 		add_action( 'admin_notices', array( $this, 'create_logo_to_head' ) );
+		// Runs the admin notice ignore function incase a dismiss button has been clicked
+		add_action( 'admin_init', array( $this, 'admin_notice_ignore' ) );
+		add_action( 'admin_notices', array($this, 'ecwd_admin_notices') );
+
 	}
 
 
@@ -265,6 +271,12 @@ class ECWD_Admin {
 			}
 
 			wp_localize_script( $this->prefix . '-admin-scripts', 'params', $params );
+			wp_localize_script( ECWD_PLUGIN_PREFIX . '-public', 'ecwd', array(
+				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+				'ajaxnonce'   => wp_create_nonce( ECWD_PLUGIN_PREFIX . '_ajax_nonce' ),
+				'loadingText' => __( 'Loading...', 'ecwd' ),
+				'plugin_url' => ECWD_URL
+			) );
 			wp_enqueue_script( $this->prefix . '-admin-scripts' );
 
 		}
@@ -385,6 +397,31 @@ class ECWD_Admin {
 		}
 	}
 
+	/********ECWD notices************/
+	function ecwd_admin_notices( ) {
+		// Notices filter and run the notices function.
+
+		$admin_notices = apply_filters( 'ecwd_admin_notices', array() );
+		$this->notices->admin_notice( $admin_notices );
+
+	}
+
+
+
+
+	// Ignore function that gets ran at admin init to ensure any messages that were dismissed get marked
+	public function admin_notice_ignore() {
+		$slug = ( isset( $_GET['ecwd_admin_notice_ignore'] ) ) ? $_GET['ecwd_admin_notice_ignore'] : '';
+		if ( isset($_GET['ecwd_admin_notice_ignore']) && current_user_can( 'manage_options'  ) ) {
+			$admin_notices_option = get_option( 'ecwd_admin_notice', array() );
+			$admin_notices_option[ $_GET[ 'ecwd_admin_notice_ignore' ] ][ 'dismissed' ] = 1;
+			update_option( 'ecwd_admin_notice', $admin_notices_option );
+			$query_str = remove_query_arg( 'ecwd_admin_notice_ignore' );
+			wp_redirect( $query_str );
+			exit;
+		}
+	}
+
 	/**
 	 * Set Web Dorado Logo in admin pages
 	 */
@@ -392,7 +429,7 @@ class ECWD_Admin {
 		global $pagenow, $post;
 
 		if ( $this->ecwd_page() ) { ?>
-			<div style="float:right; width: 100%; text-align: right;clear:both;">
+			<div style="width: 100%; text-align: right;clear:both;">
 				<a href="https://web-dorado.com/files/fromEventCalendarWD.php" target="_blank"
 				   style="text-decoration:none;box-shadow: none;">
 					<img src="<?php echo plugins_url( '/assets/pro.png', __FILE__ ); ?>" border="0"

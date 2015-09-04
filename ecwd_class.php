@@ -6,10 +6,9 @@
  */
 class ECWD {
 
-	protected $version = '1.0.19';
+	protected $version = '1.0.20';
 	protected $plugin_name = 'event-calendar-wd';
 	protected $prefix = 'ecwd';
-	protected $old_version = '1.0.13';
 	protected static $instance = null;
 
 	private function __construct() {
@@ -20,7 +19,7 @@ class ECWD {
 		$this->user_info();
 		add_action( 'init', array( $this, 'add_localization' ) );
 		add_filter( 'body_class', array( $this, 'theme_body_class' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 20 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 	}
 
@@ -39,7 +38,11 @@ class ECWD {
 		if ( ! defined( 'ECWD_PLUGIN_NAME' ) ) {
 			define( 'ECWD_PLUGIN_NAME', $this->plugin_name );
 		}
-
+		if(! defined( 'ECWD_URL' ) ){
+			define ('ECWD_URL',plugins_url(plugin_basename(dirname(__FILE__))));
+		}if(! defined( 'ECWD_VERSION' ) ){
+			define ('ECWD_VERSION', $this->version);
+		}
 	}
 
 
@@ -93,9 +96,12 @@ class ECWD {
 		$default_timezone = self::isValidTimezone( @ini_get( 'date.timezone' ) ) ? ini_get( 'date.timezone' ) : 'Europe/Berlin';
 		$timezone         = ( isset( $ecwd_options['time_zone'] ) && self::isValidTimezone( $ecwd_options['time_zone'] ) ) ? $ecwd_options['time_zone'] : $default_timezone;
 		date_default_timezone_set( $timezone );
+		include_once('includes/ecwd-notices-class.php');
+		require_once('includes/notices.php');
 		include_once( 'includes/ecwd-functions.php' );
 		include_once( 'includes/ecwd-event-class.php' );
 		include_once( 'includes/ecwd-display-class.php' );
+
 		include_once( 'views/widgets.php' );
 	}
 
@@ -103,22 +109,24 @@ class ECWD {
 	 * Load public facing scripts
 	 */
 	public function enqueue_scripts() {
-		global $wp_scripts;
+		global $wp_scripts, $post;
 		$map_included = false;
-		if(isset($wp_scripts->registered) && $wp_scripts->registered) {
-			foreach ( $wp_scripts->registered as $wp_script ) {
-				if ( $wp_script->src && (strpos( $wp_script->src, 'maps.googleapis.com' ) || strpos( $wp_script->src, 'maps.google.com' )) !== false ) {
-					if(is_array($wp_scripts->queue) && in_array($wp_script->handle, $wp_scripts->queue)) {
-						$map_included = true;
-						break;
-					}
+		if($post->post_type == 'ecwd_event' || $post->post_type == 'ecwd_venue'){
+			if ( isset( $wp_scripts->registered ) && $wp_scripts->registered ) {
+				foreach ( $wp_scripts->registered as $wp_script ) {
+					if ( $wp_script->src && ( strpos( $wp_script->src, 'maps.googleapis.com' ) || strpos( $wp_script->src, 'maps.google.com' ) ) !== false ) {
+						if ( is_array( $wp_scripts->queue ) && in_array( $wp_script->handle, $wp_scripts->queue ) ) {
+							$map_included = true;
+							break;
+						}
 
+					}
 				}
 			}
-		}
 
-		if ( ! $map_included ) {
-			wp_enqueue_script( $this->prefix . '-maps-public', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', array( 'jquery' ), $this->version, true );
+			if ( ! $map_included ) {
+				wp_enqueue_script( $this->prefix . '-maps-public', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', array( 'jquery' ), $this->version, true );
+			}
 		}
 		wp_enqueue_script( $this->prefix . '-gmap-public', plugins_url( 'js/gmap/gmap3.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->prefix . '-public', plugins_url( 'js/scripts.js', __FILE__ ), array(
@@ -126,7 +134,12 @@ class ECWD {
 			'jquery-ui-draggable',
 			'masonry'
 		), $this->version, true );
-
+		wp_localize_script( ECWD_PLUGIN_PREFIX . '-public', 'ecwd', array(
+			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+			'ajaxnonce'   => wp_create_nonce( ECWD_PLUGIN_PREFIX . '_ajax_nonce' ),
+			'loadingText' => __( 'Loading...', 'ecwd' ),
+			'plugin_url' => ECWD_URL
+		) );
 	}
 
 	/*
@@ -163,14 +176,6 @@ class ECWD {
 	public function get_version() {
 		return $this->version;
 	}
-
-	/**
-	 * Return the plugin old version.
-	 */
-	public function get_old_version() {
-		return $this->old_version;
-	}
-
 
 	/**
 	 * Return an instance of this class.

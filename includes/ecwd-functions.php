@@ -5,7 +5,8 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 	wp_localize_script( ECWD_PLUGIN_PREFIX . '-public', 'ecwd', array(
 		'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 		'ajaxnonce'   => wp_create_nonce( ECWD_PLUGIN_PREFIX . '_ajax_nonce' ),
-		'loadingText' => __( 'Loading...', 'ecwd' )
+		'loadingText' => __( 'Loading...', 'ecwd' ),
+		'plugin_url' => ECWD_URL
 	) );
 
 	$defaults = array(
@@ -115,6 +116,7 @@ function ecwd_print_calendar( $calendar_ids, $display = 'mini', $args = array(),
 
 		$markup .= '</div>';
 	}
+        $markup .= '<script id="ecwd_script_handler" type="text/javascript">if(typeof ecwd_js_init_call=="object"){ecwd_js_init_call = new ecwd_js_init();}</script>';
 
 	return $markup;
 }

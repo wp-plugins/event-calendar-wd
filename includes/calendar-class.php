@@ -72,7 +72,7 @@ class Calendar {
 	public $jd, $year, $month, $day, $displaytype, $numdaysinmonth, $monthstartday, $monthname, $previousmonth, $nextmonth;
 	public $events = array();
 
-	// types: mini,full,list,mini-list, map, 4day, week, posterboard (default=full)
+	// types: mini,full,list,mini-list,(default=full)
 	public function __construct( $type = 'full', $date = '', $staticdisplaytype = false, $widget = 0, $limit = false, $page = 1, $displays = null, $filters = null, $event_search = 'yes' ) {
 // static displaytype
 		global $ecwd_options;
@@ -194,12 +194,7 @@ class Calendar {
 				'name' => __( 'Day', 'ecwd' ),
 				'date' => $this->daydate
 			),
-			'map'         => array( 'name' => __( 'Map', 'ecwd' ), 'date' => $this->monthdate ),
-			'4day'        => array(
-				'name' => __( '4 Days', 'ecwd' ),
-				'date' => $this->year . '-' . $this->month . '-' . $this->day
-			),
-			'posterboard' => array( 'name' => __( 'Posterboard', 'ecwd' ), 'date' => $this->monthdate ),
+
 		);
 		$this->event_search = $event_search;
 		$this->listlimit    = $limit;
@@ -258,9 +253,7 @@ class Calendar {
 			"mini-list",
 			"week",
 			'day',
-			'4day',
-			'map',
-			'posterboard'
+
 		) )
 		) { // mini and full cal
 			$html .= '
@@ -376,162 +369,7 @@ class Calendar {
 				//$this->events = $this->arraySort($this->events, 'from');
 			}
 			if ( $this->displaytype == 'map' ) {
-				$map_events = array();
 
-				if ( count( $this->events ) > 0 ) {
-					foreach ( $this->events as $i => $event ) {
-						if ( strtotime( $event['from'] ) >= strtotime( $this->year . '-' . $this->month . '-1' ) &&
-						     strtotime( $event['from'] ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) )
-						) {
-							if ( $event['latlong'] != '' ) {
-								if ( $event['from'] != '' ) {
-									$map_events[ $i ]['from'] = date( $this->dateformat, strtotime( $event['from'] ) );
-								}
-								if ( $event['to'] != '' && $event['from'] != $event['to'] ) {
-									$map_events[ $i ]['to'] = date( $this->dateformat, strtotime( $event['to'] ) );
-								}
-								if ( isset( $event['all_day_event'] ) && $event['all_day_event'] == 1 ) {
-									$map_events[ $i ]['starttime'] = __( 'All day', 'ecwd' );
-								} else {
-									if ( $event['starttime'] != '' ) {
-										$map_events[ $i ]['starttime'] = date( $this->timeformat, strtotime( $event['starttime'] ) );
-									}
-									if ( $event['endtime'] != '' ) {
-										$map_events[ $i ]['endtime'] = date( $this->timeformat, strtotime( $event['endtime'] ) );
-									}
-								}
-
-								if ( $event['location'] != '' ) {
-									$map_events[ $i ]['location'] = $event['location'];
-								}
-								if ( $event['link'] != '' ) {
-									$map_events[ $i ]['link'] = $event['link'];
-								}
-								$map_events[ $i ]['latlong'] = explode( ',', $event['latlong'] );
-
-								$map_events[ $i ]['infow'] = '<div class="ecwd_map_event">';
-								if ( $event['permalink'] ) {
-									$map_events[ $i ]['infow'] .= '<a href="' . $event['permalink'] . '"' . $this->eventlinktarget ;
-									if ( isset( $event['color'] ) && $event['color'] !== '' ) {
-										$map_events[ $i ]['infow'] .= ' style= "color:' . $event['color'] . '"';
-									}
-									$map_events[ $i ]['infow'] .= '>' . $event['title'] . '</a>';
-								} else {
-									$map_events[ $i ]['infow'] .= '<span class="title"';
-									if ( isset( $event['color'] ) && $event['color'] !== '' ) {
-										$map_events[ $i ]['infow'] .= ' style= "color:' . $event['color'] . '"';
-									}
-									$map_events[ $i ]['infow'] . '>' . $event['title'] . '<span>';
-								}
-								$map_events[ $i ]['infow'] .= '<span class="date">';
-								if ( isset( $event['all_day_event'] ) && $event['all_day_event'] == 1 ) {
-									$map_events[ $i ]['infow'] .= date( $this->dateformat, strtotime( $event['from'] ) ) . ' - ' . ( ( strtotime( $event['to'] ) != '' && strtotime( $event['from'] ) != strtotime( $event['to'] ) ) ? date( $this->dateformat, strtotime( $event['to'] ) ) : "" ) . ' ' . __( 'All day', 'ecwd' );
-								} else {
-									if ( $event['to'] != '' && $event['from'] != $event['to'] ) {
-										$map_events[ $i ]['infow'] .= date( $this->dateformat, strtotime( $event['from'] ) ) . ' ' . date( $this->timeformat, strtotime( $event['starttime'] ) );
-										$map_events[ $i ]['infow'] .= ' - ';
-										$map_events[ $i ]['infow'] .= date( $this->dateformat, strtotime( $event['to'] ) ) . ' ' . date( $this->timeformat, strtotime( $event['endtime'] ) );
-									} else {
-										$map_events[ $i ]['infow'] .= date( $this->dateformat, strtotime( $event['from'] ) ) . ' ' . date( $this->timeformat, strtotime( $event['starttime'] ) );
-									}
-								}
-								$map_events[ $i ]['infow'] .= '</span>';
-
-								$map_events[ $i ]['infow'] .= '<span class="location">' . $event['location'] . '</span>';
-								$map_events[ $i ]['infow'] .= '</div>';
-							}
-						}
-					}
-
-					$markers = json_encode( $map_events );
-
-					$html .= '<div class="ecwd_map_div" style="width: 100%; height: 100%; min-height: 300px;" ></div>';
-					$html .= '<textarea class="ecwd_markers" class="hidden" style="display: none;">' . $markers . '</textarea>';
-				} else {
-					$html .= '<div class="event-main-content no-events">' . __( 'No events', 'ecwd' ) . '</div>';
-				}
-			} elseif ( $this->displaytype == 'posterboard' ) {
-
-				$html .= '<div  class="ecwd-poster-board">';
-				if ( $this->events ) {
-					foreach ( $this->events as $i => $event ) {
-						if ( ! isset( $event['color'] ) ) {
-							$event['color'] = '#ffffff';
-						}
-						if ( ! isset( $event['terms']['ecwd_taxonomy_image'] ) ) {
-							$event['terms']['ecwd_taxonomy_image'] = '';
-						}
-
-						if ( strtotime( $event['from'] ) >= strtotime( $this->year . '-' . $this->month . '-1' ) &&
-						     strtotime( $event['from'] ) <= strtotime( date( 'Y-m-t', strtotime( $this->date ) ) )
-						) {
-							$datenumber1 = substr( date( 'd', strtotime( $event['from'] ) ), 0, 1 );
-							$datenumber2 = substr( date( 'd', strtotime( $event['from'] ) ), 1, 1 );
-							$dates       = '<span class="weekday-block" itemprop="startDate" content="' . date( 'Y-m-d', strtotime( $event['from'] ) ) . 'T' . date( 'H:i', strtotime( $event['starttime'] ) ) . '"><span class="weekday">' . date( 'D', strtotime( $event['from'] ) ) . '</span> ';
-							$dates .= '<span class="month">' . date( 'M', strtotime( $event['from'] ) ) . '</span></span> ';
-							$dates .= '<span class="datenumber1">' . $datenumber1 . '</span> ';
-							$dates .= '<span class="datenumber2">' . $datenumber2 . '</span> ';
-
-
-							$html .= '<div class="ecwd-poster-item" itemscope itemtype="http://schema.org/Event">';
-							$image = $this->getAndReplaceFirstImage( $event['details'] );
-							if ( get_the_post_thumbnail( $event['id'] ) || $event['image'] ) {
-								if ( get_the_post_thumbnail( $event['id'] ) ) {
-									$html .= '<div class="ecwd-poster-img">' . get_the_post_thumbnail( $event['id'] ) . '</div>';
-								} else {
-									$html .= '<div class="ecwd-poster-img"><img src="' . $event['image'] . '" /></div>';
-								}
-							} elseif ( $image['image'] != null ) {
-								$html .= '<div class="ecwd-poster-img"><img src="' . $image['image'] . '" /></div>';
-								$event['details'] = $image['content'];
-							}
-
-							$html .= '<div class="ecwd-event-content"><div class="ecwd-event-details">';
-							$html .= '<div class="ecwd-event-header"><div class="date">' . $dates . '</div>';
-							if ( $event['permalink'] !== '' ) {
-								$html .= '<h2 itemprop="name" ><a href="' . $event['permalink'] . '" '.$this->eventlinktarget.' style="color: ' . $event['color'] . '">' . $event['title'] . '</a></h2>';
-							} else {
-								$html .= '<h2 itemprop="name" style="color: ' . $event['color'] . '">' . $event['title'] . '</h2>';
-							}
-							$html .= '</div>';
-
-							if ( isset( $event['organizers'] ) && count( $event['organizers'] ) > 0 ) {
-								$html .= '<div class="event-organizers">';
-								foreach ( $event['organizers'] as $organizer ) {
-									$html .= '<div class="event-organizer" itemprop="organizer"> <a href="' . $organizer['permalink'] . '">' . $organizer['name'] . '</a></div>';
-								}
-								$html .= '</div>';
-							}
-							if ( isset( $event['location'] ) && $event['location'] !== '' ) {
-								$html .= '<div class="event-venue" itemprop="location" itemscope itemtype="http://schema.org/Place">
-                                    <span itemprop="name">';
-								if ( isset( $event['venue']['name'] ) && $event['venue']['name'] !== '' ) {
-									$html .= '<a href="' . $event['venue']['permalink'] . '">' . $event['venue']['name'] . '</a>';
-								}
-
-								$html .= '</span>
-                                    <div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                                     ' . $event['location'] . '
-                                    </div>
-                                  </div>';
-							}
-							$html .= '</div>';
-							$html .= '
-                    <div class="post-descr">
-                        <div class="post-' . $event['id'] . '">
-                             ' . $event['details'] . '
-                        </div>
-                     </div>';
-
-							$html .= '</div></div>';
-
-						}
-					}
-				} else {
-					$html .= '<div class="event-main-content no-events">' . __( 'No events', 'ecwd' ) . '</div>';
-				}
-
-				$html .= '</div>';
 			} else {
 				$pages = 0;
 				$page  = $this->page;
@@ -663,19 +501,19 @@ class Calendar {
 				if ( $pages > 1 ) {
 					$html .= '<div class="ecwd-pagination">';
 					if ( $this->page > 1 ) {
-						$html .= '<span class="cpage-span"><a href="?date=' . $this->year . '-' . $this->month . '&t=' . $this->displaytype . '&cpage=' . ( $this->page - 1 ) . '" class="cpage">...</a></span>';
+						$html .= '<span class="cpage-span"><a href="?date=' . $this->year . '-' . $this->month . '&t=' . $this->displaytype . '&cpage=' . ( $this->page - 1 ) . '" class="cpage" rel="noindex, nofollow">...</a></span>';
 					}
 					for ( $i = ( $this->page - 3 ); $i < ( $this->page + 4 ); $i ++ ) {
 						if ( $i <= $pages and $i >= 1 ) {
 							if ( $this->page == $i ) {
 								$html .= '<span class="cpage-span"><span class="page">' . $i . '</span></span>';
 							} else {
-								$html .= '<span class="cpage-span"><a href="?date=' . $this->year . '-' . $this->month . '&t=' . $this->displaytype . '&cpage=' . $i . '" class="cpage">' . $i . '</a></span>';
+								$html .= '<span class="cpage-span"><a href="?date=' . $this->year . '-' . $this->month . '&t=' . $this->displaytype . '&cpage=' . $i . '" class="cpage" rel="noindex, nofollow">' . $i . '</a></span>';
 							}
 						}
 					}
 					if ( $this->page < $pages ) {
-						$html .= '<span class="cpage-span"><a href="?date=' . $this->year . '-' . $this->month . '&t=' . $this->displaytype . '&cpage=' . ( $this->page + 1 ) . '" class="cpage">...</a></span>';
+						$html .= '<span class="cpage-span"><a href="?date=' . $this->year . '-' . $this->month . '&t=' . $this->displaytype . '&cpage=' . ( $this->page + 1 ) . '" class="cpage" rel="noindex, nofollow">...</a></span>';
 					}
 					$html .= '</div>';
 				}
@@ -707,9 +545,9 @@ class Calendar {
 			$next_dateparam     = $this->getWeekFirstDayDate( $next_year['year'] . '-' . $next_year['month'] . '-' . $next_year['day'] );
 		}
 		$html .= '<div class="current-month">
-					<a href="?date=' . $previous_dateparam . '&t=' . $this->displaytype . '"><</a>&nbsp;
+					<a href="?date=' . $previous_dateparam . '&t=' . $this->displaytype . '" rel="noindex, nofollow"><</a>&nbsp;
 					' . $this->year . '
-				&nbsp;<a href="?date=' . $next_dateparam . '&t=' . $this->displaytype . '">></a>
+				&nbsp;<a href="?date=' . $next_dateparam . '&t=' . $this->displaytype . '" rel="noindex, nofollow">></a>
 					<div>';
 		if ( $this->displaytype !== 'week' && $this->displaytype !== '4day' && $this->displaytype !== 'day' ) {
 
@@ -741,10 +579,7 @@ class Calendar {
 			"list",
 			"mini-list",
 			'day',
-			'week',
-			'4day',
-			'map',
-			'posterboard'
+			'week'
 		) )
 		) { // mini and full cal
 			$html .= '
@@ -795,11 +630,7 @@ class Calendar {
 				//$this->day = ;
 
 			} elseif ( $this->displaytype == 'week' ) {
-			} elseif ( $this->displaytype == '4day' ) {
-			} elseif ( $this->displaytype == 'map' ) {
-			} elseif ( $this->displaytype == 'posterboard' ) {
 			}
-
 			//$html .= '</div>';
 		}
 
@@ -834,7 +665,7 @@ class Calendar {
 			$previoustext = '<span><</span><span class="month-name"> ' . __( $this->previousmonth, 'ecwd' ) . ' ' . $prev_date . '</span>';
 		}
 
-		$html = '<div class="previous"><a href="?date=' . $dateparam . '&t=' . $this->displaytype . '">' . $previoustext . '</a></div>';
+		$html = '<div class="previous"><a href="?date=' . $dateparam . '&t=' . $this->displaytype . '" rel="noindex, nofollow">' . $previoustext . '</a></div>';
 
 		return $html;
 	}
@@ -884,7 +715,7 @@ class Calendar {
 		if ( strtotime( $date ) == strtotime( date( 'Y-m-d' ) ) ) {
 			return $date;
 		} else {
-			if ( $this->displaytype == 'full' || $this->displaytype == 'month' || $this->displaytype == 'mini' || $this->displaytype == 'map' || $this->displaytype == 'posterboard' || $this->displaytype == 'list' ) {
+			if ( $this->displaytype == 'full' || $this->displaytype == 'month' || $this->displaytype == 'mini'  || $this->displaytype == 'list' ) {
 				return date( 'Y-n-j', strtotime( date( 'Y-m-1' ), strtotime( $date ) ) );
 			} elseif ( $this->displaytype == 'week' ) {
 				return date( 'Y-n-j', strtotime( strtolower( $this->weekdays[ $this->weekstartday ] ) . " this week", strtotime( $date ) ) );
@@ -911,7 +742,7 @@ class Calendar {
 		global $cal_ID;
 		$html = '';
 
-		$next      = $this->calcDate( $this->year . '-' . $this->month . '-' . $this->day, '+1', 'month' );
+		$next      = $this->calcDate( $this->year . '-' . $this->month . '-1', '+ 1', 'month' );
 		$next_date = '';
 		$dateparam = $next['year'] . '-' . $next['month'] . '-' . $next['day'];
 		if ( $this->displaytype == 'day' ) {
@@ -936,7 +767,7 @@ class Calendar {
 			$divider  = $this->monthselector === false ? '&nbsp;|&nbsp;' : '';
 			$nexttext = '<span class="month-name">' . $next_date . ' ' . $divider . __( $this->nextmonth, 'ecwd' ) . ' </span><span>></span>';
 		}
-		$html = '<div class="next"><a href="?date=' . $dateparam . '&t=' . $this->displaytype . '">' . $nexttext . '</a></div>';
+		$html = '<div class="next"><a href="?date=' . $dateparam . '&t=' . $this->displaytype . '" rel="noindex, nofollow">' . $nexttext . '</a></div>';
 
 		return $html;
 	}
@@ -959,10 +790,9 @@ class Calendar {
 			$html .= '<div class="ecwd-dropdown-menu">';
 			foreach ( $widgetDisplays as $display ) {
 				if ( $display !== 'none' && isset( $this->displaysName[ $display ] ) ) {
-					$html .= '<div class="type">' . '<a href="?date=' . $this->displaysName[ $display ]['date'] . '&t=' . $display . '">' . $this->displaysName[ $display ]['name'] . '</a>' . '</div>';
+					$html .= '<div class="type">' . '<a href="?date=' . $this->displaysName[ $display ]['date'] . '&t=' . $display . '" rel="noindex, nofollow">' . $this->displaysName[ $display ]['name'] . '</a>' . '</div>';
 				}
 			}
-
 			$html .= '</div></div>';
 
 		} else {
@@ -981,7 +811,7 @@ class Calendar {
 							$html .= ' ecwd-selected-mode';
 							$html .= '">' . '<a>' . $this->displaysName[ $display ]['name'] . '</a>' . '</li>';
 						} else {
-							$html .= '">' . '<a href="?date=' . $this->displaysName[ $display ]['date'] . '&t=' . $display . '">' . $this->displaysName[ $display ]['name'] . '</a>' . '</li>';
+							$html .= '">' . '<a href="?date=' . $this->displaysName[ $display ]['date'] . '&t=' . $display . '" rel="noindex, nofollow">' . $this->displaysName[ $display ]['name'] . '</a>' . '</li>';
 						}
 					}
 				}
@@ -1270,10 +1100,10 @@ class Calendar {
 
 			if ( $i > 2 && $this->displaytype !== 'mini' ) {
 				$content .= '<li class="ecwd-calendar-more-event">
-                     <span class="ecwd-calendar-event-add"><a href="#more_events_' . $date . '">' . __( 'More events', 'ecwd' ) . '</a></span>
+                     <span class="ecwd-calendar-event-add"><a href="#" class="more_events_link" div-id="more_events_' . $date . '">' . __( 'More events', 'ecwd' ) . '</a></span>
                     <div id="more_events_' . $date . '" class="ecwd-modal">
                         <div class="ecwd-excluded-events ">
-                            <a href="#ecwd-close" title="Close" class="ecwd-close"><i class="fa fa-times"></i></a>
+                            <a href="#" title="Close" class="ecwd-more-events-close"><i class="fa fa-times"></i></a>
                              <div class="modal-header">
                                     <h4 class="modal-title">' . date( $this->dateformat, strtotime( $date ) ) . '</h4>
                                   </div>

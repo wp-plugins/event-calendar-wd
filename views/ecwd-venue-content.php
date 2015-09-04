@@ -199,3 +199,4 @@ echo $content;
 	<?php } ?>
 
 </div>
+<script id="ecwd_script_handler" type="text/javascript">if(typeof ecwd_js_init_call=="object"){ecwd_js_init_call = new ecwd_js_init();}</script>

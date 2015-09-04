@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-event-calendar-wd.html
 Tags: calendar, calendars, event, event calendar, event manager, events calendar, calendar widget, event registration, event management,events, agenda,  holiday calendar , scheduling, free calendar, Calender, upcoming events , event widget , event list, calendar localization, Organizer, editorial calendar, Interactive Calendar, news calendar, meeting , appointment, event tracking, event organizer, upcoming events widget, event page, event bookings, recurring, recurring events, conference, date, dates, schedule, times, venue, AJAX, responsive, shortcode, seminar, summit
 Requires at least: 3.9
 Tested up to: 4.3
-Stable tag: 1.0.18
+Stable tag: 1.0.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,11 +130,23 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 
 == Changelog ==
 
+= 1.0.22 =
+Added: Ajaxed themes support  
+Fixed: Next month link issue   
+Changed: More events dialog   
+Added: Support/rate us messages   
+
+= 1.0.21 =
+Fixed: JS error in widgets page  
+
+= 1.0.20 =
+Fixed: Show event url issue   
+Added: "noindex, nofollow"  to calendar links   
+Added: Open pop in new tab option   
+Added: Japanese support   
+
 = 1.0.19 =
-Fixed: Show event url issue    
-Added: Open event in new tab option    
-Added: Ajax themes support     
-Fixed: Styles for several themes    
+Minor bug fixed
 
 = 1.0.18 =
 Added: Themes folder   
@@ -151,7 +163,7 @@ Added: Show the repeat rate in event page option
 Added: Show AM/PM option
 
 = 1.0.14 =
-Fixed: Conflict with Avada theme
+Fixed: Conflict with Avada theme    
 Added: Date to events link
 
 = 1.0.13 =
@@ -161,21 +173,21 @@ Changed: Calendar Add-ons page
 Changed: Calendar Add-ons page
 
 = 1.0.10 =
-Added: Organizers and venues archive page order option 
-Added: Show categories and tags in event page option
+Added: Organizers and venues archive page order option    
+Added: Show categories and tags in event page option    
 Fixed: Featured image sizes in widget
 
 = 1.0.9 =
-Fixed: Show google maps conflict with other plugins
-Fixed: Geolocation bug 
+Fixed: Show google maps conflict with other plugins    
+Fixed: Geolocation bug   
 Fixed: Save organizer featured image issue 
 
 = 1.0.8 =
-Changed: Event page
-Added: Portuguese  language
+Changed: Event page    
+Added: Portuguese  language 
 
 = 1.0.7 =
-New: Related events slider   
+New: Related events slider    
 New: Enable/disable rewrite rule option   
 
 = 1.0.6 =
@@ -183,7 +195,7 @@ Changed: Removed Add Venue link
 Fixed: Delete event from calendar page issue   
 
 = 1.0.5 =
-New: Events Filters in backend   
+New: Events Filters in backend    
 Fixed: Bug in shortcode   
 
 = 1.0.4 =

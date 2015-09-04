@@ -2154,7 +2154,7 @@ a.ecwd-google-plus{
     position: absolute;
     top: 12px;
     font-size: 18px;
-    left: 13px;
+    right: 13px;
     line-height: 19px;
     color: #676767;
 }
@@ -2219,11 +2219,7 @@ a.ecwd-google-plus{
     background: #fff;
     border: 1px solid #CFD7DE;
 }
-.ecwd-modal:target {
-    opacity:1;
-    display: block;
-    pointer-events: auto;
-}
+
 .ecwd-modal .modal-header {
     margin: 0 0 1px 0 !important;
     padding: 0 0 1px 0;
