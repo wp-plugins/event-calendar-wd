@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.22';
+	protected $version = '1.0.23';
 	protected $ecwd_page = null;
 	protected $notices = null;
 
@@ -133,6 +133,22 @@ class ECWD_Admin {
 	public function display_addons_page() {
 
 		$addons = array(
+                         'Management'      => array(
+                            'add_event' => array(
+					'name'        => 'ECWD Frontend Event Management',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/frontend-event-management.html',
+					'description' => 'This add-on is designed for  allowing the users/guests to add events to the calendar from the front end. In addition, the users can also have permissions to edit/delete their events.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/add_addevent.jpg', __FILE__ ),
+				),
+                            'import_export'   => array(
+					'name'        => 'ECWD Import/Export',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html',
+					'description' => 'The following data of the Event Calendar WD can be exported and imported: Events, Categories, Venues,Organizers and Tags. The exported/imported data will be in CSV format, which can be further edited, modified and imported',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/import_export.png', __FILE__ )
+				),
+                        ),  
 			'Events Grouping' => array(
 				'event_filters'   => array(
 					'name'        => 'ECWD Filter Bar',
@@ -155,13 +171,7 @@ class ECWD_Admin {
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/upcoming_events.png', __FILE__ ),
 				),
-				'import_export'   => array(
-					'name'        => 'ECWD Import/Export',
-					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html',
-					'description' => 'The following data of the Event Calendar WD can be exported and imported: Events, Categories, Venues,Organizers and Tags. The exported/imported data will be in CSV format, which can be further edited, modified and imported',
-					'icon'        => '',
-					'image'       => plugins_url( 'assets/import_export.png', __FILE__ )
-				),
+				
 			),
 			'Integrations'    => array(
 				'fb'        => array(
@@ -185,13 +195,7 @@ class ECWD_Admin {
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/add_ical.jpg', __FILE__ )
 				),
-				'add_event' => array(
-					'name'        => 'ECWD Frontend Event Management',
-					'url'         => '#',
-					'description' => 'This add-on makes possible to add and  manage events in frontend. Site administrators can manage frontend event submissions.',
-					'icon'        => '',
-					'image'       => plugins_url( 'assets/add_addevent.jpg', __FILE__ ),
-				)
+				
 			)
 
 

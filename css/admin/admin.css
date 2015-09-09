@@ -147,6 +147,7 @@
 }
 .ecwd-modal:target {
     opacity:1;
+    display:block;
     pointer-events: auto;
 }
 .ecwd-modal > div.ecwd-excluded-events {

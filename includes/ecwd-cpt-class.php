@@ -39,7 +39,7 @@ class ECWD_Cpt {
 		add_action( 'admin_action_duplicate_ecwd_post', array( $this, 'duplicate_post' ) );
 
 		//events catgeories
-		add_action( 'init', array( $this, 'create_taxonomies' ), 0 );
+		add_action( 'init', array( $this, 'create_taxonomies' ), 2 );
 		add_action( ECWD_PLUGIN_PREFIX . '_event_category_add_form_fields', array(
 			$this,
 			'add_categories_metas'
@@ -419,6 +419,17 @@ class ECWD_Cpt {
 
 			$base       = trailingslashit( $this->rewriteSlug );
 			$singleBase = trailingslashit( $this->rewriteSlugSingular );
+                        $rewrite_arr = explode('/', $wp_rewrite->permalink_structure);
+                        $rewritebase ='';
+                        for($i=1;$i<count($rewrite_arr);$i++){
+                            if(isset ($rewrite_arr[$i]) && strpos($rewrite_arr[$i],'%') === FALSE){
+                                $rewritebase = $rewritebase.$rewrite_arr[$i].'/';
+                            }else{
+                                break;
+                            }
+                        }
+                        $base = $rewritebase.$base;
+                        $singleBase = $rewritebase.$singleBase;
 			$newRules   = array();
 			// single event
 			$newRules[ $singleBase . '([^/]+)/(\d{4}-\d{2}-\d{2})/?$' ] = 'index.php?' . self::EVENT_POST_TYPE . '=' . $wp_rewrite->preg_index( 1 ) . "&eventDate=" . $wp_rewrite->preg_index( 2 );
@@ -1127,17 +1138,17 @@ class ECWD_Cpt {
 	function create_taxonomies() {
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
-			'name'              => _x( 'Event Categories', 'taxonomy general name' ),
-			'singular_name'     => _x( 'Event Category', 'taxonomy singular name' ),
-			'search_items'      => __( 'Search Event Categories' ),
-			'all_items'         => __( 'All Event Categories' ),
-			'parent_item'       => __( 'Parent Category' ),
-			'parent_item_colon' => __( 'Parent Category:' ),
-			'edit_item'         => __( 'Edit Category' ),
-			'update_item'       => __( 'Update Category' ),
-			'add_new_item'      => __( 'Add New Event Category' ),
-			'new_item_name'     => __( 'New Event Category Name' ),
-			'menu_name'         => __( 'Event Categories' ),
+			'name'              => _x( 'Event Categories', 'taxonomy general name', 'ecwd' ),
+			'singular_name'     => _x( 'Event Category', 'taxonomy singular name', 'ecwd'  ),
+			'search_items'      => __( 'Search Event Categories','ecwd' ),
+			'all_items'         => __( 'All Event Categories', 'ecwd' ),
+			'parent_item'       => __( 'Parent Category','ecwd' ),
+			'parent_item_colon' => __( 'Parent Category:','ecwd' ),
+			'edit_item'         => __( 'Edit Category','ecwd' ),
+			'update_item'       => __( 'Update Category','ecwd' ),
+			'add_new_item'      => __( 'Add New Event Category','ecwd' ),
+			'new_item_name'     => __( 'New Event Category Name','ecwd' ),
+			'menu_name'         => __( 'Event Categories','ecwd' ),
 		);
 
 		$args = array(

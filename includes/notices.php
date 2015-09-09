@@ -10,6 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 function ecwd_admin_notices( $notices ) {
+	$one_week_support = add_query_arg( array( 'ecwd_admin_notice_ignore' => 'one_week_support' ) );
+	$notices['one_week_support'] = array(
+		'title' => __( 'Hey! How\'s It Going?', 'ecwd' ),
+		'msg' => __( 'Thank you for using Events Calendar WD! We hope that you\'ve found everything you need, but if you have any questions:', 'ecwd' ),
+		'link' => '<li><span class="dashicons dashicons-media-text"></span><a target="_blank" href="https://web-dorado.com/wordpress-event-calendar-wd/installing.html">' . __( 'Check out User Guide', 'ecwd' ) . '</a></li>
+                    <li><span class="dashicons dashicons-sos"></span><a target="_blank" href="https://web-dorado.com/forum/wordpress-event-calendar-wd.html">' . __( 'Get Some Help' ,'ecwd' ) . '</a></li>
+                    <li><span class="dashicons dashicons-dismiss"></span><a href="' . $one_week_support . '">' . __( 'Never show again' ,'ecwd' ) . '</a></li>',
+		'int' => 7
+	);
 
 	$two_week_review_ignore = add_query_arg( array( 'ecwd_admin_notice_ignore' => 'two_week_review' ) );
 	$two_week_review_temp = add_query_arg( array( 'ecwd_admin_notice_temp_ignore' => 'two_week_review', 'int' => 14 ) );

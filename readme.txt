@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-event-calendar-wd.html
 Tags: calendar, calendars, event, event calendar, event manager, events calendar, calendar widget, event registration, event management,events, agenda,  holiday calendar , scheduling, free calendar, Calender, upcoming events , event widget , event list, calendar localization, Organizer, editorial calendar, Interactive Calendar, news calendar, meeting , appointment, event tracking, event organizer, upcoming events widget, event page, event bookings, recurring, recurring events, conference, date, dates, schedule, times, venue, AJAX, responsive, shortcode, seminar, summit
 Requires at least: 3.9
 Tested up to: 4.3
-Stable tag: 1.0.22
+Stable tag: 1.0.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,7 +29,7 @@ You can choose to display the event calendar with all four views (choosing the o
 *   Support for organizers
 *   Google Maps integration
 *   Event search
-*   Social media integration
+*   Social share buttons
 *   Month, week, day, list views
 
 Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpress-event-calendar-wd.html) to add features:
@@ -43,9 +43,10 @@ Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpre
 *   Pro support   
 
 = Event Calendar WD Add-ons: =  
+[Frontend Event Management Add-on](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/frontend-event-management.html)  
+[Upcoming Events](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html)   
 [Filter Add-on](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/filter.html)  
 [Countdown](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/countdown.html)      
-[Upcoming Events](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/upcoming-events.html)   
 [Google Calendar Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/google-calendar-integration.html)   
 [iCal Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html)   
 [Facebook Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html)   
@@ -86,14 +87,17 @@ If you think you found a bug in  Event Calendar WD or have any problem/question 
   
  *If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find any mistakes in the translation, please contact us and we will make relevant corrections within 3 days. *
  
-Dutch (nl_NL)  
-German (de_DE)  
+Dutch (nl_NL) by F. van Reem and Sabrina Gordijn
+German (de_DE) by Ogi Djuraskovic
+Hungarian (hu_HU) by Szabolcs Egerhazi
+Serbian (sr_RS) 
 Spanish (es_ES)  
 French (fr_FR)  
 Italian (it_IT)   
 Russian (ru_RU)  
 Turkish (tr_TR)  
 Portuguese (pt_PT)  
+
  
 == Screenshots ==
 
@@ -129,6 +133,14 @@ After downloading the ZIP file of the Event Calendar WD plugin,
 6. If the installation does not succeed, please contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 == Changelog ==
+
+= 1.0.23 =
+Added: Frontend events management add-on   
+Fixed: Rewrite rules for custom permalinks structure   
+Fixed: JS error in related events slider   
+Added: Hungarian language support    
+Added: Serbian language support    
+Fixed: Translations for Dutch   
 
 = 1.0.22 =
 Added: Ajaxed themes support  

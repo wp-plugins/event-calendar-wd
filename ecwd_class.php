@@ -12,12 +12,14 @@ class ECWD {
 	protected static $instance = null;
 
 	private function __construct() {
+
 		$this->setup_constants();
+		add_action( 'init', array( $this, 'add_localization' ), 1 );
 		include_once( 'includes/ecwd-shortcodes.php' );
 		$this->includes();
 		$cpt_instance = ECWD_Cpt::get_instance();
 		$this->user_info();
-		add_action( 'init', array( $this, 'add_localization' ) );
+
 		add_filter( 'body_class', array( $this, 'theme_body_class' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 20 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );

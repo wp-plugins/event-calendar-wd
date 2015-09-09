@@ -677,8 +677,8 @@ ecwd_js_init = function () {
     ecwd_js_init_call = new ecwd_js_init();
 }(jQuery));
 function ecwd_eventsOff(){
-    jQuery(".calendar_main").find("*").off();
-    jQuery(".calendar_main").children().off();
+    jQuery(".calendar_main,.ecwd-event,.ecwd-organizer,.ecwd-venue").find("*").off();
+    jQuery(".calendar_main,.ecwd-event,.ecwd-organizer,.ecwd-venue").children().off();
 }
 
 jQuery(window).resize(function () {
