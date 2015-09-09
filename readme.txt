@@ -87,10 +87,10 @@ If you think you found a bug in  Event Calendar WD or have any problem/question 
   
  *If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find any mistakes in the translation, please contact us and we will make relevant corrections within 3 days. *
  
-Dutch (nl_NL) by F. van Reem and Sabrina Gordijn
-German (de_DE) by Ogi Djuraskovic
-Hungarian (hu_HU) by Szabolcs Egerhazi
-Serbian (sr_RS) 
+Dutch (nl_NL) by F. van Reem and Sabrina Gordijn    
+German (de_DE) by Ogi Djuraskovic    
+Hungarian (hu_HU) by Szabolcs Egerhazi    
+Serbian (sr_RS)   
 Spanish (es_ES)  
 French (fr_FR)  
 Italian (it_IT)   
