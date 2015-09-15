@@ -51,6 +51,7 @@ Upgrade to [WordPress Event Calendar Pro](http://web-dorado.com/products/wordpre
 [iCal Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html)   
 [Facebook Integration](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html)   
 [Import/Export](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html)   
+[Custom Fields](https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/custom-fields.html)   
 
 [WordPress Event Calendar WD](http://web-dorado.com/products/wordpress-event-calendar-wd.html)  
 [Demo](http://wpdemo.web-dorado.com/event-calendar-wd/)  
