@@ -587,6 +587,9 @@ class ECWD_Display {
 								if ( $repeat_days == 2 && $repeat_day && $repeat_when && date( 'Y-m', strtotime( $event_from ) ) !== date( 'Y-m', $date ) ) {
 									$monthyear   = date( "F Y", $date );
 									$repeat_date = date( 'Y-m-d', strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear ) );
+									if($repeat_date == '1970-01-01') {
+										$repeat_date = date( 'Y-m-d', strtotime( $monthyear . ' ' . $repeat_when . ' ' . $repeat_day ) );
+									}
 
 									$date = strtotime( $repeat_date );
 								}
@@ -666,13 +669,16 @@ class ECWD_Display {
 							if ( $repeat_days == 2 && $repeat_day && $repeat_when ) {
 								$monthyear = $monthName . ' ' . date( "Y", $date );
 								//echo $repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear.'<br />';
-								$repeat_date = strtotime( date( 'Y-m-d', strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear ) ) );
+								$repeat_date = date( 'Y-m-d', strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear ) );
+								if($repeat_date == '1970-01-01') {
+									$repeat_date = date( 'Y-m-d', strtotime( $monthyear . ' ' . $repeat_when . ' ' . $repeat_day ) );
+								}
 								//$repeat_date = date( 'Y-m-d', strtotime($repeat_when.' '.ucfirst( $repeat_day ).' of '.$monthyear) );
 								//don't know why, but "last sunday,last monday... returns last s,m of previous month"
 								if ( $repeat_when == 'last' ) {
-									$repeat_date = strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear, strtotime( "+1 MONTH", $repeat_date ) );
+									$repeat_date = date( 'Y-m-d',strtotime( $repeat_when . ' ' . ucfirst( $repeat_day ) . ' of ' . $monthyear, strtotime( "+1 MONTH", $repeat_date )) );
 								}
-								$date = $repeat_date;
+								$date = strtotime($repeat_date);
 
 							}
 						}

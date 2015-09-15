@@ -6,7 +6,7 @@
 class ECWD_Admin {
 
 	protected static $instance = null;
-	protected $version = '1.0.23';
+	protected $version = '1.0.24';
 	protected $ecwd_page = null;
 	protected $notices = null;
 
@@ -39,7 +39,7 @@ class ECWD_Admin {
 		add_action( 'admin_notices', array( $this, 'create_logo_to_head' ) );
 		// Runs the admin notice ignore function incase a dismiss button has been clicked
 		add_action( 'admin_init', array( $this, 'admin_notice_ignore' ) );
-		add_action( 'admin_notices', array($this, 'ecwd_admin_notices') );
+		add_action( 'admin_notices', array( $this, 'ecwd_admin_notices' ) );
 
 	}
 
@@ -65,8 +65,8 @@ class ECWD_Admin {
 		if ( ! defined( 'ECWD_PLUGIN_PREFIX' ) ) {
 			define( 'ECWD_PLUGIN_PREFIX', 'ecwd' );
 		}
-		$has_option = get_option('ecwd_old_events');
-		if($has_option === false) {
+		$has_option = get_option( 'ecwd_old_events' );
+		if ( $has_option === false ) {
 			$old_event = get_posts( array(
 				'posts_per_page' => 1,
 				'orderby'        => 'date',
@@ -119,13 +119,13 @@ class ECWD_Admin {
 			__( 'Calendar Add-ons', 'ecwd' ), __( 'Calendar Add-ons', 'ecwd' ), 'manage_options', $this->prefix . '_addons', array(
 			$this,
 			'display_addons_page'
-		),plugins_url( '/assets/add-ons-icon.png', ECWD_MAIN_FILE ), '26,12'
+		), plugins_url( '/assets/add-ons-icon.png', ECWD_MAIN_FILE ), '26,12'
 		);
 		$this->ecwd_page[] = add_menu_page(
 			__( 'Calendar Themes', 'ecwd' ), __( 'Calendar Themes', 'ecwd' ), 'manage_options', $this->prefix . '_themes', array(
 			$this,
 			'display_themes_page'
-		),plugins_url( '/assets/themes-icon.png', ECWD_MAIN_FILE ), '26,18'
+		), plugins_url( '/assets/themes-icon.png', ECWD_MAIN_FILE ), '26,18'
 		);
 
 	}
@@ -133,22 +133,29 @@ class ECWD_Admin {
 	public function display_addons_page() {
 
 		$addons = array(
-                         'Management'      => array(
-                            'add_event' => array(
+			'Management'      => array(
+				'add_event'     => array(
 					'name'        => 'ECWD Frontend Event Management',
 					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/frontend-event-management.html',
 					'description' => 'This add-on is designed for  allowing the users/guests to add events to the calendar from the front end. In addition, the users can also have permissions to edit/delete their events.',
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/add_addevent.jpg', __FILE__ ),
 				),
-                            'import_export'   => array(
+				'import_export' => array(
 					'name'        => 'ECWD Import/Export',
 					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/import-export.html',
 					'description' => 'The following data of the Event Calendar WD can be exported and imported: Events, Categories, Venues,Organizers and Tags. The exported/imported data will be in CSV format, which can be further edited, modified and imported',
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/import_export.png', __FILE__ )
 				),
-                        ),  
+				'custom_fields' => array(
+					'name'        => 'ECWD Custom Fields',
+					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/custom-fields.html',
+					'description' => 'Custom Fields Add-On will enable you to have more fields for more detailed and structured content: you can use this add-on and create additional fields for each event, venue and organizer.',
+					'icon'        => '',
+					'image'       => plugins_url( 'assets/custom_fields.png', __FILE__ )
+				),
+			),
 			'Events Grouping' => array(
 				'event_filters'   => array(
 					'name'        => 'ECWD Filter Bar',
@@ -171,31 +178,31 @@ class ECWD_Admin {
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/upcoming_events.png', __FILE__ ),
 				),
-				
+
 			),
 			'Integrations'    => array(
-				'fb'        => array(
+				'fb'   => array(
 					'name'        => 'ECWD Facebook Integration',
 					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/facebook-integration.html',
 					'description' => 'This addon integrates ECWD with your Facebook page and gives functionality to import events or just display events without importing.',
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/add_fb.jpg', __FILE__ ),
 				),
-				'gcal'      => array(
+				'gcal' => array(
 					'name'        => 'ECWD Google Calendar Integration',
 					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/google-calendar-integration.html',
 					'description' => 'This addon integrates ECWD with your Google Calendar and gives functionality to import events or just display events without importing.',
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/add_gcal.jpg', __FILE__ ),
 				),
-				'ical'      => array(
+				'ical' => array(
 					'name'        => 'ECWD iCAL Integration',
 					'url'         => 'https://web-dorado.com/products/wordpress-event-calendar-wd/add-ons/ical-integration.html',
 					'description' => 'This addon integrates ECWD with your iCAL Calendar and gives functionality to import events or just display events without importing.',
 					'icon'        => '',
 					'image'       => plugins_url( 'assets/add_ical.jpg', __FILE__ )
 				),
-				
+
 			)
 
 
@@ -279,7 +286,7 @@ class ECWD_Admin {
 				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 				'ajaxnonce'   => wp_create_nonce( ECWD_PLUGIN_PREFIX . '_ajax_nonce' ),
 				'loadingText' => __( 'Loading...', 'ecwd' ),
-				'plugin_url' => ECWD_URL
+				'plugin_url'  => ECWD_URL
 			) );
 			wp_enqueue_script( $this->prefix . '-admin-scripts' );
 
@@ -402,7 +409,7 @@ class ECWD_Admin {
 	}
 
 	/********ECWD notices************/
-	function ecwd_admin_notices( ) {
+	function ecwd_admin_notices() {
 		// Notices filter and run the notices function.
 
 		$admin_notices = apply_filters( 'ecwd_admin_notices', array() );
@@ -411,14 +418,12 @@ class ECWD_Admin {
 	}
 
 
-
-
 	// Ignore function that gets ran at admin init to ensure any messages that were dismissed get marked
 	public function admin_notice_ignore() {
 		$slug = ( isset( $_GET['ecwd_admin_notice_ignore'] ) ) ? $_GET['ecwd_admin_notice_ignore'] : '';
-		if ( isset($_GET['ecwd_admin_notice_ignore']) && current_user_can( 'manage_options'  ) ) {
-			$admin_notices_option = get_option( 'ecwd_admin_notice', array() );
-			$admin_notices_option[ $_GET[ 'ecwd_admin_notice_ignore' ] ][ 'dismissed' ] = 1;
+		if ( isset( $_GET['ecwd_admin_notice_ignore'] ) && current_user_can( 'manage_options' ) ) {
+			$admin_notices_option                                                   = get_option( 'ecwd_admin_notice', array() );
+			$admin_notices_option[ $_GET['ecwd_admin_notice_ignore'] ]['dismissed'] = 1;
 			update_option( 'ecwd_admin_notice', $admin_notices_option );
 			$query_str = remove_query_arg( 'ecwd_admin_notice_ignore' );
 			wp_redirect( $query_str );

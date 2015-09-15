@@ -167,6 +167,7 @@ class ECWD_Widget extends WP_Widget {
             <select id="<?php echo $this->get_field_id('display_type'); ?>" name="<?php echo $this->get_field_name('display_type'); ?>" class="widefat">
                 <option value="mini"<?php selected($display_type, 'mini'); ?>><?php _e('Month', 'ecwd'); ?></option>
                 <option value="list"<?php selected($display_type, 'list'); ?>><?php _e('List', 'ecwd'); ?></option>
+	            <option value="week" <?php selected($display_type, 'week'); ?>><?php _e('Week', 'ecwd'); ?></option>
             </select>
         </p>
         <p>

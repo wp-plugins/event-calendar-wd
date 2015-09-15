@@ -113,23 +113,24 @@ class ECWD {
 	public function enqueue_scripts() {
 		global $wp_scripts, $post;
 		$map_included = false;
-		if($post->post_type == 'ecwd_event' || $post->post_type == 'ecwd_venue'){
-			if ( isset( $wp_scripts->registered ) && $wp_scripts->registered ) {
-				foreach ( $wp_scripts->registered as $wp_script ) {
-					if ( $wp_script->src && ( strpos( $wp_script->src, 'maps.googleapis.com' ) || strpos( $wp_script->src, 'maps.google.com' ) ) !== false ) {
-						if ( is_array( $wp_scripts->queue ) && in_array( $wp_script->handle, $wp_scripts->queue ) ) {
-							$map_included = true;
-							break;
-						}
+		if(is_object($post))
+			if(isset($post->post_type) && ($post->post_type == 'ecwd_event' || $post->post_type == 'ecwd_venue' ||  strpos($post->post_content, 'ecwd id') !== false)){
+				if ( isset( $wp_scripts->registered ) && $wp_scripts->registered ) {
+					foreach ( $wp_scripts->registered as $wp_script ) {
+						if (isset( $wp_scripts->src ) && $wp_script->src && ( strpos( $wp_script->src, 'maps.googleapis.com' ) || strpos( $wp_script->src, 'maps.google.com' ) ) !== false ) {
+							if ( is_array( $wp_scripts->queue ) && in_array( $wp_script->handle, $wp_scripts->queue ) ) {
+								$map_included = true;
+								break;
+							}
 
+						}
 					}
 				}
-			}
 
-			if ( ! $map_included ) {
-				wp_enqueue_script( $this->prefix . '-maps-public', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', array( 'jquery' ), $this->version, true );
+				if ( ! $map_included ) {
+					wp_enqueue_script( $this->prefix . '-maps-public', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', array( 'jquery' ), $this->version, false );
+				}
 			}
-		}
 		wp_enqueue_script( $this->prefix . '-gmap-public', plugins_url( 'js/gmap/gmap3.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->prefix . '-public', plugins_url( 'js/scripts.js', __FILE__ ), array(
 			'jquery',
