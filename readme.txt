@@ -65,11 +65,11 @@ The plugin is created based on WordPress core standards. This means that each ca
  
 The Event calendar WD is responsive and runs very smoothly on all devices. Thus the site visitors will get a pleasant user experience when using various mobile devices and tablets.
  
-The color scheme of the event calendar is based on the theme and the category colors. To get access to the theme section you need to purchase the Pro version of the Event calendar WD. In free version you can add colors to event categories. The events will display with the background color prescribed by the category.
+The color scheme of the event calendar is based on the theme and the category colors. To get access to the theme section you need to purchase the Pro version of the Event calendar WD. In free version of the Event Calendar WD you can add colors to event categories. The events will display with the background color prescribed by the category.
  
 Don't want the user to leave the event calendar page without knowing the details of the interesting events? Well, the calendar plugin uses Ajax load for the events and all event details are being displayed on hover.
  
-The events should be repeated? Feel free to use the recurring option choosing the repeating period on your own. So you can easily manage recurring events with this event calendar.
+The events should be repeated? Feel free to use the recurring option choosing the repeating period on your own. So you can easily manage recurring events with this event calendar. Note that this is an Event Calendar WD pro feature.
  
 You can choose a venue for each event and mark up the location on Google Maps and display all of this on the event calendar. Whenever creating new events you have options of selecting from previously created venues, or to create a new venue. The Google Map integration helps to display the scaled option of the map. This will ensure that your guests will get full directions and never miss an event.
  
@@ -247,7 +247,7 @@ MySQL 5.x
 Installing the plugin  
 Login to the Administrator Panel.   
 Navigate to Plugins>Add New>Upload.   
-Click on "Choose file" or drag and drop the zip file of the plugin.   
+Click on "Choose file" or drag and drop the zip file of the Event Calendar plugin.   
 Press "Upload and Install" button.  
 Click on "Activate Plugin" link.  
 
@@ -255,8 +255,7 @@ When the installation succeeds you will be automatically redirected to the plugi
 
 
 = Creating/Modifying Calendars = 
-In this section you will learn how to create and manage calendars   
-  
+In this section you will learn how to create and manage calendars   within the Event Calendar WD plugin.  
 All Calendars  
 Here is the list of all created calendars. You can add new calendars, edit, quick edit or delete. Bulk actions are also applicable.    
 
@@ -268,12 +267,12 @@ Events. Select the events which should be included within the calendar. You can 
 
 Preview/Add Event   
 Adding an event from calendar   
-Here you create events straight from the calendar itself. Upon clicking on the link "Preview/Add Event" a calendar will open up:   
+Here you create events straight from the event calendar itself. Upon clicking on the link "Preview/Add Event" a calendar will open up:   
 Date. You can either use the default date or change it using tabs and filling the date based on the date format.   
 Title. You can give a title to the event, it will save a draft with the stated title. When adding the title, a pop-up will open up with a link "Editing details". By clicking on it you can add details of the event within Event section and publish it.   
 
 Preview      
-The opened calendar will display the selected theme of the calendar. You can change the selected theme using the drop-down below, update the calendar post and preview the newly selected theme by hitting the Preview/Add Event button once more.  
+The opened calendar will display the selected theme of the calendar. You can change the selected theme using the drop-down below, update the calendar post and preview the newly selected theme  of the event calendar by hitting the Preview/Add Event button once more.  
 
 Theme. Choose the theme of the calendar.     
 
@@ -282,7 +281,7 @@ Clear cache. Use the option if you have integration add-ons. This clears the eve
 Timezone. Set the timezone for the calendars.   
 Date format. Specify the date format for the calendar events.   
 Time format. Specify the time format for the calendar events.   
-Week start day. Choose the starting day for the week.   
+Week start day. Choose the starting day for the week of the main event calendar.   
 Events Slug. Specify a slug for the page which will display the events within a single list.   
 Enable comments for events. Check to allow the users to leave comments below the calendar.   
 Include events in main loop. Check the box to include the event posts within the post listing on other WordPress pages.   
@@ -290,15 +289,15 @@ Enable social icons. Choose the option to display social sharing buttons (Facebo
 
 
 
-Creating/Modifying Events   
-In this section you will learn how to create  and modify events.   
+Creating/Modifying Events  of the Event Calendar WD 
+In this section you will learn how to create  and modify events included within the Event Calendar.   
 
 All Events    
 Here is the list of all created events. You can add new events, edit, quick edit, duplicate or delete them. Bulk actions are also applicable.     
 
 Adding Events   
 
-Title. Set a title for the event.    
+Title. Set a title for the individual  event which will be included in the event calendar.    
 Content. Provide the details of the event.   
 Event Settings   
 Event Venue. Select the venue of the event. The list should be created in advance to creating the event.  
@@ -316,73 +315,67 @@ Event Video URL. There is an option of displaying a YouTube/Vimeo video within t
 Side-bar options  
 Calendars. Choose the calendar to which the event will be added to.  
 Organizer. Set the organizer of the event.  
-Featured Image. Similar to other WP posts each event can have its own featured image, which will be displayed with the event.   
+Featured Image. Similar to other WP posts each event calendar event can have its own featured image, which will be displayed with the event.   
 
 Event Categories   
-
-Name. Set a descriptive name for the category. 
-Slug. Set a slug using which all of the events using the category will be displayed.
+Name. Set a descriptive name for the event calendar category. 
+Slug. Set a slug using which all of the events using the event calendar category will be displayed.
 Parent. Specify a parent category for the event category.
 Description. Provide a short description for the category. This is used for back end only.
-Image. Set an image for the category page.
+Image. Set an image for the event calendar category page.
 Category Color. Set a color for the category. The events of the category will be highlighted with the selected color. Keep this in mind when setting the color to make it a fit with the calendar theme.
 
 Event Tags  
-Name. Set a name for the tag.  
-Slug. Set a slug which will be used for displaying the events using the stated tag.
-Description. Provide a short description for the tag, which will help to differentiate the tags.
+Name. Set a name for the tag, which will be associated with the event calendar.  
+Slug. Set a slug which will be used for displaying the events from the event calendar, which are using the stated tag.
+Description. Provide a short description for the tag, which will help to differentiate the event calendar tags. Note that these are custom Event Calendar tags and not standard WordPress ones.
 
 Creating/Adding Organizers  
-In this section you will learn how to create organizers/hosts for the events.Please note that organizer appears as a hyperlink within the event display. By clicking on it, the users will be redirected to a custom post, where they can see the details of the organizer as well as the list of the events hosted by the them.
-  
-All Organizers   
+In this section you will learn how to create organizers/hosts for the events. Please note that organizer appears as a hyperlink within the event display, when hovered on the event within the event calendar. By clicking on it, the users will be redirected to a custom post, where they can see the details of the organizer as well as the list of the events hosted by the them.
+  All Organizers   
 In this section you can edit and modify the organizers. It is possible to apply bulk actions or make individual changes.  
-  
-Adding an organizer  
+  Adding an organizer  
 Title. Set a name for the event organizer/organizer group.   
-Content. Provide the details about specific organizers.  
+Content. Provide the details about specific organizers, which will be displayed when the user navigates from the main event calendar to the specific organizer view.
 Set featured image. Set an image to be associated with the specific event organizer.
 
 
 Creating/Adding Venues   
-In this section you will learn how to create venues for the events and how to mark up on the Google Maps. Please note that venue appears a hyperlink within the event display. After clicking on it, the users will be redirected to a custom post, where they can see the details of the venue as well as the list of events, which are organized at that specific location/venue.  
-
-
+In this section you will learn how to create venues for the events and how to mark up on the Google Maps. Please note that venue appears a hyperlink within the event display, when covered on the event calendar. After clicking on it, the users will be redirected to a custom post, where they can see the details of the venue as well as the list of events, which are organized at that specific location/venue.  
 All Venues   
-Here you can edit and modify the venues. It is possible to apply bulk actions or make individual changes.   
+Here you can edit and modify the event calendar venues. It is possible to apply bulk actions or make individual changes.   
 
 Adding a venue
-Title. Set a title for the venue.
-Content. Provide the details about the specific venue if necessary.
-Venue Location. Fill in the address of the venue or drag and drop the Google Maps marker to the location, which will be displayed with events.
-Set featured image. Set an image to be associated with the specific venue.
+Title. Set a title for the calendar event venue.
+Content. Provide the details about the specific venue if necessary. This will be displayed when navigating from the event calendar to the specific venue page. 
+Venue Location. Fill in the address of the venue or drag and drop the Google Maps marker to the location, which will be displayed with event calendar events.
+Set featured image. Set an image to be associated with the specific venue of the event calendar.
 
 Calendar Themes
 
-The Event Calendar WD comes with 5 themes. In addition to the original themes, there is a possibility to add a new theme based on the Blue(Default) theme option. Here you can change the look of the theme- colors, font sizes, borders and etc. 
+The Event Calendar WD comes with 5 themes. In addition to the original Event Calendar themes, there is a possibility to add a new theme based on the Blue(Default) theme option. Here you can change the look of the theme- colors, font sizes, borders and etc. The newly created theme will be saved as a separate theme and you can use it while creating new event calendars. The themes are divided in subsections and apply to either the Event Calendar views or the widgets.
 
 Publishing the Calendar into a Page/Post
 
-To use the created calendars within a page or post you should use the shortcode. 
+To use the created calendars within a page or post you should use the shortcode. In this sense the Event Calendar plugin is similar to the other WP plugins.
 Open the page/post from the back end. Press on the  Event Calendar WD icon within the editor. The shortcode with three tabs will appear. An alternative is copying the shortcode from the All Calendars subsection (it will take default settings) and further editing it.
 
 General
-Select Calendar. Using the drop-down list choose the calendar you want to add.
+Select Calendar. Using the drop-down list choose the event calendar you want to add.
 Events per page in list view. By default 5 events are being listed in list view. You can change the number to the desired quantity.
-Enable Event search. Check the box to enable front end search for the events.
+Enable Event search. Check the box to enable front end search for the calendar events.
 
 Views
-You can set up to 7 different views. By using the drop-down  you can select a view for each tab. The order of the tabs will be based on the selection.  
+You can set up to 7 different views for the event calendar display. By using the drop-down  you can select an event calendar view for each tab. The order of the tabs displayed with the calendar will be based on the selection.  
 
 Filters
-This section works with filters add on. You can specify the list of the filtering options you want to display for the front end users.
+This section works with filters add on. You can specify the list of the filtering options you want to display for the front end users. This will help the users to filter out the events of the calendar, they are looking for. 
 
 Publishing the Calendar as a Widget
 
 Go to Appearance>Widgets toolbar. 
 Find the Event Calendar WD widget and assign it to a custom widget position
-
-Title. Set a title for the widget. Alternatively, you can leave it blank.
+Title. Set a title for the event calendar widget. Alternatively, you can leave it blank.
 Calendar to Display. Select the calendar which will be displayed as a widget.
-Display events as. Here you can set the events to be displayed either in a Month or List view.
+Display events as. Here you can set the events to be displayed either in a Month  (event calendar) or List view (listed calendar events).
 Events per page as a list view. Here you can set the number of events you want to be displayed when list view is in use.
